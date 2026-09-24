@@ -1,0 +1,22 @@
+export function validateCrumbles(raw,width,height){
+ if(!Array.isArray(raw)||raw.length>128)throw Error('Use at most 128 crumbling decks.');
+ return raw.map(p=>{
+  if(!p||![p.x,p.y,p.w].every(Number.isInteger)||p.w<1||p.w>8||p.x<0||p.x+p.w>width||p.y<1||p.y>=height)throw Error('Crumbling decks must fit inside the room and be 1–8 tiles wide.');
+  if(!Number.isFinite(p.delay)||p.delay<.4||p.delay>3)throw Error('Collapse delay must be 0.4–3 seconds.');
+  return {x:p.x,y:p.y,w:p.w,delay:p.delay};
+ });
+}
+export function initCrumbles(g){g.crumbleRevision=0;g.crumbles=(g.level.crumbles??[]).map((s,id)=>({...s,x:s.x*30,y:s.y*30,oldY:s.y*30,w:s.w*30,h:12,id,crumble:true,startedAt:null,gone:false}));}
+export function updateCrumbles(g){
+ for(const s of g.crumbles)if(!s.gone&&s.startedAt!==null&&g.clock-s.startedAt>=s.delay){s.gone=true;g.crumbleRevision++;g.burst(s.x+s.w/2,s.y+5,'#b78758',12);g.cb.sound('crumble');}
+}
+export function drawCrumbles(c,g){
+ for(const s of g.crumbles){
+  if(s.gone){c.strokeStyle='#a9855b50';c.lineWidth=1;c.setLineDash([3,5]);c.strokeRect(s.x,s.y,s.w,10);c.setLineDash([]);continue;}
+  const progress=s.startedAt===null?0:Math.min(1,(g.clock-s.startedAt)/s.delay);
+  c.fillStyle=progress>.7?'#b46a48':'#9e835d';c.fillRect(s.x,s.y,s.w,12);c.fillStyle='#e7c48c';c.fillRect(s.x,s.y,s.w,3);
+  c.strokeStyle='#4d4736';c.lineWidth=1.5;
+  for(let x=s.x+10;x<s.x+s.w;x+=24){c.beginPath();c.moveTo(x,s.y+2);c.lineTo(x-4,s.y+6);c.lineTo(x+2,s.y+9);if(progress>.25)c.lineTo(x-2,s.y+12);c.stroke();}
+  if(progress){c.fillStyle='#edb977';c.fillRect(s.x,s.y-4,s.w*(1-progress),2);}
+ }
+}
