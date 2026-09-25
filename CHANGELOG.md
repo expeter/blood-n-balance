@@ -2,6 +2,12 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [0.2.0] - 2026-09-25
+
+- **FR-014** — Rename the game to **Blood & Balance** across the app title, sidebar identity, version metadata, and score exports.
+- **SPEC-008** — Add the core vision and story: a masked runner attempts the Blood & Balance Dojo's lethal trials to earn the Red Sash and challenge its reigning Princess champion. Ten chapters map the existing campaign skills and reveal the Balance Sutra mystery.
+- **FR-015** — Add a gatekeeper boss every ten stages (and a final stage 99 encounter) to the backlog. Boss fights are not implemented in this version.
+
 ## [0.1.0] - 2026-09-25 — repository baseline
 
 This entry records the current working baseline for version 0.1.0; it is not a deployment announcement.

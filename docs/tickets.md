@@ -20,6 +20,16 @@ Tickets are grouped by proposed milestones so we can agree on sequencing before 
 
 The baseline supports offline single-player play. Level JSON schema validation does not prove playability; replay fixtures cover authored campaign routes but do not measure perceived difficulty. Details are in [the current game specification](specs/current-game.md) and [campaign design](campaign-design.md).
 
+## Version 0.2.0 — Blood & Balance identity and story
+
+| ID | Type | Ticket | Status |
+| --- | --- | --- | --- |
+| SPEC-008 | SPEC | Blood & Balance game vision and story | Done |
+| FR-014 | FR | Rename the game and apply Blood & Balance branding | Done |
+| FR-015 | FR | Add a gatekeeper boss encounter every ten stages | Proposed |
+
+**FR-015 acceptance direction:** place a distinct boss encounter at stages 10, 20, 30, 40, 50, 60, 70, 80, 90, and a final encounter at 99. Support more than one interaction style, including stomping a boss's head and activating arena controls that expose a shot/window. Telegraph attacks and vulnerable states; make patterns deterministic and learnable; provide safe retry; do not require purchased items; preserve ordinary platforming controls and accessibility settings. Each boss should test the chapter's learned movement/hazard skills. Bosses, story scenes, and Sutra-fragment reveals are backlog scope, not delivered by the branding update.
+
 ## Milestone 1 — AI-assisted level authoring and QA (proposed)
 
 | ID | Type | Ticket | Status |

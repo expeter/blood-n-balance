@@ -5,8 +5,8 @@ The game stores campaign state locally. It does not submit scores online yet. Sc
 ```json
 {
   "schemaVersion": 2,
-  "game": "N / Momentum",
-  "gameVersion": "0.1.0",
+  "game": "Blood & Balance",
+  "gameVersion": "0.2.0",
   "gitHash": "0123456789ab",
   "playerName": "Runner",
   "scores": {},

@@ -1,10 +1,16 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `0.1.0`.
+Status: implemented browser-game baseline, version `0.2.0`.
 
 ## Product
 
-N / Momentum is a single-player browser precision platformer inspired by compact, high-risk platform games. It runs as a static web app and does not require an account or server. Campaign progress, settings, careers, inventory, achievements, editor drafts, and local records live in browser storage.
+**Blood & Balance** is a fast, brutal ninja platformer about training focus, balance, and reaction inside a lethal proving ground. The player chains jumps, wall runs, puzzle choices, gold grabs, and escapes under pressure. It runs as a static web app and does not require an account or server. Campaign progress, settings, careers, inventory, achievements, editor drafts, and local records live in browser storage.
+
+## Story vision
+
+The fictional Blood & Balance Dojo is a sealed mountain fortress built as a survival trial. A masked runner enters to claim the Red Sash and earn the final pass: the right to challenge the Princess, the dojo's reigning champion and the author of the trials. Old songs promise the victor her hand in marriage, but she is no prize; she chooses whether to accept a proposal, and the final contest is between equals. The immediate motivation is to become the best runner alive; the deeper reason for the deadly trials is revealed through ten fragments of the Balance Sutra, found by solving the temple's chambers. Gold is training merit that buys temporary tools, while the fragments reveal who built the trial, what the dojo is protecting, and why the Princess has reopened it.
+
+The 99-stage campaign is framed as ten chapters. Each chapter teaches a skill and ends with a gatekeeper encounter; a short story reveal reframes the trials before the next skill is tested. A provisional chapter map is: Footwork (1–10), Sight (11–20), Crossfire (21–30), Moving Ground (31–40), Reversal (41–50), Borrowed Time (51–60), Impermanence (61–70), Tripwire (71–80), Pursuit (81–90), and Mastery (91–99). These are narrative labels for the existing hazard sectors, not a claim that chapter scenes or bosses are implemented.
 
 ## Play loop
 
