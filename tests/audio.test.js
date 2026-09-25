@@ -28,11 +28,11 @@ test('effects and music schedule audible tones after the browser unlocks audio',
  globalThis.setInterval=fn=>{musicTick=fn;return ++ticks;};globalThis.clearInterval=()=>{};
  try{
   const sound=new Sound({sound:true,music:false});sound.unlock();await Promise.resolve();
-  sound.play('jump');assert.equal(sound.ctx.oscillators,1);
+  sound.play('jump');sound.play('rocket-launch');sound.play('laser-warning');assert.equal(sound.ctx.oscillators,3);
   sound.settings.music=true;sound.unlock();await Promise.resolve();
-  assert.equal(typeof musicTick,'function');const firstMusicTick=musicTick;musicTick();assert.equal(sound.ctx.oscillators,2);
+  assert.equal(typeof musicTick,'function');const firstMusicTick=musicTick;musicTick();assert.equal(sound.ctx.oscillators,4);
   sound.unlock();assert.equal(musicTick,firstMusicTick,'repeated input must not restart the music loop');
-  sound.settings.sound=false;sound.play('gold');assert.equal(sound.ctx.oscillators,2);
+  sound.settings.sound=false;sound.play('gold');assert.equal(sound.ctx.oscillators,4);
  }finally{
   globalThis.window=originalWindow;globalThis.document=originalDocument;
   globalThis.setInterval=originalInterval;globalThis.clearInterval=originalClear;

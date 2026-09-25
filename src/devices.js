@@ -14,8 +14,10 @@ export function validateDevices(raw,width,height,switchIds){
     if(d.offSwitch!==undefined&&!switchIds.has(d.offSwitch))throw new Error('Device shutdown must refer to an existing switch.');
     const alarm=validateAlarm(d.alarm,switchIds);
     if(d.type==='turret'){
-      if(!Number.isFinite(d.speed)||d.speed<120||d.speed>600)throw new Error('Bullet speed must be 120–600 pixels per second.');
-      return {...(alarm?{alarm}:{}),type:d.type,x:d.x,y:d.y,dir:d.dir,period:d.period,phase:d.phase,speed:d.speed,...(d.offSwitch?{offSwitch:d.offSwitch}:{})};
+      const projectile=d.projectile??'straight';if(!['straight','homing'].includes(projectile))throw new Error('Turret projectiles must be straight or homing.');
+      const minSpeed=projectile==='homing'?70:120,maxSpeed=projectile==='homing'?220:600;
+      if(!Number.isFinite(d.speed)||d.speed<minSpeed||d.speed>maxSpeed)throw new Error(projectile==='homing'?'Heat rockets must be 70–220 pixels per second.':'Bullet speed must be 120–600 pixels per second.');
+      return {...(alarm?{alarm}:{}),type:d.type,x:d.x,y:d.y,dir:d.dir,period:d.period,phase:d.phase,speed:d.speed,...(projectile==='homing'?{projectile}:{}),...(d.offSwitch?{offSwitch:d.offSwitch}:{})};
     }
     if(!Number.isInteger(d.length)||d.length<1||d.length>96)throw new Error('Beam length must be 1–96 tiles.');
     const [dx,dy]=DIRECTIONS[d.dir];
@@ -49,16 +51,17 @@ export function updateDevices(g,harm=true){
   for(const d of g.devices){
     const alarm=alarmState(g,d),clock=alarmClock(g,d),previous=alarmClock(g,d,beforeClock);
     if(d.type==='laser'){const coverKey=[...g.activated].sort().join('')+'|'+g.gates.map(gate=>g.gateOpen(gate)?1:0).join('')+'|'+g.crumbleRevision;if(!d.beam||d.coverKey!==coverKey||g.platforms.length){d.beam=beamSegment(g,d);d.coverKey=coverKey;}}
-    if(alarm!=='ready'){d.state=alarm;continue;}
+    if(alarm!=='ready'){const wasActive=d.type==='laser'&&d.state==='active';d.state=alarm;if(wasActive)g.cb.sound('laser-off');continue;}
     if(d.type==='turret'){
       const t=(clock+d.phase)%d.period,disabled=d.offSwitch&&g.activated.has(d.offSwitch);
       d.state=disabled?'disabled':t>d.period-.6?'warning':'idle';
       if(!disabled&&Math.floor((clock+d.phase)/d.period)>Math.floor((previous+d.phase)/d.period)){
-        const [dx,dy]=DIRECTIONS[d.dir];g.projectiles.push({x:d.x*30+15+dx*17,y:d.y*30+15+dy*17,vx:dx*d.speed,vy:dy*d.speed,life:5});g.burst(d.x*30+15+dx*20,d.y*30+15+dy*20,'#efba6b',4);if(Math.abs(d.x*30-g.camera.x-480)<540&&Math.abs(d.y*30-g.camera.y-270)<330)g.cb.sound('shot');
+        const [dx,dy]=DIRECTIONS[d.dir],homing=d.projectile==='homing';g.projectiles.push({x:d.x*30+15+dx*17,y:d.y*30+15+dy*17,vx:dx*d.speed,vy:dy*d.speed,speed:d.speed,projectile:homing?'homing':'straight',turnRate:1.25,life:homing?12:5});g.burst(d.x*30+15+dx*20,d.y*30+15+dy*20,homing?'#f08b55':'#efba6b',4);if(Math.abs(d.x*30-g.camera.x-480)<540&&Math.abs(d.y*30-g.camera.y-270)<330)g.cb.sound(homing?'rocket-launch':'shot');
       }
       continue;
     }
-    d.state=laserPhase(d,clock,g.activated);
+    const previousState=d.state;d.state=laserPhase(d,clock,g.activated);
+    if(d.state!==previousState){if(d.state==='warning')g.cb.sound('laser-warning');else if(d.state==='active')g.cb.sound('laser-on');else if(previousState==='active')g.cb.sound('laser-off');}
     if(!harm||d.state!=='active'||g.status!=='playing')continue;
     const b=d.beam,p=g.player;
     // Check the swept player bounds as well as its current position to avoid
@@ -92,5 +95,5 @@ export function drawDevices(c,g){
     c.fillStyle='#101b16';c.fillRect(-7,-8,6,16);c.fillStyle=disabled?'#b8d990':'#e2bc79';c.fillRect(-7,8-16*(disabled?1:cycle),6,16*(disabled?1:cycle));c.restore();
     if(d.offSwitch){c.fillStyle=disabled?'#66844b':'#946b39';c.font='bold 12px monospace';c.textAlign='center';c.fillText(d.offSwitch,b.x,b.y-18);c.textAlign='left';}
   }
-  for(const b of g.projectiles){c.strokeStyle='#d67542';c.lineWidth=3;c.beginPath();c.moveTo(b.x-b.vx*.025,b.y-b.vy*.025);c.lineTo(b.x,b.y);c.stroke();c.fillStyle='#ffe6a4';c.fillRect(b.x-2,b.y-2,4,4);}
+  for(const b of g.projectiles){const angle=Math.atan2(b.vy,b.vx);if(b.projectile==='homing'){c.save();c.translate(b.x,b.y);c.rotate(angle);c.fillStyle='#f08b55';c.beginPath();c.moveTo(8,0);c.lineTo(-5,-4);c.lineTo(-3,0);c.lineTo(-5,4);c.closePath();c.fill();c.fillStyle='#ffe6a4';c.fillRect(0,-1,5,2);c.restore();}else{c.strokeStyle='#d67542';c.lineWidth=3;c.beginPath();c.moveTo(b.x-b.vx*.025,b.y-b.vy*.025);c.lineTo(b.x,b.y);c.stroke();c.fillStyle='#ffe6a4';c.fillRect(b.x-2,b.y-2,4,4);}}
 }

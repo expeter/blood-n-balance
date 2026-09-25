@@ -54,7 +54,7 @@ export function renderGame(g){
     c.fillStyle='#384530';c.fillRect(x-8,y+4,16,6);c.strokeStyle=active?'#739845':color;c.lineWidth=4;c.beginPath();c.moveTo(x,y+5);c.lineTo(x+(active?8:-8),y-9);c.stroke();
     c.fillStyle=active?'#52723a':color;c.textAlign='center';c.font='bold 13px monospace';c.fillText(s.id,x,y-25);c.font='12px monospace';c.fillText(s.mode==='timed'?(active?timerRemaining(g,s.id).toFixed(1)+'s':s.duration+'s TIMER'):s.mode==='toggle'?(active?'ON ↔':'OFF ↔'):active?'ON':'SWITCH',x,y+31);c.textAlign='left';
   }
-  for(const gold of g.gold)if(!gold.taken){c.fillStyle='#c69632';c.save();c.translate(gold.x,gold.y);c.rotate(Math.PI/4);c.fillRect(-4,-4,8,8);c.fillStyle='#f3d77a';c.fillRect(-3,-3,3,3);c.restore();}
+  for(const gold of g.gold)if(!gold.taken){c.save();c.translate(gold.x,gold.y);if(gold.firstBonus){const pulse=.9+Math.sin(g.clock*5)*.1;c.fillStyle='rgba(66,205,219,.2)';c.beginPath();c.arc(0,0,10*pulse,0,Math.PI*2);c.fill();c.strokeStyle='#63dbe2';c.lineWidth=2;c.beginPath();c.arc(0,0,8*pulse,0,Math.PI*2);c.stroke();c.strokeStyle='#baf7f3';c.lineWidth=1.5;c.beginPath();c.moveTo(-9,0);c.lineTo(-6,0);c.moveTo(9,0);c.lineTo(6,0);c.moveTo(0,-9);c.lineTo(0,-6);c.moveTo(0,9);c.lineTo(0,6);c.stroke();}c.rotate(Math.PI/4);c.fillStyle=gold.firstBonus?'#ffe3a0':'#c69632';c.fillRect(-4,-4,8,8);c.fillStyle=gold.firstBonus?'#fff8d7':'#f3d77a';c.fillRect(-3,-3,3,3);c.restore();}
   const ex=g.level.exit.x*TILE,ey=g.level.exit.y*TILE,unlocked=g.exitUnlocked;
   c.fillStyle=unlocked?'#bdd7a1':'#d7c2ac';c.fillRect(ex-5,ey-6,40,42);c.fillStyle=unlocked?'#55773d':'#795545';c.fillRect(ex+2,ey-1,26,31);
   c.fillStyle=unlocked?'#a8d873':'#b99a7f';c.fillRect(ex+6,ey+3,18,27);

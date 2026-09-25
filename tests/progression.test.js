@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {complete,freshState,loadState,unlocked,ITEMS,buy,recordDeath,recordGoldPickup,recordItemUse,recordStagePlay} from '../src/state.js';
+import {ACHIEVEMENTS,bankRunGold,complete,freshState,loadState,unlocked,ITEMS,buy,recordDeath,recordGoldPickup,recordItemUse,recordStagePlay} from '../src/state.js';
 import {Game} from '../src/engine.js';
 import {emptyLevel} from '../src/levels.js';
 import {scorePayload} from '../src/score-payload.js';
@@ -32,8 +32,23 @@ test('nightmare ghost routes are deterministic from the stage seed',()=>{
 
 test('gold pickups report stable per-stage indexes once each run',()=>{
  const game=Object.create(Game.prototype),found=[];game.keys=new Set();game.render=()=>{};game.cb={hud(){},sound(){},dead(){},win(){},gold:index=>found.push(index)};
- const level=emptyLevel();level.coins=[{x:2,y:15},{x:8,y:15}];game.load(level,7);game.start();game.update(1/120);game.update(1/120);
+ const level=emptyLevel();level.coins=[{x:2,y:15},{x:8,y:15}];game.load(level,7,[1]);assert.deepEqual(game.gold.map(coin=>coin.firstBonus),[true,false]);game.start();game.update(1/120);game.update(1/120);
  assert.deepEqual(found,[0]);
+});
+
+test('run gold and first-time bonus enter the wallet only when the level is banked',()=>{
+ const state=freshState();assert.deepEqual(state.gatheredGold[3],undefined);assert.equal(state.coins,40);assert.equal(state.totalGold,0);
+ const payout=bankRunGold(state,3,2,[0,1]);assert.deepEqual(payout,{gold:4,bonus:2});complete(state,3,15,payout.gold,false,'medium',true);
+ assert.equal(state.coins,44);assert.equal(state.totalGold,4);assert.deepEqual(state.gatheredGold[3],[0,1]);
+ const repeat=bankRunGold(state,3,1,[0,2]);assert.deepEqual(repeat,{gold:2,bonus:1});
+});
+
+test('additional achievements follow clean clears, item use, shop breadth, nightmare clears, and sector visits',()=>{
+ const state=freshState();state.coins=1000;for(const item of ITEMS){buy(state,item.id);recordItemUse(state,item.id);}
+ for(let i=0;i<5;i++)complete(state,i,30,0,false,'medium',true);
+ for(let i=10;i<20;i++)complete(state,i,30,0,false,'nightmare',true);
+ for(let sector=0;sector<10;sector++)recordStagePlay(state,sector*10);
+ for(const id of ['clean-five','full-kit','try-everything','night-shift','world-tour'])assert.ok(ACHIEVEMENTS.find(a=>a.id===id).test(state),id);
 });
 
 test('score exports are shaped for difficulty and assistance leaderboards',()=>{

@@ -18,6 +18,9 @@ All 99 stages have distinct authored puzzle layouts and hazard-active, item-free
 - Physical skeleton debris, blood spray, surface stains, repeated saw impacts, and delayed death overlay.
 - Scrolling camera, minimap, paused room survey, fullscreen, large-room editor.
 - Version 3 laser/turret/platform/relay/timer/crumble/trap/sentry/alarm import/export and painting; older file formats remain supported.
+- Turrets now offer fixed straight rounds and slow, wall-baitable homing rockets; laser transitions and projectile launches/impacts have effect cues.
+- Easy and Medium crumble decks rebuild after 3.5 world-seconds; Hard and Nightmare keep the original permanent-gap behavior.
+- Six additional achievements cover clean clears, shop breadth, item mastery, Nightmare clears, and sector visits.
 
 ## Verification
 

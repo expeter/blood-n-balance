@@ -22,7 +22,7 @@ export function buildRoom(r,index,revision=2){
 }
 export const laser=(x,y,dir,length,phase=0,offSwitch,period=4.6,on=1.4)=>({type:'laser',x,y,dir,length,phase,period,on,...(offSwitch?{offSwitch}:{})});
 
-export const turret=(x,y,dir,phase=0,offSwitch,period=3.2,speed=240)=>({type:'turret',x,y,dir,phase,period,speed,...(offSwitch?{offSwitch}:{})});
+export const turret=(x,y,dir,phase=0,offSwitch,period=3.2,speed=240,projectile='straight')=>({type:'turret',x,y,dir,phase,period,speed,...(projectile==='homing'?{projectile}:{}),...(offSwitch?{offSwitch}:{})});
 
 export const platform=(x,y,toX,toY,w=4,period=6,phase=0)=>({x,y,toX,toY,w,period,phase});
 

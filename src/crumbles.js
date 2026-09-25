@@ -6,13 +6,17 @@ export function validateCrumbles(raw,width,height){
   return {x:p.x,y:p.y,w:p.w,delay:p.delay};
  });
 }
-export function initCrumbles(g){g.crumbleRevision=0;g.crumbles=(g.level.crumbles??[]).map((s,id)=>({...s,x:s.x*30,y:s.y*30,oldY:s.y*30,w:s.w*30,h:12,id,crumble:true,startedAt:null,gone:false}));}
+export const CRUMBLE_RESPAWN=3.5;
+export function initCrumbles(g){g.crumbleRevision=0;g.crumbles=(g.level.crumbles??[]).map((s,id)=>({...s,x:s.x*30,y:s.y*30,oldY:s.y*30,w:s.w*30,h:12,id,crumble:true,startedAt:null,respawnAt:null,gone:false}));}
 export function updateCrumbles(g){
- for(const s of g.crumbles)if(!s.gone&&s.startedAt!==null&&g.clock-s.startedAt>=s.delay){s.gone=true;g.crumbleRevision++;g.burst(s.x+s.w/2,s.y+5,'#b78758',12);g.cb.sound('crumble');}
+ for(const s of g.crumbles){
+  if(s.gone){if(s.respawnAt!==null&&g.clock>=s.respawnAt){const p=g.player,occupied=g.status==='playing'&&p&&p.x<s.x+s.w&&p.x+p.w>s.x&&p.y<s.y+s.h&&p.y+p.h>s.y;if(occupied){s.respawnAt=g.clock+.3;continue;}s.gone=false;s.startedAt=null;s.respawnAt=null;g.crumbleRevision++;g.burst(s.x+s.w/2,s.y+5,'#70c9ae',8);g.cb.sound('rebuild');}continue;}
+  if(s.startedAt!==null&&g.clock-s.startedAt>=s.delay){s.gone=true;s.respawnAt=['easy','medium'].includes(g.difficulty)?g.clock+CRUMBLE_RESPAWN:null;g.crumbleRevision++;g.burst(s.x+s.w/2,s.y+5,'#b78758',12);g.cb.sound('crumble');}
+ }
 }
 export function drawCrumbles(c,g){
  for(const s of g.crumbles){
-  if(s.gone){c.strokeStyle='#a9855b50';c.lineWidth=1;c.setLineDash([3,5]);c.strokeRect(s.x,s.y,s.w,10);c.setLineDash([]);continue;}
+  if(s.gone){c.strokeStyle=s.respawnAt!==null?'#70c9ae80':'#a9855b50';c.lineWidth=1;c.setLineDash([3,5]);c.strokeRect(s.x,s.y,s.w,10);c.setLineDash([]);if(s.respawnAt!==null){const remaining=Math.max(0,s.respawnAt-g.clock);c.fillStyle='#70c9ae';c.fillRect(s.x,s.y-4,s.w*(1-remaining/CRUMBLE_RESPAWN),2);}continue;}
   const progress=s.startedAt===null?0:Math.min(1,(g.clock-s.startedAt)/s.delay);
   c.fillStyle=progress>.7?'#b46a48':'#9e835d';c.fillRect(s.x,s.y,s.w,12);c.fillStyle='#e7c48c';c.fillRect(s.x,s.y,s.w,3);
   c.strokeStyle='#4d4736';c.lineWidth=1.5;

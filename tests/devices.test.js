@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import {Game} from '../src/engine.js';
 import {emptyLevel,validateLevel,campaignLevel} from '../src/levels.js';
 import {laserPhase,updateDevices,validateDevices} from '../src/devices.js';
+import {updateProjectiles} from '../src/projectiles.js';
 const laser={type:'laser',x:4,y:10,dir:'right',length:20,period:4,on:1,phase:0};
-function harness(extra={}){const g=Object.create(Game.prototype);g.keys=new Set();g.render=()=>{};g.cb={hud(){},sound(){},dead(){},win(){}};g.load({...emptyLevel(),version:3,width:32,height:18,switches:[],gates:[],exitRequires:[],devices:[laser],...extra});g.start();return g;}
+function harness(extra={}){const sounds=[],g=Object.create(Game.prototype);g.keys=new Set();g.render=()=>{};g.cb={hud(){},sound(name){sounds.push(name);},dead(){},win(){}};g.load({...emptyLevel(),version:3,width:32,height:18,switches:[],gates:[],exitRequires:[],devices:[laser],...extra});g.start();g.sounds=sounds;return g;}
 test('laser has an off window, warning, firing interval, and linked shutdown',()=>{
  const active=new Set();assert.equal(laserPhase(laser,0,active),'idle');assert.equal(laserPhase(laser,2.6,active),'warning');assert.equal(laserPhase(laser,3,active),'active');assert.equal(laserPhase(laser,4,active),'idle');assert.equal(laserPhase({...laser,offSwitch:'A'},3,new Set(['A'])),'disabled');
 });
@@ -15,6 +16,7 @@ test('walls and closed gates stop beams; opening a gate exposes the lane',()=>{
 });
 test('warning is harmless, an active beam kills, and swept crossing cannot tunnel',()=>{
  const g=harness();Object.assign(g.player,{x:200,y:302});g.clock=2.8;updateDevices(g);assert.equal(g.status,'playing');g.clock=3.2;updateDevices(g);assert.equal(g.status,'dying');assert.equal(g.deathCause,'laser');
+ assert.ok(g.sounds.includes('laser-warning'));assert.ok(g.sounds.includes('laser-on'));
  const h=harness();Object.assign(h.player,{x:200,y:340});h.previousPlayer={...h.player,y:270};h.clock=3.2;updateDevices(h);assert.equal(h.status,'dying');
 });
 test('laser shield is consumed once and immunity does not last forever',()=>{
@@ -52,4 +54,19 @@ test('shield absorbs and removes one projectile',()=>{
 test('turret JSON preserves bounded speed, direction, phase and links',()=>{
  const l=campaignLevel(20);assert.deepEqual(validateLevel(JSON.parse(JSON.stringify(l))).devices,l.devices);
  const d=l.devices[0];for(const patch of [{speed:NaN},{speed:1000},{period:.5},{phase:20},{dir:'bad'},{offSwitch:'Z'}])assert.throws(()=>validateDevices([{...d,...patch}],48,24,new Set(['A'])));
+});
+
+test('turrets can launch slow heat rockets while sentry aim shots remain straight',()=>{
+ const turret={type:'turret',x:4,y:10,dir:'right',period:3,phase:0,speed:140,projectile:'homing'};
+ assert.equal(validateDevices([turret],32,18,new Set())[0].projectile,'homing');
+ assert.throws(()=>validateDevices([{...turret,speed:260}],32,18,new Set()),/Heat rockets/);
+ assert.throws(()=>validateDevices([{...turret,projectile:'teleport'}],32,18,new Set()),/straight or homing/);
+ const g=harness({devices:[turret]});g.clock=3;updateDevices(g);assert.equal(g.projectiles[0].projectile,'homing');assert.equal(g.projectiles[0].speed,140);assert.ok(g.sounds.includes('rocket-launch'));
+});
+
+test('homing rockets turn gradually and explode against solid cover; straight rounds keep their heading',()=>{
+ const sounds=[],player={x:450,y:350,w:16,h:26},g={projectiles:[{x:100,y:100,vx:120,vy:0,speed:120,turnRate:1.25,projectile:'homing',life:12}],status:'playing',player,nearSolids:()=>[],worldW:960,worldH:540,cb:{sound:name=>sounds.push(name)},burst(){}};
+ updateProjectiles(g,.5,true);assert.ok(g.projectiles[0].vy>0);assert.ok(g.projectiles[0].vx<120);assert.ok(Math.abs(Math.hypot(g.projectiles[0].vx,g.projectiles[0].vy)-120)<.001);
+ const rocket={x:100,y:100,vx:120,vy:0,speed:120,turnRate:1.25,projectile:'homing',life:12};g.projectiles=[rocket];g.nearSolids=()=>[{x:121,y:90,w:10,h:180}];updateProjectiles(g,1,true);assert.equal(g.projectiles.length,0);assert.ok(sounds.includes('rocket-impact'));
+ g.projectiles=[{x:100,y:300,vx:120,vy:0,life:5}];g.nearSolids=()=>[];g.player={x:500,y:50,w:16,h:26};updateProjectiles(g,.5,true);assert.equal(g.projectiles[0].vy,0);
 });

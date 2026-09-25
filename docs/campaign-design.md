@@ -52,7 +52,7 @@ Ten distinct rooms teach the dark crossing interval, amber charge warning, solid
 
 ## Crossfire — implemented (stages 21–30, layout revision 2)
 
-Turrets have fixed directions, visible muzzle warnings, deterministic firing cadence, and optional shutdown circuits. Walls and closed gates stop shots. Already-fired bullets survive shutdown. The editor supports direction, cadence, phase, speed, and switch links. Every room has a recorded item-free solution with live projectiles.
+Turrets have fixed directions, visible muzzle warnings, deterministic firing cadence, and optional shutdown circuits. They can fire either straight bullets or slow heat-seeking rockets; rockets turn gradually and can be baited into solid cover. Walls and closed gates stop shots. Already-fired bullets survive shutdown. The editor supports direction, cadence, projectile type, phase, speed, and switch links. Every room has a recorded item-free solution with live projectiles. Tracking sentries retain their visible lock-on followed by a straight aimed shot.
 
 | Stage | Room | Puzzle |
 | --- | --- | --- |
@@ -121,7 +121,7 @@ Timed switches use the world clock and visibly count down on the switch, gate, a
 
 ## Unstable — implemented (stages 61–70, layout revision 2)
 
-Tan decks crack on first landing and collapse after a visible countdown. Leaving does not cancel collapse; retry rebuilds the room. Freeze and survey pause the countdown. Broken decks also stop providing bullet/laser cover. Solid waiting docks and alternate return paths distinguish these puzzles from a simple jumping chain.
+Tan decks crack on first landing and collapse after a visible countdown. Leaving does not cancel collapse. On Easy and Medium, broken decks rebuild after 3.5 world-seconds; on Hard and Nightmare they stay broken until retry. Freeze and survey pause collapse and rebuild timers. Broken decks also stop providing bullet/laser cover. Solid waiting docks and alternate return paths distinguish these puzzles from a simple jumping chain.
 
 | Stage | Room | Puzzle |
 | --- | --- | --- |
@@ -225,7 +225,16 @@ The last sector has nine stages: stage 99 is the trial. Keep room silhouettes di
 - Moving platforms carry the player consistently. First implementations should avoid crushing puzzles; gates should defer closing while the player occupies their space.
 - Levers trigger on entering their interaction zone, not every simulation tick. Label paired gates with both shape/ID and color.
 - Trap delays must leave a no-item escape window. Collapsing platforms must visibly crack before they stop supporting the player.
+- Slow seeking rockets need visible launch cues, a forgiving turn rate, and nearby solid cover that gives players a way to bait a miss. Lasers cue their warning, firing, and shutdown transitions with sound; audio is reinforcement, never the only warning.
 - Keep speedrun time separate from world countdowns. Freeze may buy survival time but must not create artificially faster personal bests.
+
+## A practical balance loop
+
+The 99 rooms already have deterministic, item-free solution replays. Treat those as a solvability floor, not a difficulty score. Do not retune every room after one easy or hard report. Use the existing ten-room rhythm as a sampling plan: test one teaching room, one combination room, one pressure room, and the sector capstone before considering a sector-wide change.
+
+For each sample, record player experience, difficulty, attempts, deaths by cause, clear time, item use, and the first point of confusion. Ask the player to think aloud once, then replay silently; this separates a puzzle-reading problem from a movement-execution problem. A useful initial target is for a new mechanic's first room to be understood and cleared in one to three attempts, while a capstone takes several meaningful attempts without requiring a purchased item. Adjust those targets with the intended audience rather than treating them as universal scores.
+
+When a pattern fails, fix the smallest shared cause: add or move a safe observation ledge, change one hazard's cadence, widen a landing, reveal a return route, or combine one more known mechanic. Keep room topology and mechanics tagged so parameter changes can be shared. Only replace a room when its puzzle idea itself is weak. Rerun its existing replay and a few adjacent-stage playtests after each change; this avoids another full 99-stage rewrite.
 
 ## Item interactions
 

@@ -2,6 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import config from '../vite.config.js';
 import {compareVersions,updateAvailable} from '../src/releases.js';
+import {APP_VERSION,GIT_HASH,UPDATE_MANIFEST_URL} from '../src/build-info.js';
+
+test('build metadata has safe defaults outside a Vite-processed bundle',()=>{
+ assert.equal(APP_VERSION,'0.1.0');
+ assert.equal(GIT_HASH,'nogit');
+ assert.equal(UPDATE_MANIFEST_URL,'/version.json');
+});
 
 test('release comparison ignores patch order correctly and accepts an optional v prefix',()=>{
  assert.equal(compareVersions('0.2.0','0.1.9'),1);

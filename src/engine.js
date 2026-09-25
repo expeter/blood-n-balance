@@ -33,14 +33,14 @@ export class Game {
     window.addEventListener('blur',suspend);document.addEventListener('visibilitychange',()=>{if(document.hidden)suspend();});
     requestAnimationFrame(t=>this.frame(t));
   }
-  load(level,seed=1){
+  load(level,seed=1,bankedGold=[]){
     this.level=level;const size=levelSize(level);this.worldW=size.width*TILE;this.worldH=size.height*TILE;
     this.player={x:level.spawn.x*TILE+7,y:level.spawn.y*TILE+3,w:16,h:26,vx:0,vy:0,ground:false,wall:0,face:1,sliding:false};
     this.solids=level.tiles.filter(t=>t.type==='solid').map(t=>({x:t.x*TILE,y:t.y*TILE,w:TILE,h:TILE}));
     this.solidGrid=new Map(this.solids.map(s=>[`${s.x/TILE},${s.y/TILE}`,s]));
     this.switches=(level.switches??[]).map(s=>({...s}));this.activated=new Set(this.switches.filter(s=>s.mode==='toggle'&&s.initial).map(s=>s.id));this.switchTimers={};this.visited=new Set();this.switchContacts=new Set();
     this.gates=(level.gates??[]).map(g=>({...g,x:g.x*TILE,y:g.y*TILE,w:g.w*TILE,h:g.h*TILE}));
-    this.gold=level.coins.map(p=>({x:p.x*TILE+15,y:p.y*TILE+15,taken:false}));
+    const previouslyBanked=new Set(bankedGold);this.gold=level.coins.map((p,index)=>({x:p.x*TILE+15,y:p.y*TILE+15,taken:false,firstBonus:!previouslyBanked.has(index)}));
     this.hazards=level.tiles.filter(t=>t.type!=='solid').map(t=>({...t,baseX:t.x*TILE,x:t.x*TILE,y:t.y*TILE,w:30,h:30}));
     this.elapsed=0;this.remaining=level.time;this.clock=0;this.collected=0;this.usedItems=false;this.effects={};
     this.trail=[];this.particles=[];this.blood=[];this.debris=[];this.stains=[];this.shake=0;this.flash=0;this.deathTime=0;
@@ -144,7 +144,7 @@ export class Game {
     }
     updateDevices(this);updateTraps(this);updateSentries(this);if(this.status!=='playing')return;if(this.ghost&&this.updateGhost(dt))return;
     const exit={x:this.level.exit.x*TILE+2,y:this.level.exit.y*TILE,w:26,h:30};
-    if(this.exitUnlocked&&overlap(p,exit)){this.status='won';this.cb.sound('win');this.burst(exit.x+13,exit.y+15,'#789d41',36);this.cb.win({time:this.elapsed,gold:this.collected,usedItems:this.usedItems});}
+    if(this.exitUnlocked&&overlap(p,exit)){this.status='won';this.cb.sound('win');this.burst(exit.x+13,exit.y+15,'#789d41',36);this.cb.win({time:this.elapsed,gold:this.collected,goldIds:this.gold.flatMap((coin,index)=>coin.taken?[index]:[]),usedItems:this.usedItems});}
     this.trail.push({x:p.x+8,y:p.y+15});if(this.trail.length>10)this.trail.shift();
     const blend=1-Math.exp(-dt*9);this.camera.x+=(Math.max(0,Math.min(this.worldW-W,p.x-W/2+p.vx*.2))-this.camera.x)*blend;
     this.camera.y+=(Math.max(0,Math.min(this.worldH-H,p.y-H*.52))-this.camera.y)*blend;

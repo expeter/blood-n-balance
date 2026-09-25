@@ -14,7 +14,13 @@ export const ACHIEVEMENTS=[
  {id:'clean',name:'Pure instinct',description:'Finish a stage without using an item.',test:s=>Object.values(s.completed).some(r=>r.clean)},
  {id:'speed',name:'Blink and you miss it',description:'Finish a stage in under 20 seconds.',test:s=>Object.values(s.completed).some(r=>r.best<20)},
  {id:'all',name:'The long run',description:'Complete all 99 stages.',test:s=>Object.keys(s.completed).length===99},
- {id:'purist',name:'Nothing but ninja',description:'Complete all 99 stages without items.',test:s=>Object.values(s.completed).filter(r=>r.clean).length===99}
+ {id:'purist',name:'Nothing but ninja',description:'Complete all 99 stages without items.',test:s=>Object.values(s.completed).filter(r=>r.clean).length===99},
+ {id:'clean-five',name:'No shortcuts',description:'Clear five different stages without using an item.',test:s=>Object.values(s.completed).filter(r=>r.clean).length>=5},
+ {id:'full-kit',name:'Ready for anything',description:'Buy every kind of shop item at least once.',test:s=>ITEMS.every(i=>s.shopPurchases[i.id]>=1)},
+ {id:'try-everything',name:'Toolbox tested',description:'Use every kind of shop item at least once.',test:s=>ITEMS.every(i=>s.itemUses[i.id]>=1)},
+ {id:'night-shift',name:'After hours',description:'Clear ten stages on Nightmare difficulty.',test:s=>Object.values(s.leaderboards).filter(scores=>scores.nightmare&&(scores.nightmare.itemFree!==undefined||scores.nightmare.assisted!==undefined)).length>=10},
+ {id:'world-tour',name:'World tour',description:'Start a stage in all ten sectors.',test:s=>Array.from({length:10},(_,sector)=>Object.keys(s.levelPlays).some(stage=>Math.floor(+stage/10)===sector)).every(Boolean)},
+ {id:'golden-run',name:'Golden run',description:'Bank 500 gold across successful runs.',test:s=>s.totalGold>=500}
 ];
 export const freshState=()=>({version:2,coins:40,inventory:Object.fromEntries(ITEMS.map(i=>[i.id,0])),completed:{},totalGold:0,deaths:0,deathsByCause:{},itemUses:Object.fromEntries(ITEMS.map(i=>[i.id,0])),shopPurchases:Object.fromEntries(ITEMS.map(i=>[i.id,0])),levelPlays:{},gatheredGold:{},leaderboards:{},settings:{sound:true,music:true,audioConfigured:true,difficulty:'medium',palette:'midnight',skin:'classic',playerName:'Runner'},achievements:[]});
 export function loadState(storage) {
@@ -49,6 +55,7 @@ export function recordStagePlay(s,index){if(!Number.isInteger(index)||index<0||i
 export function recordDeath(s,cause){if(typeof cause!=='string'||!/^[-a-z]{1,32}$/.test(cause))return false;s.deaths++;s.deathsByCause[cause]=(s.deathsByCause[cause]||0)+1;return s.deaths;}
 export function recordItemUse(s,id){if(!ITEMS.some(item=>item.id===id))return false;s.itemUses[id]++;return s.itemUses[id];}
 export function recordGoldPickup(s,index,coinIndex){if(!Number.isInteger(index)||index<0||index>=99||!Number.isInteger(coinIndex)||coinIndex<0)return false;const seen=s.gatheredGold[index]??=[];if(seen.includes(coinIndex))return false;seen.push(coinIndex);return true;}
+export function bankRunGold(s,index,baseGold,coinIndices){if(!Number.isInteger(index)||index<0||index>=99||!Number.isInteger(baseGold)||baseGold<0||!Array.isArray(coinIndices))return null;let bonus=0;for(const id of new Set(coinIndices))if(recordGoldPickup(s,index,id))bonus++;return {gold:baseGold+bonus,bonus};}
 export function buy(s,id){const item=ITEMS.find(i=>i.id===id);if(!item||s.coins<item.price)return false;s.coins-=item.price;s.inventory[id]++;s.shopPurchases[id]++;return true;}
 export function complete(s,index,time,gold,usedItems,difficulty='medium',allowLocked=false){
   if(!Number.isInteger(index)||index<0||index>=99||!unlocked(s,index,allowLocked)||!Number.isFinite(time)||time<0||!Number.isInteger(gold)||gold<0)return [];
