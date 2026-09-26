@@ -48,4 +48,4 @@ Automated unit/physics tests and deterministic no-item replays exercise all 99 a
 
 ## Runtime and deployment
 
-`npm run dev` serves the Vite development app on `0.0.0.0`; `npm run build` creates a static production bundle in `dist/`. Deployment to the user's VPS and a GitHub remote are pending separate instructions. No credentials belong in the repository.
+`npm run dev` serves the Vite development app on `0.0.0.0`; `npm run build` creates a static production bundle in `dist/`. Passing `main` builds are configured to publish the game on GitHub Pages at `bnb.minizap.online`; `api.bnb.minizap.online` is reserved on the VPS for the future API. See [deployment status and instructions](../deployment.md). No credentials belong in the repository.

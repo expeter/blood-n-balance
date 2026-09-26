@@ -2,6 +2,8 @@
 
 The game stores campaign state locally. It does not submit scores online yet. Score export uses `schemaVersion: 2` so a later VPS endpoint can accept the same structure without reshaping browser saves.
 
+The reserved API origin is `https://api.bnb.minizap.online`; the browser game origin is `https://bnb.minizap.online`. Caddy currently returns an explicit `503 not_deployed` JSON response at the API origin. A future dedicated service must allow the game origin in its CORS policy and must not reuse the ports of the VPS's other applications. See [deployment instructions](deployment.md).
+
 ```json
 {
   "schemaVersion": 2,

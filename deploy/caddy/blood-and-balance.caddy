@@ -1,0 +1,7 @@
+# Append this site to the existing Caddyfile. Do not replace other sites.
+# The API service is a later milestone; do not point at another app's port.
+api.bnb.minizap.online {
+	header Content-Type application/json
+	header Cache-Control no-store
+	respond `{"service":"blood-and-balance","status":"not_deployed","message":"The game API is not deployed yet."}` 503
+}

@@ -9,6 +9,8 @@ npm install
 npm run dev
 ```
 
+The game is published from passing `main` builds to `bnb.minizap.online`. See [deployment instructions](docs/deployment.md) for the GitHub Pages workflow, initial provisioning status, and the separate VPS API hostname.
+
 `npm run build` creates a static site in `dist/`. Serve it over HTTP from any static host. `npm test` runs progression, economy, level format, and physics tests, including hazard-active, item-free input replays through all 99 authored rooms. The developer tool `node scripts/solve-opening.mjs` can regenerate those fixtures by searching the actual physics along intended routes; optional zero-based stage indices limit its scope. `node scripts/solve-pulse.mjs` generates stages 11–20 and `node scripts/solve-crossfire.mjs` generates stages 21–30. `node scripts/solve-undertow.mjs` generates stages 31–40, including recorded waits and rides. `node scripts/solve-relay.mjs` generates stages 41–50 and records lever reversals. `node scripts/solve-timed.mjs` generates stages 51–60; `node scripts/solve-timed-recovery.mjs` records successful recovery runs after deliberately letting every timer expire in stages 56, 59, and 60. `node scripts/solve-unstable.mjs` generates stages 61–70, including deliberate floor-collapse waits. `node scripts/solve-tripwire.mjs` generates stages 71–80; `node scripts/solve-tripwire-alternate.mjs` verifies the opposite branch order in stage 79. `node scripts/solve-pursuit.mjs` generates stages 81–90; `node scripts/solve-pursuit-alternate.mjs` verifies both branch orders in stage 89. `node scripts/solve-finale.mjs` generates stages 91–99; `node scripts/solve-finale-alternate.mjs` verifies the opposite shutdown order in stage 97.
 
 ## Current version 0.2.0

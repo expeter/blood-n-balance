@@ -4,6 +4,10 @@ User-visible changes are grouped under the game version from `package.json`. Tic
 
 ## [0.2.0] - 2026-09-25
 
+Deployment setup added 2026-09-26:
+
+- **FR-016** — Add a Node 24 test/build workflow that publishes successful `main` builds to GitHub Pages with the commit hash. Configure the requested SSH remote and ignore local environment secrets. Reserve `api.bnb.minizap.online` in Caddy with an explicit not-deployed response; public game activation is tracked in [deployment status](docs/deployment.md).
+
 - **FR-014** — Rename the game to **Blood & Balance** across the app title, sidebar identity, version metadata, and score exports.
 - **SPEC-008** — Add the core vision and story: a masked runner attempts the Blood & Balance Dojo's lethal trials to earn the Red Sash and challenge its reigning Princess champion. Ten chapters map the existing campaign skills and reveal the Balance Sutra mystery.
 - **FR-015** — Add a gatekeeper boss every ten stages (and a final stage 99 encounter) to the backlog. Boss fights are not implemented in this version.
