@@ -1,0 +1,14 @@
+[Unit]
+Description=Back up Blood and Balance SQLite database
+
+[Service]
+Type=oneshot
+User=bnb-api
+Group=bnb-api
+EnvironmentFile=/etc/blood-and-balance/api.env
+WorkingDirectory=/srv/blood-and-balance/api/current
+ExecStart=/bin/sh -c 'mkdir -p /var/lib/blood-and-balance/backups; exec /srv/blood-and-balance/runtime/node-v24.21.0-linux-x64/bin/node server/admin.mjs backup /var/lib/blood-and-balance/backups/bnb-$(date -u +%%Y%%m%%dT%%H%%M%%SZ).sqlite'
+UMask=0077
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/blood-and-balance

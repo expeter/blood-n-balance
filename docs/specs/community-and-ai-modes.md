@@ -1,6 +1,6 @@
 # Community and AI-assisted game modes
 
-Status: AI authoring is implemented in 1.0.0 under the [online service contract](online-service.md). Community, competitions, lobbies, and endless remain pending in this document.
+Status: AI authoring is implemented in 1.0.0 under the [online service contract](online-service.md). Community publishing/discovery is implemented in 2.0.0 under the [community release contract](community-release.md). Competitions, lobbies, and endless remain pending.
 
 ## Shared principles
 

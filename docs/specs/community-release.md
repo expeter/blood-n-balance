@@ -1,0 +1,15 @@
+# Invite-only community — 2.0.0
+
+Adults sign in with invited accounts. Kids receives none of this UI or these API routes. Offline campaign/editor remain independent.
+
+Authors explicitly publish their current editor draft after accepting the MIT community-content license and confirming they have permission to share it. Publications include creator identity, name, description, tags, estimated difficulty, SHA-256 content hash, validation analysis and immutable revision ID. The author can publish a new revision referencing an earlier one; other authors cannot mutate or revise that lineage. Every revision has its own share URL and JSON download. Editing a local copy does not alter the original. Authors remain responsible for permissions/attribution; reports give the owner a removal path.
+
+An ordered set references 1–12 distinct published level revisions. Set order, title and description are immutable. Set revisions get new links. The local set builder supports adding, moving, removing and draft-reference export; published-set download includes full level JSON and attribution. Shared URLs reopen the invited community detail after sign-in. A set can be played sequentially with the usual retry/Enter controls. These runs do not change campaign progression or bank campaign gold.
+
+Browse searches names/descriptions with literal matching, paginates 24 items, and filters bookmarks. Account votes replace the prior vote, can be undone, and cannot target one's own publication. Bookmarking is per account. Reports have bounded reasons and an owner-only review queue; owners can hide content and mark reports reviewed. Authors can unpublish their own content. Hidden/deleted levels disappear from browsing and make dependent sets unavailable; moderation does not silently substitute another revision.
+
+Launch/completion/abandonment counts are labelled self-reported and are not ranked scores. Each play ID belongs to its account and can be finished once; an unresolved launch expires after an hour for statistics. Competitive ranking is a separate milestone with server replay checks.
+
+Account controls export publications/generation results, change the password (revoking sessions), or delete the account after password confirmation. Deletion disables sign-in, removes votes/bookmarks/sessions, hides authored publications, removes account names and generation result text, and anonymizes play/report ownership. Anonymous immutable content and usage records remain for integrity/abuse accounting; this is stated before deletion. The last owner cannot be deleted until another owner is appointed through an owner invitation. No private chat, email, voice or profile links are implemented.
+
+Server validation, exact-origin mutation checks, invitation limits, bounded payloads, rate limits and parameterized SQL apply throughout. Generated and user-authored routes stay labelled unverified; a valid schema and votes do not prove playability. Daily SQLite online backups keep the latest 14 dated copies on the VPS. Off-host backups and human moderation response times remain operational follow-ups.

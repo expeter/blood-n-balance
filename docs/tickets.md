@@ -119,9 +119,9 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
-| SPEC-004 | SPEC | Online identity, API trust boundaries, moderation, and privacy | Proposed |
-| FR-009 | FR | Publish immutable level-set revisions and share them | Proposed |
-| FR-010 | FR | Browse, search, bookmark, vote, and report public content | Proposed |
+| SPEC-004 | SPEC | Online identity, API trust boundaries, moderation, and privacy | Implemented in 2.0.0; invite-only launch |
+| FR-009 | FR | Publish immutable level-set revisions and share them | Implemented in 2.0.0; invite-only launch |
+| FR-010 | FR | Browse, search, bookmark, vote, and report public content | Implemented in 2.0.0; invite-only launch |
 
 **Acceptance direction:** published levels pass server-side schema/security checks; revisions remain reproducible; authorship and game/schema version are shown; rate limits and abuse/report controls exist; offline campaign and local export continue to work without the API.
 

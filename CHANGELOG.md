@@ -2,6 +2,12 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [2.0.0] - 2026-09-27 — Milestone 2: invited community
+
+- **SPEC-004 / FR-009 / FR-010** — Publish immutable levels and ordered sets, open share links, download attributed JSON, and play sets sequentially. Add search, bookmarks, one-vote-per-account controls, reports, author unpublishing and owner moderation.
+- Add account export, password changes/session revocation, deletion controls, and clearly labelled self-reported play statistics. Keep kids community unavailable and offline saves independent.
+- Activate the verified HTTPS API proxy and document the owner invitation. Add consistent daily database backup tooling with 14-copy retention; off-host backups remain unconfigured.
+
 ## [1.0.0] - 2026-09-27 — Milestone 1: AI workshop
 
 - **FR-007 / FR-008** — Generate editor drafts through a configurable free NVIDIA Nemotron model on OpenRouter. Preview and explicitly apply validated drafts with a previous-draft backup. Show route uncertainty, usage and cost; preserve offline editing on service failure.
