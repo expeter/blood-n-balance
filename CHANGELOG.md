@@ -4,6 +4,11 @@ User-visible changes are grouped under the game version from `package.json`. Tic
 
 ## [0.2.0] - 2026-09-25
 
+Licensing and publication update 2026-09-27:
+
+- **CR-002** — License the public repository under MIT, copyright 2026 Peter Schulz (expeter), and include the notice in production artifacts.
+- **FR-016** — Confirm a successful GitHub Actions test/build/deployment; public custom-domain DNS verification remains pending.
+
 Deployment setup added 2026-09-26:
 
 - **FR-016** — Add a Node 24 test/build workflow that publishes successful `main` builds to GitHub Pages with the commit hash. Configure the requested SSH remote and ignore local environment secrets. Reserve `api.bnb.minizap.online` in Caddy with an explicit not-deployed response; public game activation is tracked in [deployment status](docs/deployment.md).

@@ -2,6 +2,8 @@
 
 A standalone browser precision platformer. No account, backend, or external assets are required to play. Fonts use Google Fonts with local system fallbacks.
 
+Created by [Peter Schulz (expeter)](https://github.com/expeter). Licensed under the [MIT License](LICENSE). Production builds include the same copyright and permission notice in `LICENSE.txt`.
+
 ## Run
 
 ```sh

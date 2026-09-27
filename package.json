@@ -11,5 +11,7 @@
   },
   "devDependencies": {
     "vite": "^7.0.0"
-  }
+  },
+  "license": "MIT",
+  "author": "Peter Schulz (https://github.com/expeter)"
 }

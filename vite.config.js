@@ -14,7 +14,10 @@ const versionManifest={
 };
 
 export default defineConfig({
-  plugins:[versionManifest],
+  plugins:[versionManifest,{
+    name:'license-notice',
+    generateBundle(){this.emitFile({type:'asset',fileName:'LICENSE.txt',source:readFileSync(new URL('./LICENSE',import.meta.url),'utf8')});}
+  }],
   define:{
     __APP_VERSION__:JSON.stringify(version),
     __GIT_HASH__:JSON.stringify(gitHash),

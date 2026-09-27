@@ -9,7 +9,7 @@ Tracked by FR-016. The source repository is `git@github.com:expeter/blood-n-bala
 | `bnb.minizap.online` | GitHub Pages, static game | CNAME to `expeter.github.io` |
 | `api.bnb.minizap.online` | Caddy on `vpsionos` | A to `212.227.21.239` |
 
-The game hostname must not retain an A/AAAA record pointing to the VPS alongside its CNAME. The API hostname stays independent. Keep the repo private unless the owner explicitly changes that choice; private-repo Pages requires an eligible GitHub plan. GitHub's [custom domain instructions](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) describe the DNS and HTTPS settings.
+The game hostname must not retain an A/AAAA record pointing to the VPS alongside its CNAME. The API hostname stays independent. The owner made the repository public on 2026-09-27 and enabled Pages. The source is MIT licensed with attribution to Peter Schulz (expeter); production artifacts include `LICENSE.txt`. The npm package remains `private: true` to prevent accidental registry publication; this does not affect GitHub visibility or the license. GitHub's [custom domain instructions](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) describe the DNS and HTTPS settings.
 
 ## GitHub Actions
 
@@ -35,4 +35,4 @@ Use `ssh -F ~/.ssh/config vpsionos` in this environment; its system SSH include 
 
 After a main push, check the **Test and deploy game** run, open the game, and compare `/version.json` with the deployed commit. Verify a generated asset loads and the version/update UI is present. If a deployment fails, the previous Pages deployment remains available. To roll back game code, revert the offending commit on main and let the same tests/build/deploy workflow run; do not force-push history.
 
-Initial provisioning status: repository remote and workflow prepared, local tests/build passing, VPS route installed; first GitHub publication is pending Pages token permissions and game DNS configuration. Update this status after the first deployment is verified.
+Provisioning verified 2026-09-27: Pages is enabled for the custom domain and the [first successful workflow](https://github.com/expeter/blood-n-balance/actions/runs/36348115769) tested, built, and deployed commit `2d74926576cd`. Direct requests to GitHub Pages with the game's Host header return its matching version manifest. The VPS API reservation has working HTTPS. Public game DNS is still pending: all four authoritative nameservers currently return no CNAME for `bnb.minizap.online`. Public hostname/TLS verification and HTTPS enforcement must follow once that record resolves.
