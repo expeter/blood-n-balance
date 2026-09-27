@@ -239,3 +239,19 @@ body[data-view="play"] .game-column:fullscreen .game-shell{max-width:100%}
 #jump-settings .editor-options button{grid-column:1/-1}
 .controls-settings{margin-top:24px;font-size:14px}.controls-settings h3{margin:16px 0 8px}.binding-grid{display:grid;gap:7px;margin:12px 0}.binding-grid>div{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.binding-grid strong{min-width:150px;flex:1}.binding-grid button{padding:7px 9px;min-width:72px}#binding-status{font-size:14px;line-height:1.5;color:var(--lime);margin:10px 0}.achievement progress{display:block;width:100%;accent-color:var(--lime);height:8px;margin:16px 0 8px}.achievement small{font-size:12px;color:var(--muted)}
 .route-hint{font-size:12px;line-height:1.5;margin:0 0 16px;text-align:left}.route-hint summary{cursor:pointer}.route-hint p{margin:8px 0}.playtest-note{display:grid;gap:10px;border:1px solid var(--line);border-radius:6px;margin-top:16px;padding:14px;font-size:14px}.playtest-note label{display:flex;flex-direction:column;gap:6px}.playtest-note textarea,.playtest-note select{background:var(--panel);color:inherit;border:1px solid var(--line);padding:8px;font:inherit}.playtest-note>div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}#review-count{font-size:12px}
+:root[data-edition="kids"]{--bg:#eff7f2;--panel:#e3eef5;--line:#9dafc4;--muted:#526a7b;--lime:#7256a0;--gold:#9c6f19;color:#304c5d;background:#eff7f2}
+:root[data-edition="kids"] .sidebar,:root[data-edition="kids"] .topbar,:root[data-edition="kids"] .game-shell,:root[data-edition="kids"] .stage-header,:root[data-edition="kids"] .game-footer,:root[data-edition="kids"] dialog,:root[data-edition="kids"] .overlay-card{background:#edf3fa;color:#304c5d;border-color:#a8b9d0}
+:root[data-edition="kids"] .game-overlay.fatal{background:#b5d9ed66}
+:root[data-edition="kids"] .fatal .overlay-card{background:#f2f5ff;border-color:#9fb5d3;box-shadow:0 8px 24px #8199b344}
+:root[data-edition="kids"] .fatal .overlay-card::before,:root[data-edition="kids"] .fatal .overlay-card::after{display:none}
+:root[data-edition="kids"] .game-overlay.fatal::before,:root[data-edition="kids"] .game-overlay.fatal::after{display:none}
+:root[data-edition="kids"] .secondary,:root[data-edition="kids"] .nav-button.active,:root[data-edition="kids"] kbd{background:#dde8f5;color:#435677;border-color:#a9bad1}
+:root[data-edition="kids"] .objective-bar{background:#daece3;color:#436451}
+:root[data-edition="kids"] body,:root[data-edition="kids"] .workspace{background:#e5eff3}
+:root[data-edition="kids"] .primary{color:#fff;background:#7256a0}
+:root[data-edition="kids"] :is(.muted,.overlay-card p,.overlay-hint,.eyebrow,.saved,.breadcrumb,.breadcrumb b,.nav-button,.sidebar-label,.game-footer,.game-footer>span,.hud-label,.wallet>span,.tip-card p,.fine-print){color:#486275}
+:root[data-edition="kids"] :is(.wallet,.rail-card,.tip-card,.achievement,.preview-card,.level-cell,.shop-item,.option-choices,.controls-settings,.best-table,.playtest-note){background:#e6edf8;border-color:#adbed2;color:#304c5d}
+:root[data-edition="kids"] :is(input,select,textarea){background:#f7fbff;color:#304c5d;border-color:#9cacc2}
+:root[data-edition="kids"] :is(.editor-panel,.editor-toolbar,.editor-inspector,.editor-options,.editor-footer){background:#e5edf6;color:#365164;border-color:#a8b9ce}
+:root[data-edition="kids"] [data-tool]{background:#d9e7ed;border-color:#a8b9ce;color:#365164}
+:root[data-edition="kids"] [data-tool].active{background:#7256a0;color:white}

@@ -7,6 +7,7 @@ export function compareVersions(a,b){
 
 export function updateAvailable(current,release){
   if(!release||typeof release!=='object'||typeof release.version!=='string')return false;
+  if(current.edition&&release.edition&&current.edition!==release.edition)return false;
   const order=compareVersions(release.version,current.version);
   return order>0||(order===0&&typeof release.gitHash==='string'&&release.gitHash!==current.gitHash);
 }

@@ -32,6 +32,13 @@ jobs:
       - run: npm test
       # Vite reads package.json and this checkout's Git hash into version.json.
       - run: npm run build
+      - run: npm run build:kids
+      - run: node scripts/check-editions.mjs
+      - name: Preserve kids artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kids-site
+          path: dist-kids
       - name: Check build identity
         run: |
           node --input-type=module <<'JS'

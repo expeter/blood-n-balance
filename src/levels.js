@@ -1,3 +1,4 @@
+import {IS_KIDS,presentLevel,KIDS_CHAPTERS,kidsText} from './edition.js';
 import {finaleLevel} from './finale-levels.js';
 import {pursuitLevel} from './pursuit-levels.js';
 import {validateSentries} from './sentries.js';
@@ -15,7 +16,7 @@ import {pulseLevel} from './pulse-levels.js';
 import {validateDevices} from './devices.js';
 import {openingLevel} from './opening-levels.js';
 export const W = 960, H = 540, TILE = 30;
-export function campaignLevel(index) {
+function rawCampaignLevel(index) {
   if (!Number.isInteger(index) || index < 0 || index > 98) throw new RangeError('Campaign stage must be between 0 and 98.');
   if (index < 10) return openingLevel(index);
   if (index < 20) return pulseLevel(index);
@@ -28,6 +29,7 @@ export function campaignLevel(index) {
   if (index < 90) return pursuitLevel(index);
   return finaleLevel(index);
 }
+export const campaignLevel=index=>presentLevel(rawCampaignLevel(index));
 export const campaignRevision = index => index < 10 ? 3 : 2;
 
 export const SECTORS = [
@@ -41,7 +43,7 @@ export const SECTORS = [
   {name:'Tripwire',mechanic:'Triggered traps',detail:'Pressure plates telegraph a delayed spike or dart burst. Bait the trap, retreat, then pass through.'},
   {name:'Pursuit',mechanic:'Tracking sentries',detail:'A visible lock-on gives time to move. Break line of sight, then combine cover with moving terrain.'},
   {name:'The last nine',mechanic:'System overload',detail:'A new alarm links existing hazards: a switch visibly changes their patterns. Nine authored finales test combinations, never unseen rules.'},
-].map((sector,i)=>({...sector,start:i*10+1,end:Math.min(99,i*10+10),implemented:true}));
+].map((sector,i)=>({...sector,...(IS_KIDS?{name:KIDS_CHAPTERS[i],mechanic:kidsText(sector.mechanic),detail:kidsText(sector.detail)}:{}),start:i*10+1,end:Math.min(99,i*10+10),implemented:true}));
 
 export function emptyLevel() {
   return {version:1,name:'My first escape',tiles:Array.from({length:32},(_,x)=>({x,y:16,type:'solid'})),coins:[],spawn:{x:2,y:15},exit:{x:29,y:15},time:90};

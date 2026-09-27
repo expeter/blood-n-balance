@@ -2,6 +2,12 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [0.5.0] - 2026-09-27 — Milestone 0.5: two editions
+
+- **FR-021** — Give the original game a crimson ink/ninja favicon.
+- **FR-022** — Add the separate Cloud & Clover kids build, with garden art, gentle failure effects and sounds, safe UI wording, unicorn icon, and isolated browser storage. Keep all 99 room geometries and rules identical. Build and check both artifacts in CI; update checks reject the other edition.
+- Kids hostname DNS/HTTPS and owner/child playtesting remain pending; this release does not claim those checks are complete.
+
 ## [0.4.0] - 2026-09-27 — Milestone 0.4: campaign audit and review tools
 
 - **BUG-005** — Set Medium explicitly in replay tests and regenerate stage 66/69 routes with rebuilding crumble decks enabled. Verify actual collapse events; preserve campaign geometry and revisions.

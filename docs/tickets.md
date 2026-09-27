@@ -96,11 +96,11 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
-| FR-021 | FR | Bloodier icon for the original edition | Proposed |
+| FR-021 | FR | Bloodier icon for the original edition | Done in 0.5.0 |
 | SPEC-009 | SPEC | Nonviolent kids edition sharing the same level designs | Done |
-| FR-022 | FR | Build and deploy the kids edition at kids-bnb.minizap.online | Proposed |
+| FR-022 | FR | Build and deploy the kids edition at kids-bnb.minizap.online | Build verified in 0.5.0; DNS/public HTTPS and child review pending |
 
-**FR-021 acceptance direction:** recognizable compact B&B/ninja silhouette with stylized crimson ink/blood droplets, readable at 16–48px. Provide favicon and app-icon variants; keep the kids build's artwork separate. No icon change is shipped by this ticket registration.
+**FR-021 acceptance direction:** recognizable compact B&B/ninja silhouette with stylized crimson ink/blood droplets, readable at 16–48px. Provide favicon and app-icon variants; keep the kids build's artwork separate. Implemented in 0.5.0 as an original-only vector favicon; kids uses its own unicorn icon.
 
 **FR-022 acceptance direction:** use the edition contract in [kids edition](specs/kids-edition.md). Shared level IDs/geometry/physics with separate child-friendly art, effects, text, sounds, metadata, storage, and deployment. No blood, skeletons, dismemberment, realistic weapons, frightening death wording, or adult branding in the kids build. Validate the entire hazard and reward catalog and both deployments before enabling the hostname.
 

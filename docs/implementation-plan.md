@@ -6,7 +6,7 @@ Owner authorized implementation of all open milestones, milestone-specific relea
 | --- | --- | --- |
 | 0.3.0 | Player controls and achievements: FR-017, FR-018, FR-019 | Released; physical controller QA pending |
 | 0.4.0 | Campaign audit and difficulty assessment: CR-001, CR-005; BUG-005 | Evidence/tools released; owner feedback pending |
-| 0.5.0 | Separate original/kids editions: FR-021, FR-022 | Pending |
+| 0.5.0 | Separate original/kids editions: FR-021, FR-022 | 0.5.0 build verified; kids DNS/HTTPS and child review pending |
 | 0.6.0 | Chapter boss encounters: FR-015 | Pending |
 | 1.0.0 | AI level authoring, model selection, budgets: FR-007, FR-008 | Pending |
 | 2.0.0 | Community identity, sharing, discovery: SPEC-004, FR-009, FR-010 | Pending |

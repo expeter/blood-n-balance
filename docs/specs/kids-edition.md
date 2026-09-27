@@ -1,6 +1,6 @@
 # Kids edition — nonviolent presentation, shared puzzles
 
-Status: specification for ages **10–12**; implementation and deployment are proposed (SPEC-009 / FR-022). Requested hostname: `kids-bnb.minizap.online`. The original Blood & Balance edition remains separate. This document does not claim the kids site is live or suitable based on a completed child playtest.
+Status: **Cloud & Clover**, ages **10–12**, build implemented in 0.5.0 (SPEC-009 / FR-022); public DNS/HTTPS and child review pending. Requested hostname: `kids-bnb.minizap.online`. The original Blood & Balance edition remains separate. This document does not claim the kids site is live or suitable based on a completed child playtest.
 
 ## Product direction
 
@@ -48,3 +48,7 @@ The reskin must not change obstacle footprints or make dangerous surfaces look s
 5. Deploy only the reviewed kids artifact; verify hostname, HTTPS, favicon, page metadata, storage isolation, update behavior, and independence from the original deployment.
 
 Implementation slices: edition configuration and manifest → complete presentation catalogs → effects/audio and hazard replacements → UI/editor/content audit → side-by-side parity tests → reviewed deployment. FR-021's bloodier original icon is independent and must never be included in the kids artifact.
+
+## 0.5.0 implementation evidence
+
+Build-time edition, separate renderer/effects/audio, centralized UI vocabulary boundary, isolated storage, edition-aware update manifests, and separate icons are implemented. 99-room geometry/rule parity and catalog wording checks pass. Browser checks cover start/retry, later owl rooms, and editor previews. GitHub Actions tests both builds and preserves the kids artifact. This is a first presentation version; physical playtesting with children and assessment of obstacle readability remain open. Kids rendering includes clouds, splash pads, flowers, foam bubbles, owls, rainbow beams, and a unicorn-themed explorer; no online community UI exists.

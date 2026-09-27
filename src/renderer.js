@@ -1,3 +1,5 @@
+import {IS_KIDS} from './edition.js';
+import {renderKidsGame} from './kids-renderer.js';
 import {drawAlarmLinks} from './alarms.js';
 import {drawSentries} from './sentries.js';
 import {drawTraps} from './traps.js';
@@ -9,6 +11,7 @@ import {W,H,TILE} from './levels.js';
 import {SKINS} from './cosmetics.js';
 const circuitColor=id=>['#ba7c24','#548eaa','#9066aa','#668d40','#b96150','#477d78','#a28939','#845c45'][id.charCodeAt(0)-65]||'#ba7c24';
 export function renderGame(g){
+  if(IS_KIDS)return renderKidsGame(g);
   if(!g.level)return;const c=g.ctx;
   const overview=g.mapOpen||(g.status==='ready'&&(g.worldW>W||g.worldH>H));
   const scale=overview?Math.min(W/g.worldW,H/g.worldH):1;

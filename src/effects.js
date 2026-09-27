@@ -1,5 +1,7 @@
+import {IS_KIDS} from './edition.js';
 // Physical debris and surface stains are intentionally independent of player collision.
 export function breakApart(game,cause,source) {
+  if(IS_KIDS){game.deathCause=cause;game.deathTime=0;game.shake=0;game.flash=0;game.blood=[];game.debris=[];game.stains=[];game.burst(game.player.x+8,game.player.y+12,'#85c7de',16);return;}
   const p=game.player,x=p.x+8,y=p.y+12;
   const saw=cause==='saw',away=source?Math.sign(x-(source.x+15))||p.face:-p.face;
   game.deathCause=cause;game.deathTime=0;game.shake=saw?14:10;game.flash=.16;
@@ -8,6 +10,7 @@ export function breakApart(game,cause,source) {
   game.splatter(x,y,saw?100:65,away);
 }
 export function splatter(game,x,y,count,direction=0) {
+  if(IS_KIDS)return;
   for(let i=0;i<count;i++) {
     const angle=Math.random()*Math.PI*2,speed=70+Math.random()*430;
     game.blood.push({x,y,vx:Math.cos(angle)*speed+direction*90,vy:Math.sin(angle)*speed-130,size:1+Math.random()*3,life:2+Math.random(),color:['#812d31','#ac3536','#bc4340','#542729'][i%4]});
