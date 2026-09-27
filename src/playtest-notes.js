@@ -1,0 +1,3 @@
+export const NOTES_KEY='blood-and-balance-playtest-notes-v1';
+export function loadNotes(storage){try{const raw=JSON.parse(storage.getItem(NOTES_KEY));return Array.isArray(raw)?raw.filter(n=>n&&Number.isInteger(n.stage)&&n.stage>=1&&n.stage<=99&&['easy','medium','hard','nightmare'].includes(n.difficulty)&&['easy','balanced','hard','confusing'].includes(n.rating)).map(n=>({...n,note:String(n.note??'').slice(0,1000)})).slice(-396):[];}catch{return [];}}
+export function saveNote(storage,notes,note){const next=notes.filter(n=>n.stage!==note.stage||n.difficulty!==note.difficulty);next.push({...note,note:String(note.note??'').slice(0,1000)});storage.setItem(NOTES_KEY,JSON.stringify(next));return next;}

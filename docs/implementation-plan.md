@@ -5,7 +5,7 @@ Owner authorized implementation of all open milestones, milestone-specific relea
 | Release | Milestone / tickets | State |
 | --- | --- | --- |
 | 0.3.0 | Player controls and achievements: FR-017, FR-018, FR-019 | Released; physical controller QA pending |
-| 0.4.0 | Campaign audit and difficulty assessment: CR-001, CR-005 | Pending |
+| 0.4.0 | Campaign audit and difficulty assessment: CR-001, CR-005; BUG-005 | Evidence/tools released; owner feedback pending |
 | 0.5.0 | Separate original/kids editions: FR-021, FR-022 | Pending |
 | 0.6.0 | Chapter boss encounters: FR-015 | Pending |
 | 1.0.0 | AI level authoring, model selection, budgets: FR-007, FR-008 | Pending |
@@ -18,6 +18,6 @@ Owner authorized implementation of all open milestones, milestone-specific relea
 
 - AI provider/model, credentials in server/local environment, and authorized spending allowance. Answered: OPENROUTER_KEY in .env; OpenRouter free NVIDIA Nemotron model; configurable total $1/day cap. No paid fallback without explicit configuration.
 - Answered: isolated API/database and kids hosting on vpsionos are authorized; preserve all existing services.
-- GitHub sign-in versus invite-only adult community launch. Owner confirmed: kids highscores only; no community browsing or lobbies. Adult access decision re-asked because the reply only addressed kids.
+- GitHub sign-in versus invite-only adult community launch. Owner confirmed: kids highscores only; no community browsing or lobbies. Adult access answered: invite-only accounts initially.
 
 No change to current adult production services until isolated replacements have passed validation. Physical controller compatibility and child playtesting cannot be fabricated; record unavailable manual checks explicitly. Offline campaign/editor must keep working without API access.

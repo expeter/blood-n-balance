@@ -2,6 +2,12 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [0.4.0] - 2026-09-27 — Milestone 0.4: campaign audit and review tools
+
+- **BUG-005** — Set Medium explicitly in replay tests and regenerate stage 66/69 routes with rebuilding crumble decks enabled. Verify actual collapse events; preserve campaign geometry and revisions.
+- **CR-005** — Add a reproducible 99-room audit, route diagrams, circuit activation order, timing/wall-kick metrics, and explicit alternate-route/difficulty uncertainty. Shorten ready cards with optional expanded route hints.
+- **CR-001** — Add local stage/difficulty review notes and explicit JSON export for calibration. Automated evidence is complete; subjective difficulty calibration and the remaining visual/player review stay open.
+
 ## [0.3.0] - 2026-09-27 — Milestone 0.3: controls and achievements
 
 - **FR-017** — Expand from 13 to 52 achievements, with visible progress, chapter/clean-chapter goals, difficulty clears, exploration, wall-jump mastery, close finishes, and successful helper combinations. Preserve earned IDs and migrate new counters safely.

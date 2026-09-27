@@ -16,7 +16,7 @@ Tickets are grouped by proposed milestones so we can agree on sequencing before 
 | FR-005 | FR | Completion-banked gold and first-time pickup bonus | Done |
 | FR-006 | FR | Projectile variants, hazard cues, crumble rules, and achievements | Done |
 | BUG-001 | BUG | App crashes when Vite version define is absent | Done |
-| CR-001 | CR | Calibrate campaign difficulty using representative playtests | Proposed |
+| CR-001 | CR | Calibrate campaign difficulty using representative playtests | Evidence/tools delivered; player calibration pending |
 
 The baseline supports offline single-player play. Level JSON schema validation does not prove playability; replay fixtures cover authored campaign routes but do not measure perceived difficulty. Details are in [the current game specification](specs/current-game.md) and [campaign design](campaign-design.md).
 
@@ -79,7 +79,8 @@ Verified: separate canvas rendering and saved preferences have regression covera
 | FR-020 | FR | Physics-based editor jump probe and campaign copy editing | Done |
 | BUG-004 | BUG | World text collides with terrain; latching switches look reversible | Done |
 | CR-004 | CR | Replace the overwhelming help wall with short basics and optional topics | Done |
-| CR-005 | CR | Audit campaign presentation and puzzle clarity in batches | Proposed |
+| CR-005 | CR | Audit campaign presentation and puzzle clarity in batches | Automated sweep delivered; subjective review pending |
+| BUG-005 | BUG | Replay harness omits Medium crumble respawn rules | Done |
 
 **FR-020 acceptance:** hover a takeoff surface with a jump tool; click/Enter to pin a character and left/right jump traces while placing obstacles. Select difficulty and standing/running takeoff; traces use the real movement/collision engine, stop on landing/hazard, and do not mutate the draft, gameplay, inventory, or saves. Clearly state fresh-level timing, held direction, no helpers, and no proof of full-route solvability. Invalid/unsupported positions explain why no jump is shown. Import a campaign stage as an editable copy with a draft backup. Keyboard and zoom coordinates must work.
 
@@ -162,3 +163,5 @@ Verified: separate canvas rendering and saved preferences have regression covera
 ## Previous ticket identifiers
 
 The first implementation register used area names such as `UX-001`, `GAME-001`, and `API-001`. Those tickets are consolidated into the version 0.1.0 baseline records above; links from old inbox captures remain valid. New work uses only the four ticket types defined here.
+
+Milestone 0.4 evidence: [campaign audit](audits/README.md) and [review findings](audits/review-findings.md). The release includes reproducible metrics, 99 route diagrams, fixed Medium fixtures, optional route guidance, and local review/export; it does not claim human calibration is finished.

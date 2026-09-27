@@ -4,7 +4,7 @@ All 99 stages are authored and playable, with a new mechanic introduced at each 
 
 ## Opening puzzle rooms — implemented (layout revision 3)
 
-The original small rooms have been replaced again. The first ten are now 48–64 columns by 24–36 rows (1,440–1,920 by 720–1,080 world pixels). The camera follows at the original tile/character scale. Hold **M**, or toggle the map button, to pause and survey the entire room. The minimap tracks the camera, switches, gates, and exit. Fullscreen expands the play area.
+The original small rooms have been replaced again. The first ten are now 48–64 columns by 24–36 rows (1,440–1,920 by 720–1,080 world pixels). The camera follows at the original tile/character scale. Press the configured map key (default **M**), or use the map button, to pause and survey the entire room. The minimap tracks the camera, switches, gates, and exit. Fullscreen expands the play area.
 
 Every room has an exit circuit: touch all of its required lettered switches to unlock the exit. Each switch also opens matching striped gates. Progress within a room resets on retry. The rooms include loops, revisited hubs, roof entries, shorter gated returns, and dangerous optional crossings.
 
