@@ -20,6 +20,8 @@ export function openStore(path=':memory:'){
  CREATE TABLE IF NOT EXISTS attempt_runs(attempt_id TEXT NOT NULL REFERENCES attempts(id),position INTEGER NOT NULL,level_hash TEXT NOT NULL,replay TEXT NOT NULL,ticks INTEGER NOT NULL,submitted INTEGER NOT NULL,PRIMARY KEY(attempt_id,position));
  CREATE TABLE IF NOT EXISTS score_guests(id TEXT PRIMARY KEY,token_hash TEXT UNIQUE NOT NULL,label TEXT NOT NULL,expires INTEGER NOT NULL);
  CREATE TABLE IF NOT EXISTS scores(id TEXT PRIMARY KEY,player_id TEXT NOT NULL,label TEXT NOT NULL,edition TEXT NOT NULL,stage INTEGER NOT NULL,revision INTEGER NOT NULL,ruleset TEXT NOT NULL,difficulty TEXT NOT NULL,assistance TEXT NOT NULL,ticks INTEGER NOT NULL,replays TEXT NOT NULL,created INTEGER NOT NULL,UNIQUE(player_id,edition,stage,revision,ruleset,difficulty,assistance));
+ CREATE TABLE IF NOT EXISTS lobbies(id TEXT PRIMARY KEY,host_id TEXT NOT NULL REFERENCES users(id),event_id TEXT NOT NULL REFERENCES competitions(id),name TEXT NOT NULL,state TEXT NOT NULL DEFAULT 'waiting',countdown INTEGER,created INTEGER NOT NULL);
+ CREATE TABLE IF NOT EXISTS lobby_members(lobby_id TEXT NOT NULL REFERENCES lobbies(id),user_id TEXT NOT NULL REFERENCES users(id),ready INTEGER NOT NULL DEFAULT 0,joined INTEGER NOT NULL,last_seen INTEGER NOT NULL,attempt_id TEXT REFERENCES attempts(id),forfeit INTEGER NOT NULL DEFAULT 0,PRIMARY KEY(lobby_id,user_id));
  CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT NOT NULL);
  `);return db;
 }

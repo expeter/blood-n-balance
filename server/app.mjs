@@ -13,7 +13,7 @@ export function createApp(db,config={}){
  const origin=req.headers.origin;if(origin&&!allowed.has(origin))fail(403,'Origin is not allowed.');if(origin){res.setHeader('Access-Control-Allow-Origin',origin);res.setHeader('Access-Control-Allow-Credentials','true');res.setHeader('Vary','Origin');}
  if(req.method==='OPTIONS'){res.setHeader('Access-Control-Allow-Methods','GET, POST, DELETE, OPTIONS');res.setHeader('Access-Control-Allow-Headers','Content-Type, X-BNB-Client');res.writeHead(204);res.end();return;}
  const path=new URL(req.url,'http://local').pathname,ip=config.trustProxy?String(req.headers['x-bnb-client-ip']||req.socket.remoteAddress):req.socket.remoteAddress;
- rate(ip,180);
+ rate(ip,600);
  if(req.method==='GET'&&path==='/health'){send(200,{service:'blood-and-balance',status:'ok',version:config.version||'development',gitHash:config.gitHash||'nogit'});return;}
  const kids=origin==='https://kids-bnb.minizap.online';
  if(req.method!=='GET'&&(!origin||req.headers['x-bnb-client']!=='1'))fail(403,'A trusted origin and client header are required.');

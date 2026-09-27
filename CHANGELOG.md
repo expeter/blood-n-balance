@@ -2,6 +2,12 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [4.0.0] - 2026-09-27 — Milestone 4: live lobby races
+
+- **FR-012 / SPEC-006** — Add invite-only 2–8 player rooms with readiness, a five-second shared countdown and server-created synchronized attempts. Reuse frozen event rules and verified results; show racer progress without player collisions.
+- Support reconnects on the original clock, host transfer, countdown cancellation, forfeits and room expiry. Keep live rooms separate from asynchronous event starts and keep kids community unavailable.
+- Verify lifecycle rules and a real two-browser race, including identical start timestamps and independently verified finishes.
+
 ## [3.0.0] - 2026-09-27 — Milestone 3: verified races and highscores
 
 - **FR-011 / SPEC-005** — Freeze timed sets and rules, resume attempts, verify ordered input replays in bounded server workers, and rank complete sets by authoritative elapsed time. Pauses, retries and disconnects keep the event clock running.

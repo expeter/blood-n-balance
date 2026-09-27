@@ -134,12 +134,12 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 **Acceptance direction:** entrants use identical level revisions, difficulty, and helper rules; ranks are split into compatible difficulty/assistance ladders; retries, pauses, and run completion are explicit; server-side results do not trust client time alone. Competition event windows use server time.
 
-## Milestone 4 — Live lobby races (proposed, after async events)
+## Milestone 4 — Live lobby races (4.0.0)
 
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
-| FR-012 | FR | Join a synchronized lobby race on a shared level set | Proposed |
-| SPEC-006 | SPEC | Lobby lifecycle, reconnects, latency, and race fairness | Proposed |
+| FR-012 | FR | Join a synchronized lobby race on a shared level set | Implemented in 4.0.0 |
+| SPEC-006 | SPEC | Lobby lifecycle, reconnects, latency, and race fairness | Implemented in 4.0.0 |
 
 **Acceptance direction:** ready/start state, late join, disconnect/reconnect, lobby host departure, and result authority are specified and tested. Other players cannot grief movement unless the mode explicitly says so. This milestone does not block asynchronous competitions.
 
