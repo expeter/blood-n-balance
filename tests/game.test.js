@@ -148,3 +148,19 @@ test('stage 97 supports eastern shutdown first, then a quiet central timed ascen
  for(const action of replay.actions){g.keys.clear();if(action.dir)g.keys.add(action.dir<0?'ArrowLeft':'ArrowRight');if(action.jump)g.jumpBuffer=.14;for(let f=0;f<action.frames&&g.status==='playing';f++){g.update(1/120);for(const id of g.visited)if(!order.includes(id))order.push(id);}}
  assert.equal(g.status,'won');assert.equal(g.usedItems,false);assert.deepEqual(order,['D','B','A','C']);assert.equal(g.activated.has('D'),false);assert.ok(g.activated.has('C'));assert.ok(g.exitUnlocked);
 });
+
+test('map cycle pauses only survey and remembers the small/hidden choice',()=>{
+ const g=harness(emptyLevel()),saved=[];g.cb.mapMode=value=>saved.push(value);
+ const time=g.remaining;
+ g.cycleMap();assert.equal(g.mapOpen,true);assert.equal(g.status,'paused');
+ g.update(.5);assert.equal(g.remaining,time);
+ g.cycleMap();assert.equal(g.mapOpen,false);assert.equal(g.minimapVisible,false);assert.equal(g.status,'playing');
+ g.update(.1);assert.ok(g.remaining<time);
+ g.cycleMap();assert.equal(g.minimapVisible,true);assert.equal(g.mapOpen,false);assert.equal(g.status,'playing');
+ assert.deepEqual(saved,[false,true]);
+ g.status='paused';g.cycleMap();g.cycleMap();assert.equal(g.status,'paused');
+ g.cycleMap();g.cycleMap();g.closeMap();assert.equal(g.status,'paused');assert.equal(g.minimapVisible,true);
+ g.load(emptyLevel());assert.equal(g.mapOpen,false);assert.equal(g.status,'ready');
+ g.cycleMap();g.cycleMap();assert.equal(g.status,'ready');
+ for(const status of ['dead','dying','won']){g.status=status;const visible=g.minimapVisible;g.cycleMap();assert.equal(g.status,status);assert.equal(g.minimapVisible,visible);}
+});

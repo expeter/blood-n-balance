@@ -48,6 +48,25 @@ Verified 2026-09-27: GitHub reports SPDX `MIT`; the production build's `LICENSE.
 
 Verified: separate canvas rendering and saved preferences have regression coverage. Chromium checked an exit placed under the former overlay, keyboard hide/show without jumping, survey pause/resume, persisted visibility, DPR 2, phone defaults, 320–1440px layouts, fullscreen, and the large final campaign room. The full campaign replay suite remains passing. Survey instructions also stay outside the playfield.
 
+## Milestone 0.3 — Focused play and player controls
+
+| ID | Type | Ticket | Status |
+| --- | --- | --- | --- |
+| CR-003 | CR | Fit the playfield to laptop screens and cycle compact/full/hidden maps | Done |
+| FR-017 | FR | Expand achievements across movement, mastery, exploration, and challenge runs | Proposed |
+| FR-018 | FR | Let players rebind gameplay keys | Proposed |
+| FR-019 | FR | Add controller input and controller-friendly menus | Proposed |
+
+**CR-003 acceptance:** prioritize the playfield over dashboard chrome; initial laptop view includes the full canvas and retry/pause controls without scrolling. Fold notes, loadout, and stage recommendations away. M and a labelled button cycle small map → paused full-room survey → no map → small map. Small map is translucent, top-right inside the playfield, and yields when the player or exit is beneath it. Remember small/hidden preference; never reload into a paused survey. Test 1366×768 and 1280×720 laptop viewports, narrower screens, fullscreen, and large rooms.
+
+**CR-003 verified in 0.2.2:** all 231 tests and the production build pass. Chromium checked full canvas/control visibility with zero initial scroll at 1366×768, 1280×720, 1440×900, 1024×600, 390×844, and 320×740; map cycle and paused time; saved hidden preference; player/exit occlusion; fullscreen; stage 99; and navigation to/from the editor.
+
+**FR-017 acceptance direction:** design at least 40 total distinct achievements with visible progress and clear criteria: wall-jump mastery, clean chapters, gold exploration, close-call escapes, hazard-specific challenges, speed targets, difficulty progression, and helper experiments. Include accessible early goals and demanding long-term goals, avoid rewarding idle grinding, retain earned IDs across updates, and separate assisted/unassisted conditions. Add any missing event counters before wiring unlocks; test each threshold and no duplicate awards. Existing saves must retain their achievements.
+
+**FR-018 acceptance direction:** Options → Controls supports movement, jump, retry, pause, map cycle, and all five helpers; allow alternate keys, show conflicts before replacement, provide reset defaults and cancel capture, persist locally, and update all hints. Typing in inputs must never move the player. Clear held input after remapping, blur, or modal changes; preserve simultaneous movement/jump and wall-jump behavior. Keep an accessible route back to settings even after remapping.
+
+**FR-019 acceptance direction:** use the browser Gamepad API with D-pad/left stick movement, configurable dead zone, jump, retry, pause, map cycle, and helpers. Poll before simulation; support connection/reconnection, clear held input and pause on disconnect, and avoid double-triggering actions. Provide button hints and menu focus navigation. Feature-detect gracefully; keyboard/touch remain available. Validate with at least an Xbox-style and PlayStation-style controller on supported browsers before claiming device support. Technical reference: https://www.w3.org/TR/gamepad/ . This feature is not implemented yet.
+
 ## Milestone 1 — AI-assisted level authoring and QA (proposed)
 
 | ID | Type | Ticket | Status |

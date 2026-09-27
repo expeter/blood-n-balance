@@ -28,7 +28,7 @@ export class Game {
     else window.addEventListener('resize',this.resizeCanvas);
     this.resizeCanvas();
     window.addEventListener('keydown',e=>this.handleKeyDown(e));
-    window.addEventListener('keyup',e=>{if(e.code==='KeyM')this.closeMap();this.input(e.code,false);});
+    window.addEventListener('keyup',e=>{this.input(e.code,false);});
     const suspend=()=>{this.keys.clear();if(this.mapOpen){this.mapPrior='paused';this.closeMap();}if(this.status==='playing')this.cb.pause();};
     window.addEventListener('blur',suspend);document.addEventListener('visibilitychange',()=>{if(document.hidden)suspend();});
     requestAnimationFrame(t=>this.frame(t));
@@ -66,13 +66,20 @@ export class Game {
     const codes=['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','Enter','KeyA','KeyD','KeyW','KeyR','KeyP','KeyM','Escape','Digit1','Digit2','Digit3','Digit4','Digit5'];
     if(!codes.includes(e.code))return;e.preventDefault();this.cb.gesture?.();if(e.repeat)return;
     if(e.code==='Enter'){if(this.status==='dead')this.cb.retry();else if(this.status==='dying')this.retryWhenDead=true;return;}
-    if(e.code==='KeyM'){this.openMap();return;}
+    if(e.code==='KeyM'){this.cycleMap();return;}
     if(e.code==='KeyR'){this.cb.retry();return;}
     if(e.code==='KeyP'||e.code==='Escape'){if(this.mapOpen)this.closeMap();else this.cb.pause();return;}
     if(e.code.startsWith('Digit')){this.cb.item(ITEMS[+e.code.slice(-1)-1]?.id);return;}
     this.input(e.code,true);
   }
   togglePause(){if(this.status==='playing'){this.status='paused';this.keys.clear();}else if(this.status==='paused')this.status='playing';return this.status;}
+  cycleMap(){
+    if(!['playing','paused','ready'].includes(this.status))return;
+    if(this.mapOpen){this.minimapVisible=false;this.closeMap();this.cb.mapMode?.(false);}
+    else if(this.minimapVisible===false){this.minimapVisible=true;this.cb.mapMode?.(true);}
+    else this.openMap();
+    this.render();
+  }
   openMap(){if(this.mapOpen||!['playing','paused','ready'].includes(this.status))return;this.mapPrior=this.status;this.status='paused';this.mapOpen=true;this.keys.clear();this.cb.map?.(true);}
   closeMap(){if(!this.mapOpen)return;this.mapOpen=false;this.status=this.mapPrior;this.keys.clear();this.cb.map?.(false);}
   activate(id){if(this.status!=='playing')return false;const item=ITEMS.find(i=>i.id===id);if(!item||this.effects[id]>0)return false;this.effects[id]=item.duration;this.usedItems=true;this.cb.sound('power');this.burst(this.player.x+8,this.player.y+12,item.color,16);return true;}
@@ -152,5 +159,5 @@ export class Game {
   moveHazards(){for(const h of this.hazards)if(h.type==='drone')h.x=h.baseX+Math.sin(this.clock*(this.level.droneSpeed||.8)+h.baseX)*47;}
   updateGhost(dt){const gh=this.ghost,point=gh.route[gh.target],dx=point.x-gh.x,dy=point.y-gh.y,distance=Math.hypot(dx,dy)||1,step=gh.speed*dt;if(distance<=step+4)gh.target=(gh.target+1)%gh.route.length;else{gh.x+=dx/distance*step;gh.y+=dy/distance*step;}if(Math.hypot(this.player.x+8-gh.x,this.player.y+13-gh.y)<23){this.die('ghost',gh);return true;}return false;}
   frame(t){const dt=Math.min((t-this.last)/1000||0,.04);this.last=t;if(this.level){for(let i=0;i<3;i++)this.update(dt/3);this.render();if(t-(this.lastHud||0)>100){this.cb.hud(this);this.lastHud=t;}}requestAnimationFrame(t=>this.frame(t));}
-  render(){renderGame(this);}
+  render(){renderGame(this);if(this.level)this.cb.presentation?.(this);}
 }

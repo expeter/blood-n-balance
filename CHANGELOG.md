@@ -2,6 +2,11 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [0.2.2] - 2026-09-27
+
+- **CR-003** — Prioritize the playfield: compact navigation and stage controls, viewport-fitted canvas, and folded stage notes/equipment/recommendations. Replace the header map dock with a translucent top-right overlay that yields to the player or exit. M and the map button cycle small map, paused full survey, and hidden; remember small/hidden preference.
+- **Planning only:** registered **FR-017** (expanded achievements), **FR-018** (custom keybindings), and **FR-019** (controller support) under Milestone 0.3. These features are not included in this release.
+
 ## [0.2.1] - 2026-09-27
 
 - **BUG-002** — Move the minimap out of the gameplay canvas into a collapsible dock in the top-right header, keeping exits and hazards visible. Remember visibility in this browser, start collapsed on phones, and open paused survey by clicking the map. Remove the survey's bottom overlay as well. Keep the map sharp on high-DPI displays and fit the controls at narrow widths and in fullscreen.

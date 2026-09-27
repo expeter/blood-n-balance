@@ -153,38 +153,67 @@
 .brand{font-size:12px;letter-spacing:1px;gap:9px}
 .brand small{letter-spacing:1px}
 
-/* The room map has its own header space; it never covers the playfield. */
-.stage-header{align-items:flex-start;flex-wrap:wrap;gap:12px}
-.stage-summary{flex:1 1 240px;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
-.stage-summary .stage-name{min-width:0;max-width:100%}
-.stage-summary .stage-name>div{min-width:0}
-.stage-summary .stage-tag{flex-shrink:0}
-.minimap-dock{flex:none;width:170px;max-width:100%;margin-left:auto;border:1px solid var(--line);border-radius:6px;overflow:hidden}
-.minimap-dock:not([open]){width:auto}
-.minimap-dock summary{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:7px 9px;cursor:pointer;list-style:none;font-size:12px;font-weight:600}
-.minimap-dock summary::-webkit-details-marker{display:none}
-.minimap-dock summary:focus-visible{outline:2px solid var(--lime);outline-offset:-2px}
-.minimap-dock summary span{font-weight:400;color:var(--muted)}
-.minimap-dock .minimap-hide,.minimap-dock[open] .minimap-show{display:none}
-.minimap-dock[open] .minimap-hide{display:inline}
-.minimap-survey{display:flex;flex-direction:column;gap:0;padding:0;width:100%;border-top:1px solid var(--line)}
-.minimap-survey canvas{display:block;width:100%;height:auto;aspect-ratio:168/90;background:#151b26}
-.minimap-survey>span{display:flex;align-items:center;justify-content:space-between;width:100%;padding:4px 8px;font-size:12px;color:var(--muted)}
-.minimap-survey kbd{font-size:12px}
-.game-column:fullscreen .game-shell{width:min(100%,calc((100dvh - 300px) * 1.7778))}
-.game-column:fullscreen .game-shell:has(.minimap-dock:not([open])){width:min(100%,calc((100dvh - 240px) * 1.7778))}
-@media(max-width:650px){
-  .play-layout{grid-template-columns:minmax(0,1fr)}
-  .game-column,.right-rail{min-width:0}
-  .right-rail{grid-template-columns:minmax(0,1fr)}
-  .stage-summary{flex-basis:140px;gap:12px}
-  .minimap-dock[open]{width:144px}
-  .game-footer{height:auto;min-height:40px;flex-wrap:wrap;gap:4px;padding:6px 10px}
-  .game-footer>span{max-width:100%;flex:1 1 120px}
-  .game-footer>div{margin-left:auto}
-  .objective-bar{flex-wrap:wrap}
+/* Play first: one compact status row, the room, and its controls. */
+body[data-view="play"] .campaign-heading{display:none}
+body[data-view="play"] main{padding:8px 12px 0;max-width:none}
+body[data-view="play"] .topbar{height:46px;min-height:46px;padding:0 12px}
+body[data-view="play"] .play-layout{display:block}
+body[data-view="play"] .game-column{min-width:0;display:flex;flex-direction:column;align-items:center}
+body[data-view="play"] .game-shell{max-width:100%;flex-shrink:0}
+.stage-header{padding:7px 12px;gap:8px}
+.stage-summary{width:100%;min-width:0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+.stage-name{min-width:0;gap:8px}
+.stage-name>div{min-width:0}
+.stage-name h2{margin:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stage-name .eyebrow{display:none}
+.stage-tag{width:28px;height:28px;flex-shrink:0;font-size:14px}
+.run-stats{gap:12px;flex-shrink:0}
+.run-stats>div{display:flex;gap:6px;align-items:baseline}
+.run-stats>div>span{margin:0;letter-spacing:0;font-size:12px}
+.run-stats b{font-size:17px}
+.objective-bar{min-height:29px;padding:3px 12px;letter-spacing:0;flex-wrap:wrap;gap:3px}
+#objective{flex-wrap:wrap;gap:4px}
+.circuit-chip{padding:0 4px}
+.game-footer{height:auto;min-height:36px;padding:3px 10px;gap:8px;flex-wrap:wrap}
+.game-footer>span{letter-spacing:0;max-width:none}
+.game-footer>div{gap:3px;margin-left:auto}
+#map-button{width:auto;padding:0 6px;gap:4px;font-size:12px}
+.minimap-dock{position:absolute;top:8px;right:8px;width:clamp(96px,16%,152px);pointer-events:none;opacity:.65;z-index:1;border:1px solid #adb4c955;border-radius:4px;overflow:hidden}
+.minimap-dock canvas{display:block;width:100%;height:auto;aspect-ratio:168/90}
+.minimap-dock.obscures-action{opacity:0}
+.play-extras{max-width:1100px;margin:10px auto;font-size:12px;color:var(--muted)}
+.play-extras>summary{cursor:pointer;padding:7px 0}
+.play-extras .right-rail{display:grid;grid-template-columns:2fr 1fr;margin-top:12px;gap:12px}
+.play-extras .keyboard-guide{padding:10px 0}
+.play-extras .below-heading{margin-top:18px}
+.play-extras .next-card{margin-top:0}
+body[data-view="play"] .game-column:fullscreen{background:var(--bg);height:100dvh;padding:12px;justify-content:flex-start;overflow:auto}
+body[data-view="play"] .game-column:fullscreen .game-shell{max-width:100%}
+@media(min-width:701px){
+ body[data-view="play"] .sidebar{width:64px;padding:12px 8px}
+ body[data-view="play"] .workspace{margin-left:64px}
+ body[data-view="play"] .sidebar .brand>span:not(.brand-mark),body[data-view="play"] .sidebar-label,body[data-view="play"] .sidebar-bottom,body[data-view="play"] .nav-button>span,body[data-view="play"] .mini-badge{display:none}
+ body[data-view="play"] .brand-mark{width:46px;text-align:center;font-size:23px}
+ body[data-view="play"] .brand-mark>span{font-size:23px}
+ body[data-view="play"] nav{margin-top:18px}
+ body[data-view="play"] .nav-button{justify-content:center;padding:0;width:46px;height:42px}
+ body[data-view="play"] .nav-button:hover::after,body[data-view="play"] .nav-button:focus-visible::after{content:attr(aria-label);position:absolute;left:60px;white-space:nowrap;background:var(--panel);border:1px solid var(--line);padding:8px;color:var(--lime);font-size:12px;z-index:6}
 }
-@media(max-width:380px){
-  .topbar{height:auto;min-height:62px;flex-wrap:wrap;gap:8px;padding:10px 14px}
-  #loadout-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:700px){
+ body[data-view="play"] .sidebar{width:100%;padding:5px 8px;gap:6px}
+ body[data-view="play"] .workspace{margin-left:0}
+ body[data-view="play"] .sidebar nav{margin-top:0}
+ body[data-view="play"] .sidebar .brand>span:not(.brand-mark){display:none}
+ body[data-view="play"] .topbar{padding:4px 8px;height:auto;flex-wrap:wrap;gap:5px}
+ body[data-view="play"] .breadcrumb{display:none}
+ body[data-view="play"] .top-actions{width:100%;justify-content:space-between;gap:6px}
+ body[data-view="play"] main{padding:6px 6px 0}
+ .stage-header{padding:5px 7px}.stage-summary{gap:6px}.stage-name h2{font-size:13px}
+ .run-stats{gap:7px}.run-stats>div>span{display:none}.run-stats b{font-size:15px}
+ #room-size{display:none}.game-footer>span{display:none}.game-footer>div{width:100%;justify-content:space-between}
+ .play-extras .right-rail{grid-template-columns:minmax(0,1fr)}
+ .touch-controls{width:100%;margin-top:6px;gap:6px}.touch-controls button{padding:9px}
+ #loadout-items{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
 }
+
+.play-extras>summary small{font-size:12px;float:right;margin-left:8px}

@@ -1,6 +1,6 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `0.2.1`.
+Status: implemented browser-game baseline, version `0.2.2`.
 
 ## Product
 
@@ -36,7 +36,7 @@ The shop sells time freeze, high jump, rocket boost, shield, and glider charges.
 - Per-level records distinguish difficulty, helper use, and layout revision. Score JSON can be exported; there is no network leaderboard yet.
 - Death causes, shop use, helper use, level starts, and gold collection are recorded locally.
 - Sound effects and synthesized music have independent mute controls and start muted.
-- Day/night themes, full-screen play, a collapsible minimap in the top-right header outside the playfield (remembered visibility; compact on phones; click for paused survey), pause-on-blur, version/hash display, and mobile controls are available.
+- Day/night themes, full-screen play, a translucent top-right minimap inside the playfield that yields to the player/exit (M cycles small → paused survey → hidden; small/hidden preference is remembered), pause-on-blur, version/hash display, and mobile controls are available.
 
 ## Editor and files
 
@@ -49,3 +49,13 @@ Automated unit/physics tests and deterministic no-item replays exercise all 99 a
 ## Runtime and deployment
 
 `npm run dev` serves the Vite development app on `0.0.0.0`; `npm run build` creates a static production bundle in `dist/`. Passing `main` builds are configured to publish the game on GitHub Pages at `bnb.minizap.online`; `api.bnb.minizap.online` is reserved on the VPS for the future API. See [deployment status and instructions](../deployment.md). No credentials belong in the repository.
+
+## Focused play layout (0.2.2)
+
+The play screen uses compact navigation, a single stage/time/gold row, circuit objectives, the canvas, and a control bar. The full playfield and retry/pause controls fit the available laptop viewport without scrolling; sizing measures actual chrome and preserves 16:9 and high-DPI rendering. Stage notes, equipment, achievement hints, and stage recommendations are folded below the game. Opening these optional details may scroll the page. The editor and records retain their separate layouts.
+
+M is a press-to-cycle action, not a held key. Small → full survey → hidden → small; only survey pauses the simulation, and leaving it restores the prior ready/playing/paused state. Key repeat does not advance the cycle. Escape closes survey safely; changing levels does not retain a survey pause. Small-map transparency and automatic occlusion avoidance preserve nearby player/exit visibility. Hiding the map does not change the camera or physics.
+
+### Requested controls and achievements (not implemented)
+
+Milestone 0.3 tracks FR-017 (at least 40 distinct achievements and progress), FR-018 (player-defined keyboard bindings), and FR-019 (controller movement/actions/menu navigation). The current release still uses fixed keyboard/touch controls and existing achievements. See the [ticket register](../tickets.md) for acceptance criteria. Controller support is technically feasible through the [Gamepad API](https://www.w3.org/TR/gamepad/); physical-device testing is required before claiming support.

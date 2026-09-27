@@ -1,6 +1,6 @@
 import {W,H,TILE} from './levels.js';
 
-// This canvas lives in the header, never in the gameplay rendering surface.
+// The compact overlay has its own high-DPI canvas and never changes gameplay.
 export function renderMinimap(g,canvas){
   if(!g.level)return;
   const rect=canvas.getBoundingClientRect();
@@ -10,7 +10,7 @@ export function renderMinimap(g,canvas){
   if(canvas.width!==pixelWidth||canvas.height!==pixelHeight){canvas.width=pixelWidth;canvas.height=pixelHeight;}
   const c=canvas.getContext('2d');
   c.setTransform(pixelWidth/width,0,0,pixelHeight/height,0,0);
-  c.clearRect(0,0,width,height);c.fillStyle='#151b26';c.fillRect(0,0,width,height);
+  c.clearRect(0,0,width,height);c.fillStyle='#151b2699';c.fillRect(0,0,width,height);
   const scale=Math.min((width-12)/g.worldW,(height-12)/g.worldH);
   c.save();c.translate((width-g.worldW*scale)/2,(height-g.worldH*scale)/2);c.scale(scale,scale);
   c.fillStyle='#859174';for(const s of g.solids)c.fillRect(s.x,s.y,s.w,s.h);
