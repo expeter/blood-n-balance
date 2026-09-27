@@ -38,6 +38,16 @@ Verified 2026-09-27: GitHub reports SPDX `MIT`; the production build's `LICENSE.
 
 **FR-015 acceptance direction:** place a distinct boss encounter at stages 10, 20, 30, 40, 50, 60, 70, 80, 90, and a final encounter at 99. Support more than one interaction style, including stomping a boss's head and activating arena controls that expose a shot/window. Telegraph attacks and vulnerable states; make patterns deterministic and learnable; provide safe retry; do not require purchased items; preserve ordinary platforming controls and accessibility settings. Each boss should test the chapter's learned movement/hazard skills. Bosses, story scenes, and Sutra-fragment reveals are backlog scope, not delivered by the branding update.
 
+## Version 0.2.1 — Playfield visibility
+
+| ID | Type | Ticket | Status |
+| --- | --- | --- | --- |
+| BUG-002 | BUG | Minimap covers exits and hazards in the bottom-right playfield | Done |
+
+**Acceptance:** move the minimap to its own collapsible area in the top-right game header, outside the gameplay canvas. Show player, exit, objectives, and camera position; clicking the map opens paused survey. Remember visibility in this browser, start compact on phones, and retain survey access while collapsed. Verify normal, narrow, and fullscreen layouts and existing campaign replays.
+
+Verified: separate canvas rendering and saved preferences have regression coverage. Chromium checked an exit placed under the former overlay, keyboard hide/show without jumping, survey pause/resume, persisted visibility, DPR 2, phone defaults, 320–1440px layouts, fullscreen, and the large final campaign room. The full campaign replay suite remains passing. Survey instructions also stay outside the playfield.
+
 ## Milestone 1 — AI-assisted level authoring and QA (proposed)
 
 | ID | Type | Ticket | Status |

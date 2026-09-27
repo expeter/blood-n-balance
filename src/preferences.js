@@ -1,4 +1,13 @@
 export const THEME_KEY='n-momentum-theme';
+export const MINIMAP_KEY='blood-and-balance-minimap';
+
+export function loadMinimapVisible(storage,fallback=true){
+  try{const value=storage.getItem(MINIMAP_KEY);return value==='show'?true:value==='hide'?false:fallback;}catch{return fallback;}
+}
+
+export function saveMinimapVisible(storage,visible){
+  try{storage.setItem(MINIMAP_KEY,visible?'show':'hide');}catch{}
+}
 
 export function loadTheme(storage){
   try{return storage.getItem(THEME_KEY)==='light'?'light':'dark';}catch{return 'dark';}

@@ -2,6 +2,10 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [0.2.1] - 2026-09-27
+
+- **BUG-002** — Move the minimap out of the gameplay canvas into a collapsible dock in the top-right header, keeping exits and hazards visible. Remember visibility in this browser, start collapsed on phones, and open paused survey by clicking the map. Remove the survey's bottom overlay as well. Keep the map sharp on high-DPI displays and fit the controls at narrow widths and in fullscreen.
+
 ## [0.2.0] - 2026-09-25
 
 Licensing and publication update 2026-09-27:

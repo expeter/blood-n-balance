@@ -1,6 +1,6 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `0.2.0`.
+Status: implemented browser-game baseline, version `0.2.1`.
 
 ## Product
 
@@ -36,7 +36,7 @@ The shop sells time freeze, high jump, rocket boost, shield, and glider charges.
 - Per-level records distinguish difficulty, helper use, and layout revision. Score JSON can be exported; there is no network leaderboard yet.
 - Death causes, shop use, helper use, level starts, and gold collection are recorded locally.
 - Sound effects and synthesized music have independent mute controls and start muted.
-- Day/night themes, full-screen play, a minimap/survey, pause-on-blur, version/hash display, and mobile controls are available.
+- Day/night themes, full-screen play, a collapsible minimap in the top-right header outside the playfield (remembered visibility; compact on phones; click for paused survey), pause-on-blur, version/hash display, and mobile controls are available.
 
 ## Editor and files
 
