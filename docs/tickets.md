@@ -2,7 +2,7 @@
 
 Use only four ticket types: `BUG` for incorrect behavior, `SPEC` for a decision or durable product/technical contract, `FR` for user-visible capability, and `CR` for a requested change to existing behavior or scope. Feature areas can be tags in the description, not ticket types. IDs are stable and never reused.
 
-Tickets are grouped by proposed milestones so we can agree on sequencing before implementation. “Done” means present in this repository and checked; “Proposed” means not implemented. Completed items in version 0.1.0 are historical records, not a promise that their behavior can never change.
+Tickets are grouped by versioned milestones. The owner authorized implementation of all milestones on 2026-09-27. “Done” means present in this repository and checked; “Proposed” means not implemented. Completed items in version 0.1.0 are historical records, not a promise that their behavior can never change.
 
 ## Milestone 0 — Browser game baseline (version 0.1.0)
 
@@ -92,7 +92,7 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 **CR-005 acceptance direction:** inspect batches of 10 stages for readable labels, clear switch roles, redundant or misleading hints, safe recovery, and route quality. Record intended solution and an alternate route, difficulty-specific concerns, and a screenshot per issue. Automated replays establish reachability only; keep subjective review separate. Fix confirmed shared rendering problems once; do not regenerate all 99 stages or claim they have all been playtested. First reported examples: stage 6 decorative text and stage 8 switch presentation (BUG-004).
 
-## Milestone 0.5 — Separate presentation editions (proposed)
+## Milestone 0.5 — Separate presentation editions (0.5.0)
 
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
@@ -104,7 +104,7 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 **FR-022 acceptance direction:** use the edition contract in [kids edition](specs/kids-edition.md). Shared level IDs/geometry/physics with separate child-friendly art, effects, text, sounds, metadata, storage, and deployment. No blood, skeletons, dismemberment, realistic weapons, frightening death wording, or adult branding in the kids build. Validate the entire hazard and reward catalog and both deployments before enabling the hostname.
 
-## Milestone 1 — AI-assisted level authoring and QA (proposed)
+## Milestone 1 — AI-assisted level authoring and QA (1.0.0)
 
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
@@ -115,7 +115,7 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 **Acceptance direction:** generation returns existing-schema JSON and a change summary; the user can preview/edit/test/export; generation has bounded retries and visible estimated/actual usage; local validation remains free; AI never self-certifies or controls the player. Route QA checks mandatory objectives and a route back to the exit using conservative movement/state checks, reporting pass/fail/unverified. AI outage does not block ordinary editor use.
 
-## Milestone 2 — Public level sets and discovery (proposed)
+## Milestone 2 — Invited level sets and discovery (2.0.0)
 
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
@@ -125,7 +125,7 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 **Acceptance direction:** published levels pass server-side schema/security checks; revisions remain reproducible; authorship and game/schema version are shown; rate limits and abuse/report controls exist; offline campaign and local export continue to work without the API.
 
-## Milestone 3 — Async timed competitions (proposed)
+## Milestone 3 — Async timed competitions (3.0.0)
 
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
@@ -143,12 +143,12 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 **Acceptance direction:** ready/start state, late join, disconnect/reconnect, lobby host departure, and result authority are specified and tested. Other players cannot grief movement unless the mode explicitly says so. This milestone does not block asynchronous competitions.
 
-## Milestone 5 — Seeded endless run (proposed)
+## Milestone 5 — Seeded endless run (5.0.0)
 
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
-| FR-013 | FR | Stream a reproducible endless sequence of validated level chunks | Proposed |
-| SPEC-007 | SPEC | Chunk grammar, seam safety, difficulty pacing, and replay identity | Proposed |
+| FR-013 | FR | Stream a reproducible endless sequence of validated level chunks | Implemented in 5.0.0; local curated grammar |
+| SPEC-007 | SPEC | Chunk grammar, seam safety, difficulty pacing, and replay identity | Implemented in 5.0.0; human pacing review open |
 
 **Acceptance direction:** chunks are prepared ahead of the player and never alter occupied/upcoming geometry; connectors and routes pass deterministic checks; a fixed seed and generator/rules version reproduce the run; failed chunks are replaced without stopping play; local bests work before ranked online play.
 

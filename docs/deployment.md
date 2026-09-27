@@ -1,56 +1,45 @@
 # Hosting and automatic publication
 
-Tracked by FR-016. The source repository is `git@github.com:expeter/blood-n-balance.git`; the publishing branch is `main`.
+Source: `git@github.com:expeter/blood-n-balance.git`, branch `main`. Public MIT repository, copyright 2026 Peter Schulz (expeter). Production artifacts include `LICENSE.txt`; package `private: true` only prevents accidental npm publication.
 
-## Hostnames
-
-| Hostname | Host | DNS |
+| Hostname | Service | DNS |
 | --- | --- | --- |
-| `bnb.minizap.online` | GitHub Pages, static game | CNAME to `expeter.github.io` |
-| `api.bnb.minizap.online` | Caddy on `vpsionos` | A to `212.227.21.239` |
+| `bnb.minizap.online` | Adult static game, GitHub Pages | CNAME `expeter.github.io` |
+| `kids-bnb.minizap.online` | Isolated Cloud & Clover static site, VPS Caddy | A `212.227.21.239` |
+| `api.bnb.minizap.online` | Isolated API, VPS Caddy → loopback 3002 | A `212.227.21.239` |
 
-The game hostname must not retain an A/AAAA record pointing to the VPS alongside its CNAME. The API hostname stays independent. The owner made the repository public on 2026-09-27 and enabled Pages. The source is MIT licensed with attribution to Peter Schulz (expeter); production artifacts include `LICENSE.txt`. The npm package remains `private: true` to prevent accidental registry publication; this does not affect GitHub visibility or the license. GitHub's [custom domain instructions](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site) describe the DNS and HTTPS settings.
+All three hostnames have verified HTTPS. Kids does not have community/lobby access. The API is live; the earlier `503 not_deployed` reservation is historical and has been replaced.
 
-## GitHub Actions
+## Release pipeline
 
-[pages.yml](../.github/workflows/pages.yml) runs on `main` pushes, pull requests targeting `main`, and manual dispatches. Its build job uses Node 24 and runs `npm ci`, `npm test`, and `npm run build`. It checks that `dist/version.json` matches `package.json` and the workflow commit. Only a successful main-branch build uploads the `dist/` artifact and starts the Pages deployment job. Pull requests cannot publish. Deployments use the `github-pages` environment and are serialized.
+[pages.yml](../.github/workflows/pages.yml) tests with Node 24, builds both editions and checks their identity before publishing a passing main revision. Pull requests only test/build. Milestones have distinct versions, commits, tags and [changelog](../CHANGELOG.md) entries. Ordinary main pushes also publish their commit hash. `/version.json` and API `/health` identify the release; the game offers an update when the version/hash changes. Existing browser careers stay local.
 
-Vite embeds the package version and twelve-character Git hash into the app and `/version.json`. No tag or version bump is required for a new main commit to publish. The running game detects a changed hash for the same version using its existing update notice. The custom domain uses Vite's root base path. If the hostname changes, review root-relative assets and the update-manifest path together.
+Pages uses GitHub's automatic token. VPS publication uses encrypted secret `BNB_DEPLOY_KEY` and the pinned SSH host key in `deploy/known_hosts`. The `bnb-deploy` account accepts only a forced bounded archive command with a 40-character commit ID. It rejects unsafe paths/links, verifies artifact edition/version/hash, switches the API/kids release symlinks and may restart only `bnb-api.service`. Failed API health restores the preceding release links. Repeated publication of an existing commit is rejected. Caddy/system Node/unrelated services are outside this account's write scope.
 
-Enable **Settings → Pages → Source: GitHub Actions**, set the custom domain to `bnb.minizap.online`, and enable **Enforce HTTPS** once GitHub's certificate is ready. The [Pages workflow documentation](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) explains the required `pages: write` and `id-token: write` permissions. The workflow uses GitHub's automatic token; it needs no personal access token secret.
+Runtime locations:
 
-The local `.env` is ignored and is not an artifact. A local fine-grained PAT used to bootstrap this repository needs Contents/Workflows write for pushing the workflow and Pages/Administration write to configure Pages. It must never be placed in a remote URL, workflow file, or Vite-prefixed environment variable. The SSH remote is retained even when a one-time authenticated HTTPS transport is used for a push.
+- `/srv/blood-and-balance/api/current` → `api/releases/<full commit>`.
+- `/srv/blood-and-balance/kids/current` → `kids/releases/<full commit>`.
+- Checksum-verified Node 24.21.0 under `/srv/blood-and-balance/runtime/`; system Node 20.19.2 is unchanged.
+- SQLite `/var/lib/blood-and-balance/bnb.sqlite`; root-only environment `/etc/blood-and-balance/api.env`.
+- API user/service `bnb-api`, only `127.0.0.1:3002`, filesystem restrictions, 256MB memory limit and 50% CPU quota.
 
-## VPS API reservation
+No `.env`, PAT, provider key, invitation or private SSH key enters Git or artifacts. Never use `VITE_` variables for secrets. Configure free-model allowlist/budgets in the API environment; restart only the game service after validated changes. Current AI policy is free Nemotron, $1/day total ceiling, no paid fallback, 100 total/10 per-user daily generation requests.
 
-The game API is not implemented yet. [blood-and-balance.caddy](../deploy/caddy/blood-and-balance.caddy) reserves only `api.bnb.minizap.online`, with automatic HTTPS and a deliberate HTTP 503 JSON response declaring `not_deployed`. Do not treat it as a working score or level API.
+## Owner and invited access
 
-The snippet was appended to `/etc/caddy/Caddyfile` on 2026-09-26. Before the change, disk and live Caddy configuration matched. The candidate passed `caddy validate`; deployment used a graceful `systemctl reload caddy`. All existing service PIDs/states and HTTP response codes were unchanged afterwards. Backup: `/etc/caddy/Caddyfile.before-bnb-20260926T092700Z`.
+A one-use, seven-day owner invitation is saved locally in ignored `var/owner-invite.txt` (mode 0600), also `/var/lib/blood-and-balance/owner-invite.txt` on the VPS. Open the adult Community or editor AI workshop, choose a name/password and select Create invited account. Do not paste the token into tickets or public URLs. This invitation was not consumed by deployment tests.
 
-Existing loopback services occupy ports 3000, 3001, 8787, 8798, and 8799; they belong to other applications. A future dedicated game API could use `127.0.0.1:3002` after rechecking availability. Implement and test that service independently, then replace only this hostname's placeholder with its reverse proxy. Allow browser requests from `https://bnb.minizap.online` in that API's CORS policy. No game API process or database is deployed by the Pages workflow.
+For replacement/bootstrap, run the isolated Node binary with `server/admin.mjs invite NEW_PRIVATE_PATH admin` as the API user, with `BNB_DB` pointing at production. Existing owner accounts can issue member invitations. `disable-user NAME` immediately invalidates access. Generated drafts stay private until explicitly published; kids scores use preset names and no account/community UI.
 
-Use `ssh -F ~/.ssh/config vpsionos` in this environment; its system SSH include currently has invalid owner/permissions. Before future Caddy edits: inspect disk/live config, record health, make a dated backup, validate a separate candidate, gracefully reload, and compare the existing services. Never overwrite the whole shared Caddyfile with the single-site snippet. For rollback, remove only the added site or restore a backup after verifying that no later unrelated edits would be lost.
+## Backups and recovery
 
-## Verification and rollback
+`bnb-backup.timer` schedules a consistent SQLite online backup daily at 03:15 UTC plus up to five minutes jitter. Files are mode 0600, latest 14 retained under `/var/lib/blood-and-balance/backups/`. The initial production backup completed successfully. `server/admin.mjs backup NEW_PATH` creates a manual online backup before migration. These copies remain on the VPS; no off-host destination is configured.
 
-After a main push, check the **Test and deploy game** run, open the game, and compare `/version.json` with the deployed commit. Verify a generated asset loads and the version/update UI is present. If a deployment fails, the previous Pages deployment remains available. To roll back game code, revert the offending commit on main and let the same tests/build/deploy workflow run; do not force-push history.
+Restore: stop only `bnb-api.service`, preserve existing DB/WAL/SHM in a dated recovery directory, install a verified backup as `bnb.sqlite`, correct API-user ownership, restart and validate users/content/health. For code rollback, revert the offending commit on main and let the normal pipeline deploy; never force-push release history. Database migrations are additive in these releases; review compatibility before any future destructive migration.
 
-Provisioning completed 2026-09-27: Pages is enabled at `https://bnb.minizap.online` and main deployments pass. All four authoritative nameservers return `bnb.minizap.online CNAME expeter.github.io` (TTL 60). The public HTTPS hostname serves the game HTML, generated JS/CSS/favicon, MIT notice attributed to Peter Schulz (expeter), and a version manifest matching the deployed main commit. GitHub detects SPDX `MIT`. The custom-domain certificate is approved, Pages reports `https_enforced: true`, and HTTP redirects to HTTPS. The separate VPS API reservation also has valid HTTPS and continues returning the intentional `503 not_deployed` response. FR-016 is complete; implementing the actual API remains future work. The local PAT cannot manage Pages settings; any future domain/settings change needs owner action or Pages/Administration write permissions.
+## Shared VPS preservation and checks
 
-## Kids edition staging (0.5.0)
+Use `ssh -F /home/dev/.ssh/config vpsionos` in this environment. Other application listeners are 3000/3001/8787/8798/8799 and must not be changed. Only game port 3002 was added. Caddy stayed PID 9120 through validated graceful reloads. Backups include `/etc/caddy/Caddyfile.before-kids-20260927T221221Z` and `/etc/caddy/Caddyfile.before-api-20260927T223909Z`.
 
-The verified Cloud & Clover artifact is installed at `/srv/blood-and-balance/kids/releases/4b1a43d`, with `current` pointing to it. A separate `kids-bnb.minizap.online` Caddy site was appended and validated; graceful reload preserved Caddy PID 9120 and all existing listening ports. Backup: `/etc/caddy/Caddyfile.before-kids-20260927T221221Z`. Public DNS currently points to Pages, so DNS/HTTPS validation is pending owner correction to A 212.227.21.239. CI preserves the tested `kids-site` artifact separately; automatic VPS publication is not yet configured.
-
-## Isolated API and automatic VPS publishing (1.0.0)
-
-`bnb-api.service` runs as `bnb-api`, bound only to `127.0.0.1:3002`, with SQLite at `/var/lib/blood-and-balance/bnb.sqlite`. Its root-only environment file is `/etc/blood-and-balance/api.env`; only the OpenRouter credential and game configuration were copied there. A checksum-verified Node 24.21.0 binary lives under `/srv/blood-and-balance/runtime/`; system Node remains 20.19.2. The service has filesystem restrictions, a 256MB memory limit, and 50% CPU quota. Never put credentials in `VITE_` variables.
-
-After passing tests and both builds, GitHub Actions packages `server/`, `src/`, package metadata, license, and the kids artifact. `deploy-vps` uses the encrypted `BNB_DEPLOY_KEY` repository secret and pinned host key in `deploy/known_hosts`. Its `bnb-deploy` account has a forced command: accept only a bounded archive for a 40-character commit ID, reject unsafe paths/links, check edition/version/hash, atomically switch only the API/kids release links, and restart only `bnb-api.service`. It restores prior links if the new API health check fails. Existing VPS apps, Caddy, and system Node are outside that account's deployment scope. Source releases remain available for rollback; repeated publication of the same commit is rejected.
-
-Owner bootstrap: run `node server/admin.mjs invite /var/lib/blood-and-balance/owner-invite.txt admin` as the API user with `BNB_DB` pointing at the production database. The token is written mode 0600, never logged, expires in seven days, and is single-use. Use it in the adult editor's online workshop to choose your own account name/password. Existing owner accounts can issue member invitations; CLI `disable-user NAME` immediately invalidates access. Never commit invite files or database backups.
-
-The kids hostname now serves its own valid HTTPS certificate and edition manifest. Child playtesting remains pending. Caddy's original PID remained 9120 after the host addition and certificate retry.
-
-Verified 1.0.0: GitHub run 36355952117 passed tests, Pages, and isolated VPS deployment. Adult, kids, and API health report version 1.0.0 / `cbb72898fc90`. Caddy's API placeholder was replaced only after the loopback service was healthy; candidate validated and gracefully reloaded. Backup `/etc/caddy/Caddyfile.before-api-20260927T223909Z`. Existing listeners 3000/3001/8787/8798/8799 and Caddy PID 9120 remained unchanged; only game port 3002 was added. Owner invitation is also saved locally in ignored `var/owner-invite.txt`, mode 0600.
-
-Database backups use Node's SQLite online backup API, not copies of a live WAL file. `bnb-backup.timer` schedules a daily owner-only backup; `server/admin.mjs backup NEW_PATH` supports an explicit backup before migration. Restore by stopping only `bnb-api.service`, preserving the current DB/WAL/SHM files in a dated recovery directory, installing a verified backup as `bnb.sqlite`, fixing API-user ownership, and starting only this service. Validate users/content/health before resuming writes. Backups remain on the same VPS; an off-host backup destination has not been configured.
+Before any future Caddy edit, compare disk/live config, record health, back up, validate a candidate, gracefully reload and compare services. Never replace the shared Caddyfile with a single-site snippet. After each publication check Actions, all three version identities, assets, HTTPS and unrelated service health. Kids child playtesting and physical controller testing remain manual release follow-ups, not claimed as completed deployment checks.

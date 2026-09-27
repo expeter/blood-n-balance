@@ -2,6 +2,13 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [5.0.0] - 2026-09-27 — Milestone 5: seeded endless pursuit
+
+- **FR-013 / SPEC-007** — Stream deterministic curated chunks ahead of the runner, with safe seams, expanding motif variety, breather stretches and continuously pursuing fire. Kids uses a sleepy cloud front with gentle failure presentation.
+- Add seed/difficulty/helper selection, same-seed Enter retry and bounded local bests split by generator/physics/difficulty/assistance. Keep campaign currency and achievements independent; no provider requests occur during play.
+- Bound retained terrain/collision/coin data and drawing work. Verify each motif on three difficulties, 1,000 seam checks, 50-chunk continuous physics runs and browser movement/pause/result/retry for both editions.
+- Fix closing-menu input clearing so a newly started run retains its first movement key. Refresh the current specs, ticket ledger and operations guide to describe the shipped online modes. Human balance, child playtesting and physical-controller checks remain open.
+
 ## [4.0.0] - 2026-09-27 — Milestone 4: live lobby races
 
 - **FR-012 / SPEC-006** — Add invite-only 2–8 player rooms with readiness, a five-second shared countdown and server-created synchronized attempts. Reuse frozen event rules and verified results; show racer progress without player collisions.

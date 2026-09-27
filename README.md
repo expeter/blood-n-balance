@@ -15,7 +15,7 @@ The game is published from passing `main` builds to `bnb.minizap.online`. See [d
 
 `npm run build` creates a static site in `dist/`. Serve it over HTTP from any static host. `npm test` runs progression, economy, level format, and physics tests, including hazard-active, item-free input replays through all 99 authored rooms. The developer tool `node scripts/solve-opening.mjs` can regenerate those fixtures by searching the actual physics along intended routes; optional zero-based stage indices limit its scope. `node scripts/solve-pulse.mjs` generates stages 11–20 and `node scripts/solve-crossfire.mjs` generates stages 21–30. `node scripts/solve-undertow.mjs` generates stages 31–40, including recorded waits and rides. `node scripts/solve-relay.mjs` generates stages 41–50 and records lever reversals. `node scripts/solve-timed.mjs` generates stages 51–60; `node scripts/solve-timed-recovery.mjs` records successful recovery runs after deliberately letting every timer expire in stages 56, 59, and 60. `node scripts/solve-unstable.mjs` generates stages 61–70, including deliberate floor-collapse waits. `node scripts/solve-tripwire.mjs` generates stages 71–80; `node scripts/solve-tripwire-alternate.mjs` verifies the opposite branch order in stage 79. `node scripts/solve-pursuit.mjs` generates stages 81–90; `node scripts/solve-pursuit-alternate.mjs` verifies both branch orders in stage 89. `node scripts/solve-finale.mjs` generates stages 91–99; `node scripts/solve-finale-alternate.mjs` verifies the opposite shutdown order in stage 97.
 
-## Current version 4.0.0
+## Current version 5.0.0
 
 The current feature set and editor behavior are described in the [current game specification](docs/specs/current-game.md). Proposed AI and community modes are documented separately in [community and AI-assisted modes](docs/specs/community-and-ai-modes.md) and the [AI level design and QA specification](docs/specs/ai-level-qa.md). The [ticket register](docs/tickets.md) groups implementation work into provisional milestones; we will agree on milestone sequencing before starting those features. User-visible changes are recorded in the [changelog](CHANGELOG.md).
 
@@ -26,14 +26,22 @@ The current feature set and editor behavior are described in the [current game s
 - Spikes and rotating saws cause a 1.6-second physical death sequence: separated skull, ribcage, limbs, blood spray, terrain stains, and bouncing debris that saws can hit again. R retries immediately. Reduced-motion preferences suppress shake and flash.
 - Existing unlocks, currency, and achievements survive this update. First-ten scores from previous layouts are labelled separately; replays create layout-revision-3 records. Stages 11–99 use revision 2.
 - Gold is banked on completion; replays earn gold. Start with 40 gold. Buy single-use time freeze, high jump, rocket boost, shield, and glider charges. Consumed items stay consumed after death/restart. Free custom tests do not affect campaign gold, scores, or achievements.
-- Seven achievements, including completing every stage without items, now have their own destination; per-stage best runs and score export live in a separate Best runs destination.
+- 52 achievements, including completing every stage without items, have their own destination; per-stage best runs and score export live in a separate Best runs destination.
 - Independent synthesized sound/music controls, initially muted. No audio downloads.
 - Browser-local named careers, inventory, settings, scores, and editor draft. Existing `n-momentum-v1` saves migrate into the default Player career; each new career has independent unlocks, gold, achievements, inventory, last stage, and difficulty. Choose Easy, Medium, or Hard in Options: Medium preserves authored timing, Easy slows world hazards and adds a small jump-height cushion, and Hard speeds world hazards and shots. Each best run records its difficulty. The global Day/Night theme saves separately. Clearing browser data removes progress. Unavailable storage falls back to session-only play.
 - Level editor: a left tool shelf and contextual inspector keep the canvas visible while painting platforms, spikes, saws, gold, start/exit, and lettered switches, reversible levers, timed switches, and gates, pulsing lasers, turrets, and moving decks; resize rooms, zoom, free test runs, and validated JSON import/export. Arrow keys and Enter also paint. Place a switch before its linked gate. New switches are added to the exit requirements; removing a switch removes every gate that requires it, removes its exit rule, and clears its device shutdown links. Imported rectangular gates are erased as whole objects. New level downloads a backup of your current draft. A new import replaces the current draft; export it first if you wish to keep it.
-- JSON score export for sharing personal bests offline. No scores are sent to a server.
-- Keyboard and touch controls; automatic pause on tab/window blur.
+- JSON score export stays offline. Explicit sharing submits input replays for verified online scores; no career is uploaded automatically.
+- Rebindable keyboard, touch and standard gamepad controls; automatic pause on tab/window blur. Physical controller testing remains open.
 
 Move: arrows or A/D. Jump/wall jump: Space, W, or Up. Retry: R. Pause: P/Escape. Map: press M or the map button to cycle small → paused survey → hidden. Items: 1–5 or click the loadout.
+
+## Released modes
+
+The [implementation ledger](docs/implementation-plan.md) and [changelog](CHANGELOG.md) track separate milestone versions. Adults have optional invited AI creation, immutable community levels/sets, votes/bookmarks/reports, verified campaign scores, asynchronous competitions and live 2–8 player races. Endless mode streams seeded local motifs with a pursuing fire front and local bests. All offline modes remain playable without the API.
+
+The separate [Cloud & Clover kids site](https://kids-bnb.minizap.online) shares campaign rules/layouts with nonviolent art and audio. Its online feature is highscores only; it has no community/lobbies. Endless uses a sleepy cloud front.
+
+Owner setup, invitation and deployment details: [operations](docs/deployment.md). Generated routes and community difficulty still need human review. Valid input replays prove simulated outcomes, not human input or absence of tool assistance.
 
 ## Level file format
 

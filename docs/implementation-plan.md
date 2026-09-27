@@ -12,7 +12,7 @@ Owner authorized implementation of all open milestones, milestone-specific relea
 | 2.0.0 | Community identity, sharing, discovery: SPEC-004, FR-009, FR-010 | Implemented in 2.0.0; invite-only launch |
 | 3.0.0 | Asynchronous competitions: FR-011, SPEC-005 | Implemented in 3.0.0, including verified campaign/kids highscores |
 | 4.0.0 | Live lobby races: FR-012, SPEC-006 | Implemented in 4.0.0 |
-| 5.0.0 | Seeded endless mode: FR-013, SPEC-007 | Pending |
+| 5.0.0 | Seeded endless mode: FR-013, SPEC-007 | Implemented in 5.0.0; human pacing review open |
 
 ## Questions requested before overnight work
 
@@ -21,3 +21,7 @@ Owner authorized implementation of all open milestones, milestone-specific relea
 - GitHub sign-in versus invite-only adult community launch. Owner confirmed: kids highscores only; no community browsing or lobbies. Adult access answered: invite-only accounts initially.
 
 No change to current adult production services until isolated replacements have passed validation. Physical controller compatibility and child playtesting cannot be fabricated; record unavailable manual checks explicitly. Offline campaign/editor must keep working without API access.
+
+## Manual follow-ups after implementation
+
+All software milestones have separate commits/tags/changelog entries. Remaining human checks are physical controller hardware, owner/child presentation review, subjective campaign/endless difficulty and dedicated Nightmare guardian routes. These are explicitly open; automated paths establish feasibility under their tested conditions, not fun or universal accessibility. Off-host backups and ranked endless play are outside these initial milestone releases.

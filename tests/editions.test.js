@@ -19,7 +19,7 @@ test('kids failures never create blood, bones, stains or death audio noise',()=>
  const code=`globalThis.__GAME_EDITION__='kids';
  const assert=(await import('node:assert/strict')).default;
  const {breakApart,splatter}=await import('./src/effects.js');
- for(const cause of ['saw','spikes','laser','projectile','ghost','fall','timeout']){const g={player:{x:0,y:0},burst(){},blood:[],debris:[],stains:[]};breakApart(g,cause);splatter(g,0,0,50);assert.deepEqual([g.blood,g.debris,g.stains],[[],[],[]]);assert.equal(g.shake,0);}
+ for(const cause of ['saw','spikes','laser','projectile','ghost','fall','timeout','pursuit']){const g={player:{x:0,y:0},burst(){},blood:[],debris:[],stains:[]};breakApart(g,cause);splatter(g,0,0,50);assert.deepEqual([g.blood,g.debris,g.stains],[[],[],[]]);assert.equal(g.shake,0);}
  const {Sound}=await import('./src/audio.js');const s=new Sound({sound:true});s.ctx={createBuffer(){throw Error('adult noise invoked')}};let tones=0;s.tone=(f,d,type)=>{assert.equal(type,'sine');tones++;};s.play('death');s.play('rocket-impact');assert.equal(tones,2);
  const {editionStorage}=await import('./src/edition.js');const map=new Map([['save','adult']]);const storage=editionStorage({getItem:k=>map.get(k),setItem:(k,v)=>map.set(k,v),removeItem:k=>map.delete(k)});storage.setItem('save','kids');assert.equal(map.get('save'),'adult');assert.equal(storage.getItem('save'),'kids');`;
  execFileSync(process.execPath,['--input-type=module','-e',code]);

@@ -1,3 +1,4 @@
+import {drawEndlessFront} from './endless.js';
 import {drawBoss} from './bosses.js';
 import {IS_KIDS} from './edition.js';
 import {renderKidsGame} from './kids-renderer.js';
@@ -14,14 +15,14 @@ const circuitColor=id=>['#ba7c24','#548eaa','#9066aa','#668d40','#b96150','#477d
 export function renderGame(g){
   if(IS_KIDS)return renderKidsGame(g);
   if(!g.level)return;const c=g.ctx;
-  const overview=g.mapOpen||(g.status==='ready'&&(g.worldW>W||g.worldH>H));
+  const overview=!g.endless&&(g.mapOpen||(g.status==='ready'&&(g.worldW>W||g.worldH>H)));
   const scale=overview?Math.min(W/g.worldW,H/g.worldH):1;
   const ox=overview?(W-g.worldW*scale)/2:-g.camera.x,oy=overview?(H-g.worldH*scale)/2:-g.camera.y;
   c.clearRect(0,0,W,H);c.fillStyle='#222c22';c.fillRect(0,0,W,H);c.save();
   if(g.shake&&!g.reducedMotion)c.translate((Math.random()-.5)*g.shake,(Math.random()-.5)*g.shake);
   c.translate(ox,oy);c.scale(scale,scale);c.fillStyle='#e4e7d8';c.fillRect(0,0,g.worldW,g.worldH);
   c.strokeStyle='#d6dccb';c.lineWidth=.7;c.beginPath();
-  for(let x=0;x<=g.worldW;x+=TILE){c.moveTo(x,0);c.lineTo(x,g.worldH);}for(let y=0;y<=g.worldH;y+=TILE){c.moveTo(0,y);c.lineTo(g.worldW,y);}c.stroke();
+  for(let x=g.endless?Math.floor(g.camera.x/TILE)*TILE:0;x<= (g.endless?g.camera.x+W:g.worldW);x+=TILE){c.moveTo(x,0);c.lineTo(x,g.worldH);}for(let y=0;y<=g.worldH;y+=TILE){c.moveTo(0,y);c.lineTo(g.worldW,y);}c.stroke();
   for(const s of g.solids){
     c.fillStyle='#3d483e';c.fillRect(s.x,s.y,s.w,s.h);c.fillStyle='#69755c';c.fillRect(s.x,s.y,s.w,2);
     c.strokeStyle='#475142';c.strokeRect(s.x+.5,s.y+.5,29,29);c.fillStyle='#53604d';c.fillRect(s.x+6,s.y+9,2,2);
@@ -57,12 +58,14 @@ export function renderGame(g){
     c.fillStyle=active?'#52723a':color;c.textAlign='center';c.font='bold 13px monospace';c.fillText(s.id,x,y-25);c.font='12px monospace';const label=s.mode==='timed'?(active?timerRemaining(g,s.id).toFixed(1)+'s':s.duration+'s TIMER'):s.mode==='toggle'?(active?'ON ↔':'OFF ↔'):active?'SET':'PRESS';const labelWidth=c.measureText(label).width+8;c.fillStyle='#e4e7d8ee';c.fillRect(x-labelWidth/2,y+20,labelWidth,16);c.fillStyle=active?'#52723a':color;c.fillText(label,x,y+32);c.textAlign='left';
   }
   for(const gold of g.gold)if(!gold.taken){c.save();c.translate(gold.x,gold.y);if(gold.firstBonus){const pulse=.9+Math.sin(g.clock*5)*.1;c.fillStyle='rgba(66,205,219,.2)';c.beginPath();c.arc(0,0,10*pulse,0,Math.PI*2);c.fill();c.strokeStyle='#63dbe2';c.lineWidth=2;c.beginPath();c.arc(0,0,8*pulse,0,Math.PI*2);c.stroke();c.strokeStyle='#baf7f3';c.lineWidth=1.5;c.beginPath();c.moveTo(-9,0);c.lineTo(-6,0);c.moveTo(9,0);c.lineTo(6,0);c.moveTo(0,-9);c.lineTo(0,-6);c.moveTo(0,9);c.lineTo(0,6);c.stroke();}c.rotate(Math.PI/4);c.fillStyle=gold.firstBonus?'#ffe3a0':'#c69632';c.fillRect(-4,-4,8,8);c.fillStyle=gold.firstBonus?'#fff8d7':'#f3d77a';c.fillRect(-3,-3,3,3);c.restore();}
-  const ex=g.level.exit.x*TILE,ey=g.level.exit.y*TILE,unlocked=g.exitUnlocked;
+  if(!g.endless){const ex=g.level.exit.x*TILE,ey=g.level.exit.y*TILE,unlocked=g.exitUnlocked;
   c.fillStyle=unlocked?'#bdd7a1':'#d7c2ac';c.fillRect(ex-5,ey-6,40,42);c.fillStyle=unlocked?'#55773d':'#795545';c.fillRect(ex+2,ey-1,26,31);
   c.fillStyle=unlocked?'#a8d873':'#b99a7f';c.fillRect(ex+6,ey+3,18,27);
   if(unlocked){c.strokeStyle='#486435';c.lineWidth=2;c.beginPath();c.moveTo(ex+15,ey+24);c.lineTo(ex+15,ey+9);c.moveTo(ex+10,ey+14);c.lineTo(ex+15,ey+9);c.lineTo(ex+20,ey+14);c.stroke();}
   else {c.fillStyle='#684835';c.fillRect(ex+9,ey+12,12,10);c.strokeStyle='#684835';c.lineWidth=2;c.beginPath();c.arc(ex+15,ey+12,4,Math.PI,0);c.stroke();}
   c.fillStyle=unlocked?'#51643d':'#865941';c.font='bold 12px monospace';c.textAlign='center';c.fillText(unlocked?'EXIT':'LOCKED',ex+15,ey-12);c.textAlign='left';
+  }
+  drawEndlessFront(c,g);
   for(const s of g.stains){c.save();c.translate(s.x,s.y);c.rotate(s.angle);c.fillStyle=s.color;c.beginPath();c.ellipse(0,0,s.size*1.8,s.size*.65,0,0,Math.PI*2);c.fill();c.restore();}
   g.trail.forEach((t,i)=>{c.fillStyle=`rgba(110,132,86,${i*.014})`;c.fillRect(t.x-5,t.y-8,10,18);});
   if(!['dying','dead'].includes(g.status))drawNinja(c,g);

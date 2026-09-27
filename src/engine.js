@@ -1,3 +1,4 @@
+import {updateEndless} from './endless.js';
 import {createTape,recordTick,TICK_RATE} from './replay.js';
 import {initBoss,updateBoss} from './bosses.js';
 import {initSentries,updateSentries} from './sentries.js';
@@ -37,6 +38,7 @@ export class Game {
     requestAnimationFrame(t=>this.frame(t));
   }
   load(level,seed=1,bankedGold=[]){
+    if(this.endless)this.minimapVisible=this.minimapBeforeEndless;this.endless=null;
     this.replay=createTape();this.replayJump=false;this.replayClear=false;this.replayHelpers=[];this.accumulator=0;this.level=level;const size=levelSize(level);this.worldW=size.width*TILE;this.worldH=size.height*TILE;
     this.player={x:level.spawn.x*TILE+7,y:level.spawn.y*TILE+3,w:16,h:26,vx:0,vy:0,ground:false,wall:0,face:1,sliding:false};
     this.solids=level.tiles.filter(t=>t.type==='solid').map(t=>({x:t.x*TILE,y:t.y*TILE,w:TILE,h:TILE}));
@@ -52,7 +54,7 @@ export class Game {
     this.status='ready';this.camera={x:Math.max(0,Math.min(this.worldW-W,this.player.x-W/2)),y:Math.max(0,Math.min(this.worldH-H,this.player.y-H*.55))};
     initBoss(this);initSentries(this);initTraps(this);initCrumbles(this);initPlatforms(this);this.moveHazards();initDevices(this);this.cb.hud(this);this.render();
   }
-  get exitUnlocked(){return (!this.boss||this.boss.hp===0)&&(this.level.exitRequires??[]).every(id=>this.activated.has(id))&&conditionsMet(this.level.exitStates,this.activated);}
+  get exitUnlocked(){return !this.endless&&(!this.boss||this.boss.hp===0)&&(this.level.exitRequires??[]).every(id=>this.activated.has(id))&&conditionsMet(this.level.exitStates,this.activated);}
   gateOpen(gate){return gateOpen(this,gate);}
   nearSolids(box,includePlatforms=true){
     const result=[];
@@ -86,6 +88,7 @@ export class Game {
   }
   togglePause(){if(this.status==='playing'){this.status='paused';this.clearInput();}else if(this.status==='paused')this.status='playing';return this.status;}
   cycleMap(){
+    if(this.endless)return;
     if(!['playing','paused','ready'].includes(this.status))return;
     if(this.mapOpen){this.minimapVisible=false;this.closeMap();this.cb.mapMode?.(false);}
     else if(this.minimapVisible===false){this.minimapVisible=true;this.cb.mapMode?.(true);}
@@ -117,9 +120,10 @@ export class Game {
       return;
     }
     if(this.status!=='playing')return;
-    if(this.recordReplay){recordTick(this.replay,(this.keys.has('ArrowRight')||this.keys.has('KeyD')?1:0)-(this.keys.has('ArrowLeft')||this.keys.has('KeyA')?1:0),!!this.replayJump,this.replayHelpers,!!this.replayClear);this.replayClear=false;this.replayJump=false;this.replayHelpers=[];}
+    if(this.recordReplay&&!this.endless){recordTick(this.replay,(this.keys.has('ArrowRight')||this.keys.has('KeyD')?1:0)-(this.keys.has('ArrowLeft')||this.keys.has('KeyA')?1:0),!!this.replayJump,this.replayHelpers,!!this.replayClear);this.replayClear=false;this.replayJump=false;this.replayHelpers=[];}
     const p=this.player;this.previousPlayer={...p};this.elapsed+=dt;const frozen=this.effects.freeze>0;
     if(!frozen){this.remaining-=dt;this.clock+=dt*(this.difficulty==='easy'?.85:this.difficulty==='hard'?1.15:1);}if(this.remaining<=0){this.die('timeout');return;}
+    updateEndless(this,dt,frozen);if(this.status!=='playing')return;
     expireSwitches(this);updateCrumbles(this);movePlatforms(this);
     for(const key in this.effects)this.effects[key]=Math.max(0,this.effects[key]-dt);
     this.invulnerable=Math.max(0,this.invulnerable-dt);this.jumpBuffer=Math.max(0,this.jumpBuffer-dt);

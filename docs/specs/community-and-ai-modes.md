@@ -1,6 +1,6 @@
 # Community and AI-assisted game modes
 
-Status: AI authoring is implemented in 1.0.0 under the [online service contract](online-service.md). Community publishing/discovery is implemented in 2.0.0 under the [community release contract](community-release.md). Asynchronous competitions and verified scores are implemented in 3.0.0 under the [competitive play contract](competitive-play.md). Live lobbies are implemented in 4.0.0 under the [lobby contract](live-lobbies.md). Endless remains pending.
+Status: AI authoring is implemented in 1.0.0 under the [online service contract](online-service.md). Community publishing/discovery is implemented in 2.0.0 under the [community release contract](community-release.md). Asynchronous competitions and verified scores are implemented in 3.0.0 under the [competitive play contract](competitive-play.md). Live lobbies are implemented in 4.0.0 under the [lobby contract](live-lobbies.md). Seeded endless is implemented in 5.0.0 under the [endless contract](endless.md). The sections below retain the broader design direction; release contracts state actual scope.
 
 ## Shared principles
 

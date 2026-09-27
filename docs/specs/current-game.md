@@ -1,6 +1,6 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `4.0.0`.
+Status: implemented browser-game baseline, version `5.0.0`.
 
 ## Product
 
@@ -10,7 +10,7 @@ Status: implemented browser-game baseline, version `4.0.0`.
 
 The fictional Blood & Balance Dojo is a sealed mountain fortress built as a survival trial. A masked runner enters to claim the Red Sash and earn the final pass: the right to challenge the Princess, the dojo's reigning champion and the author of the trials. Old songs promise the victor her hand in marriage, but she is no prize; she chooses whether to accept a proposal, and the final contest is between equals. The immediate motivation is to become the best runner alive; the deeper reason for the deadly trials is revealed through ten fragments of the Balance Sutra, found by solving the temple's chambers. Gold is training merit that buys temporary tools, while the fragments reveal who built the trial, what the dojo is protecting, and why the Princess has reopened it.
 
-The 99-stage campaign is framed as ten chapters. Each chapter teaches a skill and ends with a gatekeeper encounter; a short story reveal reframes the trials before the next skill is tested. A provisional chapter map is: Footwork (1–10), Sight (11–20), Crossfire (21–30), Moving Ground (31–40), Reversal (41–50), Borrowed Time (51–60), Impermanence (61–70), Tripwire (71–80), Pursuit (81–90), and Mastery (91–99). These are narrative labels for the existing hazard sectors, not a claim that chapter scenes or bosses are implemented.
+The 99-stage campaign is framed as ten chapters. Each chapter teaches a skill and ends with a gatekeeper encounter; a short story reveal reframes the trials before the next skill is tested. A provisional chapter map is: Footwork (1–10), Sight (11–20), Crossfire (21–30), Moving Ground (31–40), Reversal (41–50), Borrowed Time (51–60), Impermanence (61–70), Tripwire (71–80), Pursuit (81–90), and Mastery (91–99). Guardian encounters and story fragments are implemented at all ten chapter endings (0.6.0).
 
 ## Play loop
 
@@ -33,14 +33,14 @@ The shop sells time freeze, high jump, rocket boost, shield, and glider charges.
 ## Progress, audio, and presentation
 
 - Named local careers isolate progress, currency, inventory, difficulty, achievements, and records.
-- Per-level records distinguish difficulty, helper use, and layout revision. Score JSON can be exported; there is no network leaderboard yet.
+- Per-level records distinguish difficulty, helper use, and layout revision. Score JSON can be exported; explicit uploads can enter replay-verified online ladders (3.0.0).
 - Death causes, shop use, helper use, level starts, and gold collection are recorded locally.
 - Sound effects and synthesized music have independent mute controls and start muted.
 - Day/night themes, full-screen play, a translucent top-right minimap inside the playfield that yields to the player/exit (M cycles small → paused survey → hidden; small/hidden preference is remembered), pause-on-blur, version/hash display, and mobile controls are available.
 
 ## Editor and files
 
-The editor supports large rooms, terrain and hazard tools, circuits, contextual settings, free test runs, validated JSON import/export, and local drafts. Level-file versions 1–3 are supported; imports validate schema and bounds, not human playability. JSON level files and score files can be shared manually. Public hosting, online browsing, and server scores are not implemented.
+The editor supports large rooms, terrain and hazard tools, circuits, contextual settings, free test runs, validated JSON import/export, and local drafts. Level-file versions 1–3 are supported; imports validate schema and bounds, not human playability. JSON level files and score files can be shared manually. Invited adults can publish and discover immutable levels/sets, generate AI drafts, and enter timed events/lobbies. Online features are optional; see the service contracts below.
 
 ## Verification boundary
 
@@ -48,17 +48,13 @@ Automated unit/physics tests and deterministic no-item replays exercise all 99 a
 
 ## Runtime and deployment
 
-`npm run dev` serves the Vite development app on `0.0.0.0`; `npm run build` creates a static production bundle in `dist/`. Passing `main` builds are configured to publish the game on GitHub Pages at `bnb.minizap.online`; `api.bnb.minizap.online` is reserved on the VPS for the future API. See [deployment status and instructions](../deployment.md). No credentials belong in the repository.
+`npm run dev` serves the Vite development app on `0.0.0.0`; `npm run build` creates a static production bundle in `dist/`. Passing `main` builds are configured to publish the game on GitHub Pages at `bnb.minizap.online`; `api.bnb.minizap.online` hosts the isolated live API on the VPS; `kids-bnb.minizap.online` serves the separate Cloud & Clover build. See [deployment status and instructions](../deployment.md). No credentials belong in the repository.
 
 ## Focused play layout (0.2.2)
 
 The play screen uses compact navigation, a single stage/time/gold row, circuit objectives, the canvas, and a control bar. The full playfield and retry/pause controls fit the available laptop viewport without scrolling; sizing measures actual chrome and preserves 16:9 and high-DPI rendering. Stage notes, equipment, achievement hints, and stage recommendations are folded below the game. Opening these optional details may scroll the page. The editor and records retain their separate layouts.
 
 M is a press-to-cycle action, not a held key. Small → full survey → hidden → small; only survey pauses the simulation, and leaving it restores the prior ready/playing/paused state. Key repeat does not advance the cycle. Escape closes survey safely; changing levels does not retain a survey pause. Small-map transparency and automatic occlusion avoidance preserve nearby player/exit visibility. Hiding the map does not change the camera or physics.
-
-### Requested controls and achievements (not implemented)
-
-Milestone 0.3 tracks FR-017 (at least 40 distinct achievements and progress), FR-018 (player-defined keyboard bindings), and FR-019 (controller movement/actions/menu navigation). The current release still uses fixed keyboard/touch controls and existing achievements. See the [ticket register](../tickets.md) for acceptance criteria. Controller support is technically feasible through the [Gamepad API](https://www.w3.org/TR/gamepad/); physical-device testing is required before claiming support.
 
 Enter (including Numpad Enter) activates the visible game card’s primary action: start, resume, retry, next stage, final achievements, or return from a custom run to the workshop. Cards focus that button without scrolling. A press during the death animation queues one retry; repeated keydown events do not trigger repeated actions. Deliberately focused buttons/links retain native Enter behavior; text fields, dialogs, and the editor are isolated from gameplay shortcuts.
 
@@ -83,3 +79,13 @@ Standard-mapped Gamepad API controllers support stick/D-pad movement, A jump, Y 
 ## 0.6.0 chapter guardians
 
 Stages 10/20/30/40/50/60/70/80/90/99 now continue into named guardian chambers after their puzzle exits. Three or four hits clear a guardian: stomp its exposed head, activate alternating floor controls during OPEN, or choose either method, depending on the chapter. Warning waves are jumpable. Both segments must finish before gold and achievements are banked; retry or reloading discards temporary progress. Scores sum both segment times, assistance flags and mastery statistics; chapter layout revisions advance to keep old scores separate. Ready/pause cards do not run timers. Existing puzzle geometry remains unchanged. Thirty boss input replays cover Easy/Medium/Hard without helpers. Nightmare adds the existing seeded ghost and still needs a dedicated route review. Ten short story fragments reveal that the artifact represents learned practice rather than a weapon. Kids encounters use festival friends and harmless pulse/water presentation.
+
+## Optional online modes and endless play
+
+- [AI service](online-service.md): invited adult prompt/revision drafts, free Nemotron through OpenRouter, configurable model allowlist and $1/day total cap. Keys stay on the server; generated routes remain unverified until tested.
+- [Community](community-release.md): immutable attributed levels/sets, sharing, browsing, bookmarks, votes, reports, moderation and account controls.
+- [Competitions and scores](competitive-play.md): fixed 120Hz replay evidence, server-verified campaign ladders, ordered timed sets and replay viewing. Kids only has preset-name highscores.
+- [Live lobbies](live-lobbies.md): 2–8 invited adults, shared countdown, independent simulation, verified progress, reconnect/forfeit/host transfer.
+- [Endless](endless.md): seeded local chunk streaming, pursuing fire/cloud, same-seed retry and separate local bests. No online endless ranking.
+
+The kids edition uses the same campaign geometry and physics with independent nonviolent art, effects, sounds, wording and storage. Human child playtesting, physical controller testing and subjective campaign/boss calibration remain outstanding; automated checks do not replace these.
