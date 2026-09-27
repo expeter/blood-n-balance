@@ -49,6 +49,14 @@ jobs:
           assert.equal(manifest.version, pkg.version);
           assert.equal(manifest.gitHash, process.env.GITHUB_SHA.slice(0, 12));
           JS
+      - name: Package isolated services
+        run: |
+          cp dist-kids/version.json server/release.json
+          tar -czf bnb-deploy.tgz server src package.json LICENSE dist-kids
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bnb-services
+          path: bnb-deploy.tgz
       - name: Upload game
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v4
@@ -72,3 +80,25 @@ jobs:
       - name: Deploy game
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-vps:
+    name: Publish isolated API and kids site
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@v4
+        with:
+          name: bnb-services
+      - name: Publish tested artifact
+        env:
+          BNB_DEPLOY_KEY: ${{ secrets.BNB_DEPLOY_KEY }}
+        run: |
+          umask 077
+          printf '%s\n' "$BNB_DEPLOY_KEY" > "$RUNNER_TEMP/bnb-key"
+          trap 'rm -f "$RUNNER_TEMP/bnb-key"' EXIT
+          ssh -F /dev/null -i "$RUNNER_TEMP/bnb-key" -o BatchMode=yes -o StrictHostKeyChecking=yes -o UserKnownHostsFile=deploy/known_hosts bnb-deploy@212.227.21.239 "deploy $GITHUB_SHA" < bnb-deploy.tgz

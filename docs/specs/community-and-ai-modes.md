@@ -1,13 +1,13 @@
 # Community and AI-assisted game modes
 
-Status: proposed product specification. These modes require milestone planning and are not implemented.
+Status: AI authoring is implemented in 1.0.0 under the [online service contract](online-service.md). Community, competitions, lobbies, and endless remain pending in this document.
 
 ## Shared principles
 
 - Campaign play remains available offline and does not depend on accounts, AI, or a backend.
 - Community features use versioned level JSON and server-side validation. Treat submitted levels, names, votes, scores, and replay data as untrusted.
 - AI proposes content; deterministic game rules and validation decide whether a candidate can be tested or published. A model must not certify its own work.
-- The AI authoring model is configurable. GPT-6 is the preferred default where available; the chosen model and approximate token cost are visible before generation. A later settings change can select another supported model.
+- The AI authoring model is configurable. Owner selected free NVIDIA Nemotron through OpenRouter for the first release; GPT-6 remains a possible later choice. The enabled model and approximate token cost are visible before generation. A later settings change can select another supported model.
 - Generation is a user action, never an unbounded background process. Per-user budgets, daily limits, maximum retries, and usage records prevent surprise spend.
 
 ## Prompt-assisted level creation
@@ -29,7 +29,7 @@ Status: proposed product specification. These modes require milestone planning a
 
 ### Token allowance
 
-Players receive a configurable creation allowance. Show estimated input/output cost before each operation, charge only for model calls, and make local validation free. Enforce per-operation and per-period limits, cap retries, log model/version/token usage, and allow the owner to change model/provider and budget. The product must work when AI is unavailable. Exact allowance and payment policy remain undecided.
+Players receive a configurable creation allowance. Show estimated input/output cost before each operation, charge only for model calls, and make local validation free. Enforce per-operation and per-period limits, cap retries, log model/version/token usage, and allow the owner to change model/provider and budget. The product must work when AI is unavailable. Owner set a configurable $1/day total cap; initial free models additionally have per-user and total daily request allowances. Paid models are disabled.
 
 ## Level sets and community publishing
 

@@ -98,7 +98,7 @@ Verified: separate canvas rendering and saved preferences have regression covera
 | --- | --- | --- | --- |
 | FR-021 | FR | Bloodier icon for the original edition | Done in 0.5.0 |
 | SPEC-009 | SPEC | Nonviolent kids edition sharing the same level designs | Done |
-| FR-022 | FR | Build and deploy the kids edition at kids-bnb.minizap.online | Build verified in 0.5.0; DNS/public HTTPS and child review pending |
+| FR-022 | FR | Build and deploy the kids edition at kids-bnb.minizap.online | Deployed in 0.5.0; DNS/HTTPS verified; child review pending |
 
 **FR-021 acceptance direction:** recognizable compact B&B/ninja silhouette with stylized crimson ink/blood droplets, readable at 16–48px. Provide favicon and app-icon variants; keep the kids build's artwork separate. Implemented in 0.5.0 as an original-only vector favicon; kids uses its own unicorn icon.
 
@@ -110,8 +110,8 @@ Verified: separate canvas rendering and saved preferences have regression covera
 | --- | --- | --- | --- |
 | SPEC-002 | SPEC | AI creation, community modes, competitions, and endless mode contract | Done |
 | SPEC-003 | SPEC | Level brief format, route QA, and AI-assisted design workflow | Done |
-| FR-007 | FR | Generate and revise an editor level from a user prompt | Proposed |
-| FR-008 | FR | Allow the owner to select model/provider, default to GPT-6, and set token budget | Proposed |
+| FR-007 | FR | Generate and revise an editor level from a user prompt | Implemented in 1.0.0 (free-model first version) |
+| FR-008 | FR | Allow owner model selection and creation budgets (initial provider: OpenRouter free Nemotron) | Implemented in 1.0.0 (free-model first version) |
 
 **Acceptance direction:** generation returns existing-schema JSON and a change summary; the user can preview/edit/test/export; generation has bounded retries and visible estimated/actual usage; local validation remains free; AI never self-certifies or controls the player. Route QA checks mandatory objectives and a route back to the exit using conservative movement/state checks, reporting pass/fail/unverified. AI outage does not block ordinary editor use.
 

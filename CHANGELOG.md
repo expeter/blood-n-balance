@@ -2,6 +2,12 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [1.0.0] - 2026-09-27 — Milestone 1: AI workshop
+
+- **FR-007 / FR-008** — Generate editor drafts through a configurable free NVIDIA Nemotron model on OpenRouter. Preview and explicitly apply validated drafts with a previous-draft backup. Show route uncertainty, usage and cost; preserve offline editing on service failure.
+- Enforce invite-only access, one-use invitations, secure sessions, per-user/global request quotas and the configured $1/day ceiling. Keep keys server-side, prohibit paid fallback and automatic retries, and record generation usage durably in SQLite.
+- Add isolated API/Node service deployment and automatic tested API/kids publication with a restricted SSH key, pinned host key, commit identity checks and rollback on failed health checks. System Node and unrelated VPS services stay unchanged. Kids DNS and HTTPS are now verified.
+
 ## [0.6.0] - 2026-09-27 — Milestone 0.6: chapter guardians
 
 - **FR-015** — Follow each chapter-ending puzzle with a named guardian chamber. Read its warning waves and vulnerable head, or use alternating arena buttons. Clear both parts to bank gold, earn achievements, and reveal a story fragment. Retry restarts the full stage; times and assistance combine across both parts.

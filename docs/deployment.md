@@ -40,3 +40,13 @@ Provisioning completed 2026-09-27: Pages is enabled at `https://bnb.minizap.onli
 ## Kids edition staging (0.5.0)
 
 The verified Cloud & Clover artifact is installed at `/srv/blood-and-balance/kids/releases/4b1a43d`, with `current` pointing to it. A separate `kids-bnb.minizap.online` Caddy site was appended and validated; graceful reload preserved Caddy PID 9120 and all existing listening ports. Backup: `/etc/caddy/Caddyfile.before-kids-20260927T221221Z`. Public DNS currently points to Pages, so DNS/HTTPS validation is pending owner correction to A 212.227.21.239. CI preserves the tested `kids-site` artifact separately; automatic VPS publication is not yet configured.
+
+## Isolated API and automatic VPS publishing (1.0.0)
+
+`bnb-api.service` runs as `bnb-api`, bound only to `127.0.0.1:3002`, with SQLite at `/var/lib/blood-and-balance/bnb.sqlite`. Its root-only environment file is `/etc/blood-and-balance/api.env`; only the OpenRouter credential and game configuration were copied there. A checksum-verified Node 24.21.0 binary lives under `/srv/blood-and-balance/runtime/`; system Node remains 20.19.2. The service has filesystem restrictions, a 256MB memory limit, and 50% CPU quota. Never put credentials in `VITE_` variables.
+
+After passing tests and both builds, GitHub Actions packages `server/`, `src/`, package metadata, license, and the kids artifact. `deploy-vps` uses the encrypted `BNB_DEPLOY_KEY` repository secret and pinned host key in `deploy/known_hosts`. Its `bnb-deploy` account has a forced command: accept only a bounded archive for a 40-character commit ID, reject unsafe paths/links, check edition/version/hash, atomically switch only the API/kids release links, and restart only `bnb-api.service`. It restores prior links if the new API health check fails. Existing VPS apps, Caddy, and system Node are outside that account's deployment scope. Source releases remain available for rollback; repeated publication of the same commit is rejected.
+
+Owner bootstrap: run `node server/admin.mjs invite /var/lib/blood-and-balance/owner-invite.txt admin` as the API user with `BNB_DB` pointing at the production database. The token is written mode 0600, never logged, expires in seven days, and is single-use. Use it in the adult editor's online workshop to choose your own account name/password. Existing owner accounts can issue member invitations; CLI `disable-user NAME` immediately invalidates access. Never commit invite files or database backups.
+
+The kids hostname now serves its own valid HTTPS certificate and edition manifest. Child playtesting remains pending. Caddy's original PID remained 9120 after the host addition and certificate retry.

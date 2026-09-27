@@ -5,3 +5,7 @@ dist/
 .env.*
 !.env.example
 dist-kids/
+
+var/
+server/release.json
+bnb-deploy.tgz

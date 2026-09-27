@@ -1,0 +1,26 @@
+[Unit]
+Description=Blood and Balance isolated API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=bnb-api
+Group=bnb-api
+WorkingDirectory=/srv/blood-and-balance/api/current
+EnvironmentFile=/etc/blood-and-balance/api.env
+ExecStart=/srv/blood-and-balance/runtime/node-v24.21.0-linux-x64/bin/node server/main.mjs
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/blood-and-balance
+UMask=0077
+MemoryMax=256M
+CPUQuota=50%
+TasksMax=32
+
+[Install]
+WantedBy=multi-user.target

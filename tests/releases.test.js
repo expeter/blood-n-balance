@@ -5,7 +5,7 @@ import {compareVersions,updateAvailable} from '../src/releases.js';
 import {APP_VERSION,GIT_HASH,UPDATE_MANIFEST_URL} from '../src/build-info.js';
 
 test('build metadata has safe defaults outside a Vite-processed bundle',()=>{
- assert.equal(APP_VERSION,'0.6.0');
+ assert.equal(APP_VERSION,'1.0.0');
  assert.equal(GIT_HASH,'nogit');
  assert.equal(UPDATE_MANIFEST_URL,'/version.json');
 });
@@ -28,13 +28,13 @@ test('update prompt requires a newer version or a changed source hash',()=>{
 test('Vite serves and builds the same no-cache version manifest',()=>{
  const plugin=config.plugins.find(p=>p.name==='version-manifest');let response='';
  plugin.generateBundle.call({emitFile:asset=>{assert.equal(asset.fileName,'version.json');response=asset.source;}});
- const manifest=JSON.parse(response);assert.equal(manifest.version,'0.6.0');assert.equal(typeof manifest.gitHash,'string');
+ const manifest=JSON.parse(response);assert.equal(manifest.version,'1.0.0');assert.equal(typeof manifest.gitHash,'string');
  const handlers={};plugin.configureServer({middlewares:{use:(path,handler)=>{handlers[path]=handler;}}});
  const headers={};handlers['/version.json']({}, {setHeader:(name,value)=>headers[name]=value,end:value=>response=value});
  assert.equal(headers['Cache-Control'],'no-store');assert.deepEqual(JSON.parse(response),manifest);
 });
 
 test('update notices never cross edition boundaries',()=>{
- assert.equal(updateAvailable({version:'0.6.0',gitHash:'a',edition:'kids'},{version:'0.6.0',gitHash:'b',edition:'original'}),false);
- assert.equal(updateAvailable({version:'0.6.0',gitHash:'a',edition:'kids'},{version:'0.6.0',gitHash:'b',edition:'kids'}),true);
+ assert.equal(updateAvailable({version:'1.0.0',gitHash:'a',edition:'kids'},{version:'1.0.0',gitHash:'b',edition:'original'}),false);
+ assert.equal(updateAvailable({version:'1.0.0',gitHash:'a',edition:'kids'},{version:'1.0.0',gitHash:'b',edition:'kids'}),true);
 });
