@@ -237,3 +237,4 @@ body[data-view="play"] .game-column:fullscreen .game-shell{max-width:100%}
 .editor-inspector #jump-settings{max-height:none;overflow:visible}
 #jump-settings .editor-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
 #jump-settings .editor-options button{grid-column:1/-1}
+.controls-settings{margin-top:24px;font-size:14px}.controls-settings h3{margin:16px 0 8px}.binding-grid{display:grid;gap:7px;margin:12px 0}.binding-grid>div{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.binding-grid strong{min-width:150px;flex:1}.binding-grid button{padding:7px 9px;min-width:72px}#binding-status{font-size:14px;line-height:1.5;color:var(--lime);margin:10px 0}.achievement progress{display:block;width:100%;accent-color:var(--lime);height:8px;margin:16px 0 8px}.achievement small{font-size:12px;color:var(--muted)}

@@ -25,6 +25,7 @@ export function updateSwitches(g){
   if(s.mode==='timed'){g.switchTimers[s.id]=g.clock+s.duration;g.activated.add(s.id);}
   else if(s.mode==='toggle'&&g.activated.has(s.id))g.activated.delete(s.id);
   else if(!g.activated.has(s.id))g.activated.add(s.id);else continue;
+  if(g.runStats)g.runStats.switches++;
   g.burst(s.x*30+15,s.y*30+15,g.activated.has(s.id)?'#e7bd65':'#8baac1',24);g.cb.sound('switch');g.cb.switch?.(s.id,g.exitUnlocked,g.activated.has(s.id),s.mode);
  }
  for(const gate of g.gates)gateOpen(g,gate);

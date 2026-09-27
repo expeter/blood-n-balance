@@ -1,6 +1,6 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `0.2.4`.
+Status: implemented browser-game baseline, version `0.3.0`.
 
 ## Product
 
@@ -71,3 +71,11 @@ Two paths hold left or right until the first landing, hazard contact, exit, or t
 The campaign-copy selector downloads the current draft as backup, then opens an independent editable copy of any stage. JSON export/test use that draft; the source campaign and its revision remain unchanged.
 
 BUG-004 removes decorative world lettering behind terrain and distinguishes latching PRESS/SET buttons from reversible ON/OFF levers. Help (CR-004) presents four short basics and optional expandable mechanic topics. A batch campaign usability audit is tracked as CR-005; existing replays alone do not establish design quality.
+
+## Controls and achievements (0.3.0)
+
+Options includes Controls with alternate keyboard bindings, conflict rejection, Backspace-to-clear, Escape-to-cancel, and reset defaults. Bindings and gamepad dead zone save separately from careers. Enter confirms primary cards, Escape pauses, and Tab keeps focus navigation. All gameplay controls use action mappings; held keyboard and controller inputs do not cancel each other on release. Modal close restores primary-card focus. The help and shop show configured keys.
+
+Standard-mapped Gamepad API controllers support stick/D-pad movement, A jump, Y retry, Start pause, Back map, and LB/RB/X/B/left-stick click for helpers. D-pad navigates menus, A confirms, B backs out; left/right changes focused select choices. Disconnect pauses and clears held input. Unknown mappings are ignored. Browser simulation verifies these behaviors; real Xbox/PlayStation compatibility is not yet physically tested.
+
+52 achievements retain the original stable IDs and add visible progress. Successful runs record wall kicks, circuit activations, complete gold collection, close/fast finishes, shield/glider/combo use, and recovery after a failed attempt. Failed runs do not farm successful-run mastery counters. Saved progress migrates without discarding earned achievements.

@@ -2,6 +2,12 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [0.3.0] - 2026-09-27 — Milestone 0.3: controls and achievements
+
+- **FR-017** — Expand from 13 to 52 achievements, with visible progress, chapter/clean-chapter goals, difficulty clears, exploration, wall-jump mastery, close finishes, and successful helper combinations. Preserve earned IDs and migrate new counters safely.
+- **FR-018** — Add browser-saved keyboard rebinding with alternate keys, conflict feedback, clear/cancel/reset, refreshed control hints, and fixed Enter/Escape/Tab escape routes. Track keyboard/touch/controller holds independently.
+- **FR-019** — Add standard-mapped gamepad movement, actions, D-pad menu navigation, configurable dead zone, disconnect pause, and held-button suppression across menu transitions. Automated and simulated-browser controller checks pass; physical Xbox/PlayStation testing remains open and is stated in the UI.
+
 ## [0.2.4] - 2026-09-27
 
 - **FR-020** — Add a physics-based editor Jump probe with hover/pin placement, standing/running takeoff, difficulty selection, collision/hazard-aware trajectories, and tile-distance readouts. Add campaign-stage copy editing with a downloaded draft backup. Preview data stays out of level exports.

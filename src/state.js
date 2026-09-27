@@ -1,3 +1,4 @@
+import {EXTRA_ACHIEVEMENTS} from './achievements.js';
 import {campaignRevision} from './levels.js';
 import {PALETTES,SKINS} from './cosmetics.js';
 export const ITEMS = [
@@ -22,7 +23,8 @@ export const ACHIEVEMENTS=[
  {id:'world-tour',name:'World tour',description:'Start a stage in all ten sectors.',test:s=>Array.from({length:10},(_,sector)=>Object.keys(s.levelPlays).some(stage=>Math.floor(+stage/10)===sector)).every(Boolean)},
  {id:'golden-run',name:'Golden run',description:'Bank 500 gold across successful runs.',test:s=>s.totalGold>=500}
 ];
-export const freshState=()=>({version:2,coins:40,inventory:Object.fromEntries(ITEMS.map(i=>[i.id,0])),completed:{},totalGold:0,deaths:0,deathsByCause:{},itemUses:Object.fromEntries(ITEMS.map(i=>[i.id,0])),shopPurchases:Object.fromEntries(ITEMS.map(i=>[i.id,0])),levelPlays:{},gatheredGold:{},leaderboards:{},settings:{sound:true,music:true,audioConfigured:true,difficulty:'medium',palette:'midnight',skin:'classic',playerName:'Runner'},achievements:[]});
+ACHIEVEMENTS.push(...EXTRA_ACHIEVEMENTS);
+export const freshState=()=>({version:2,mastery:{},fullGoldStages:[],coins:40,inventory:Object.fromEntries(ITEMS.map(i=>[i.id,0])),completed:{},totalGold:0,deaths:0,deathsByCause:{},itemUses:Object.fromEntries(ITEMS.map(i=>[i.id,0])),shopPurchases:Object.fromEntries(ITEMS.map(i=>[i.id,0])),levelPlays:{},gatheredGold:{},leaderboards:{},settings:{sound:true,music:true,audioConfigured:true,difficulty:'medium',palette:'midnight',skin:'classic',playerName:'Runner'},achievements:[]});
 export function loadState(storage) {
   try {
     const raw=JSON.parse(storage.getItem('n-momentum-v1'));
@@ -31,6 +33,8 @@ export function loadState(storage) {
     s.coins=Number.isSafeInteger(raw.coins)&&raw.coins>=0?raw.coins:40;
     for(const i of ITEMS) s.inventory[i.id]=Number.isSafeInteger(raw.inventory?.[i.id])&&raw.inventory[i.id]>=0?raw.inventory[i.id]:0;
     for(const [k,r] of Object.entries(raw.completed||{})) if(/^\d+$/.test(k)&&+k<99&&r&&Number.isFinite(r.best)&&r.best>=0) s.completed[k]={best:r.best,clean:r.clean===true,gold:Number.isFinite(r.gold)?r.gold:0,revision:Number.isInteger(r.revision)&&r.revision>=1?r.revision:1,difficulty:['easy','medium','hard','nightmare'].includes(r.difficulty)?r.difficulty:'medium'};
+    for(const [k,n] of Object.entries(raw.mastery||{}))if(/^[a-zA-Z]{1,32}$/.test(k)&&Number.isSafeInteger(n)&&n>=0)s.mastery[k]=n;
+    s.fullGoldStages=Array.isArray(raw.fullGoldStages)?[...new Set(raw.fullGoldStages.filter(i=>Number.isInteger(i)&&i>=0&&i<99))]:[];
     s.totalGold=Number.isFinite(raw.totalGold)&&raw.totalGold>=0?raw.totalGold:0;
     s.deaths=Number.isSafeInteger(raw.deaths)&&raw.deaths>=0?raw.deaths:0;
     for(const [cause,n] of Object.entries(raw.deathsByCause||{}))if(/^[a-z-]{1,32}$/.test(cause)&&Number.isSafeInteger(n)&&n>=0)s.deathsByCause[cause]=n;
@@ -63,7 +67,7 @@ export function complete(s,index,time,gold,usedItems,difficulty='medium',allowLo
   const revision=campaignRevision(index);
   const old=previous?.revision===revision?previous:undefined;
   const isBest=time<(old?.best??Infinity);
-  s.completed[index]={best:Math.min(old?.best??Infinity,time),clean:!!old?.clean||!usedItems,gold:Math.max(old?.gold??0,gold),revision,difficulty:isBest&&['easy','medium','hard'].includes(difficulty)?difficulty:old?.difficulty??'medium'};
+  s.completed[index]={best:Math.min(old?.best??Infinity,time),clean:!!old?.clean||!usedItems,gold:Math.max(old?.gold??0,gold),revision,difficulty:isBest&&['easy','medium','hard','nightmare'].includes(difficulty)?difficulty:old?.difficulty??'medium'};
   const ladder=s.leaderboards[index]??={},bucket=ladder[difficulty]??={};s.leaderboards[index]=ladder;ladder[difficulty]=bucket;const mode=usedItems?'assisted':'itemFree';bucket[mode]=Math.min(bucket[mode]??Infinity,time);
   s.coins+=gold;s.totalGold+=gold;
   const earned=ACHIEVEMENTS.filter(a=>!s.achievements.includes(a.id)&&a.test(s));

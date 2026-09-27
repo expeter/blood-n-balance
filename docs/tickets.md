@@ -54,9 +54,9 @@ Verified: separate canvas rendering and saved preferences have regression covera
 | --- | --- | --- | --- |
 | CR-003 | CR | Fit the playfield to laptop screens and cycle compact/full/hidden maps | Done |
 | BUG-003 | BUG | Restore Enter for the visible primary game action | Done |
-| FR-017 | FR | Expand achievements across movement, mastery, exploration, and challenge runs | Proposed |
-| FR-018 | FR | Let players rebind gameplay keys | Proposed |
-| FR-019 | FR | Add controller input and controller-friendly menus | Proposed |
+| FR-017 | FR | Expand achievements across movement, mastery, exploration, and challenge runs | Done |
+| FR-018 | FR | Let players rebind gameplay keys | Done |
+| FR-019 | FR | Add controller input and controller-friendly menus | Implemented; physical-device QA pending |
 
 **CR-003 acceptance:** prioritize the playfield over dashboard chrome; initial laptop view includes the full canvas and retry/pause controls without scrolling. Fold notes, loadout, and stage recommendations away. M and a labelled button cycle small map → paused full-room survey → no map → small map. Small map is translucent, top-right inside the playfield, and yields when the player or exit is beneath it. Remember small/hidden preference; never reload into a paused survey. Test 1366×768 and 1280×720 laptop viewports, narrower screens, fullscreen, and large rooms.
 
