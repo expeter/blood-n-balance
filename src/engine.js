@@ -62,10 +62,13 @@ export class Game {
   }
   start(){this.status='playing';this.mapOpen=false;this.keys.clear();}
   handleKeyDown(e){
-    if(/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||document.querySelector('dialog[open]')||this.canvas.closest('[hidden]'))return;
-    const codes=['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','Enter','KeyA','KeyD','KeyW','KeyR','KeyP','KeyM','Escape','Digit1','Digit2','Digit3','Digit4','Digit5'];
+    if(e.defaultPrevented||e.target.isContentEditable||/INPUT|TEXTAREA|SELECT/.test(e.target.tagName)||document.querySelector('dialog[open]')||this.canvas.closest('[hidden]'))return;
+    const enter=e.code==='Enter'||e.code==='NumpadEnter';
+    // Focused controls keep native activation; gameplay must not swallow Enter.
+    if(enter&&e.target.closest?.('button,a[href],summary')){if(e.repeat)e.preventDefault();return;}
+    const codes=['NumpadEnter','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Space','Enter','KeyA','KeyD','KeyW','KeyR','KeyP','KeyM','Escape','Digit1','Digit2','Digit3','Digit4','Digit5'];
     if(!codes.includes(e.code))return;e.preventDefault();this.cb.gesture?.();if(e.repeat)return;
-    if(e.code==='Enter'){if(this.status==='dead')this.cb.retry();else if(this.status==='dying')this.retryWhenDead=true;return;}
+    if(enter){if(this.status==='dead')this.cb.retry();else if(this.status==='dying')this.retryWhenDead=true;else if(!this.mapOpen&&['ready','paused','won'].includes(this.status))this.cb.primary?.();return;}
     if(e.code==='KeyM'){this.cycleMap();return;}
     if(e.code==='KeyR'){this.cb.retry();return;}
     if(e.code==='KeyP'||e.code==='Escape'){if(this.mapOpen)this.closeMap();else this.cb.pause();return;}

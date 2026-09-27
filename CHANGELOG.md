@@ -2,6 +2,10 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [0.2.3] - 2026-09-27
+
+- **BUG-003** — Restore Enter/Numpad Enter for the primary Start, Resume, Retry, and completion actions. Focus the game card’s primary button without scrolling, show its Enter hint, and preserve native keyboard activation of focused controls. Keep queued death retries and prevent held-key repeats.
+
 ## [0.2.2] - 2026-09-27
 
 - **CR-003** — Prioritize the playfield: compact navigation and stage controls, viewport-fitted canvas, and folded stage notes/equipment/recommendations. Replace the header map dock with a translucent top-right overlay that yields to the player or exit. M and the map button cycle small map, paused full survey, and hidden; remember small/hidden preference.

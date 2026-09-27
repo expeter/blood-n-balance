@@ -53,6 +53,7 @@ Verified: separate canvas rendering and saved preferences have regression covera
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
 | CR-003 | CR | Fit the playfield to laptop screens and cycle compact/full/hidden maps | Done |
+| BUG-003 | BUG | Restore Enter for the visible primary game action | Done |
 | FR-017 | FR | Expand achievements across movement, mastery, exploration, and challenge runs | Proposed |
 | FR-018 | FR | Let players rebind gameplay keys | Proposed |
 | FR-019 | FR | Add controller input and controller-friendly menus | Proposed |
@@ -60,6 +61,10 @@ Verified: separate canvas rendering and saved preferences have regression covera
 **CR-003 acceptance:** prioritize the playfield over dashboard chrome; initial laptop view includes the full canvas and retry/pause controls without scrolling. Fold notes, loadout, and stage recommendations away. M and a labelled button cycle small map → paused full-room survey → no map → small map. Small map is translucent, top-right inside the playfield, and yields when the player or exit is beneath it. Remember small/hidden preference; never reload into a paused survey. Test 1366×768 and 1280×720 laptop viewports, narrower screens, fullscreen, and large rooms.
 
 **CR-003 verified in 0.2.2:** all 231 tests and the production build pass. Chromium checked full canvas/control visibility with zero initial scroll at 1366×768, 1280×720, 1440×900, 1024×600, 390×844, and 320×740; map cycle and paused time; saved hidden preference; player/exit occlusion; fullscreen; stage 99; and navigation to/from the editor.
+
+**BUG-003 acceptance:** Enter and Numpad Enter start a ready stage, resume a paused run, retry after death (including a queued retry during the death animation), and activate the completion card’s primary action. Preserve native activation for deliberately focused controls and typing/modal/editor isolation; holding Enter must not repeat actions.
+
+**BUG-003 verified in 0.2.3:** 232 tests and production build pass; Chromium verified real Enter/Numpad presses for start/resume/retry/queued death retry/next stage, native focused map-button activation, held-key suppression, dialog text isolation, and no focus-induced scrolling.
 
 **FR-017 acceptance direction:** design at least 40 total distinct achievements with visible progress and clear criteria: wall-jump mastery, clean chapters, gold exploration, close-call escapes, hazard-specific challenges, speed targets, difficulty progression, and helper experiments. Include accessible early goals and demanding long-term goals, avoid rewarding idle grinding, retain earned IDs across updates, and separate assisted/unassisted conditions. Add any missing event counters before wiring unlocks; test each threshold and no duplicate awards. Existing saves must retain their achievements.
 

@@ -1,6 +1,6 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `0.2.2`.
+Status: implemented browser-game baseline, version `0.2.3`.
 
 ## Product
 
@@ -59,3 +59,5 @@ M is a press-to-cycle action, not a held key. Small → full survey → hidden �
 ### Requested controls and achievements (not implemented)
 
 Milestone 0.3 tracks FR-017 (at least 40 distinct achievements and progress), FR-018 (player-defined keyboard bindings), and FR-019 (controller movement/actions/menu navigation). The current release still uses fixed keyboard/touch controls and existing achievements. See the [ticket register](../tickets.md) for acceptance criteria. Controller support is technically feasible through the [Gamepad API](https://www.w3.org/TR/gamepad/); physical-device testing is required before claiming support.
+
+Enter (including Numpad Enter) activates the visible game card’s primary action: start, resume, retry, next stage, final achievements, or return from a custom run to the workshop. Cards focus that button without scrolling. A press during the death animation queues one retry; repeated keydown events do not trigger repeated actions. Deliberately focused buttons/links retain native Enter behavior; text fields, dialogs, and the editor are isolated from gameplay shortcuts.

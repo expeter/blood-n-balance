@@ -65,3 +65,23 @@ test('Enter retries from the death card or queues during the death animation, bu
   game.handleKeyDown(event);assert.equal(game.retries||0,0);game.status='dying';game.handleKeyDown(event);assert.equal(game.retryWhenDead,true);game.status='dead';game.handleKeyDown(event);assert.equal(game.retries,1);assert.equal(prevented,3);
  }finally{globalThis.document=originalDocument;}
 });
+
+test('Enter and Numpad Enter activate game cards once without consuming focused UI controls',()=>{
+ const originalDocument=globalThis.document;globalThis.document={querySelector:()=>null};
+ try{
+  const game=Object.create(Game.prototype);game.canvas={closest:()=>null};let primary=0,retries=0;
+  game.cb={primary:()=>primary++,retry:()=>retries++};
+  const event=(code='Enter',target={tagName:'CANVAS'},repeat=false)=>({code,target,repeat,preventDefault(){this.defaultPrevented=true;}});
+  for(const code of ['Enter','NumpadEnter'])for(const status of ['ready','paused','won']){
+   game.status=status;const before=primary;game.handleKeyDown(event(code));assert.equal(primary,before+1);
+   game.handleKeyDown(event(code,undefined,true));assert.equal(primary,before+1);
+  }
+  game.status='paused';game.mapOpen=true;game.handleKeyDown(event());assert.equal(primary,6);game.mapOpen=false;
+  game.status='ready';const focused=event('Enter',{tagName:'BUTTON',closest:()=>({})});game.handleKeyDown(focused);assert.equal(focused.defaultPrevented,undefined);assert.equal(primary,6);
+  const held=event('Enter',focused.target,true);game.handleKeyDown(held);assert.equal(held.defaultPrevented,true);
+  for(const target of [{tagName:'INPUT'},{tagName:'DIV',isContentEditable:true}]){game.handleKeyDown(event('Enter',target));assert.equal(primary,6);}
+  globalThis.document.querySelector=()=>({});game.handleKeyDown(event());assert.equal(primary,6);
+  globalThis.document.querySelector=()=>null;game.canvas.closest=()=>({});game.handleKeyDown(event());assert.equal(primary,6);
+  game.canvas.closest=()=>null;game.status='dead';game.handleKeyDown(event('NumpadEnter'));assert.equal(retries,1);
+ }finally{globalThis.document=originalDocument;}
+});
