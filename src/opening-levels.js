@@ -3,7 +3,7 @@
 const rooms = [
   {
     name:'False start', size:[48,24], time:120, skill:'The exit is not the objective',
-    lesson:'The exit is beside you, but it is locked. Find A on the far balcony. Its gate opens a shorter return route. Hold M to study the map.',
+    lesson:'The exit is beside you, but it is locked. Find A on the far balcony. Its gate opens a shorter return route. Press M to cycle the map.',
     spawn:[3,21],exit:[5,21],switches:[['A',42,10]],
     blocks:[[7,19,11,19],[15,16,19,16],[23,13,27,13],[33,13,37,13],[39,11,44,11],[22,14,22,18],[31,18,36,18]],
     gates:[['A',22,19,1,3]],spikes:[[12,21,15,21],[30,21,34,21],[25,12,26,12]],saws:[[34,17]],

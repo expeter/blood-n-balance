@@ -2,6 +2,13 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [0.2.4] - 2026-09-27
+
+- **FR-020** — Add a physics-based editor Jump probe with hover/pin placement, standing/running takeoff, difficulty selection, collision/hazard-aware trajectories, and tile-distance readouts. Add campaign-stage copy editing with a downloaded draft backup. Preview data stays out of level exports.
+- **BUG-004** — Remove decorative text hidden by terrain (reported on stage 6) and draw latching switches as PRESS/SET buttons rather than reversible levers (reported on stage 8). Level geometry and rules are unchanged.
+- **CR-004** — Replace the long help wall with essentials and expandable mechanic topics; correct the old hold-M hint.
+- **SPEC-009 / planning only** — Specify a nonviolent kids edition for ages 10–12 sharing the level designs. Register **FR-021** for a bloodier original-edition icon, **FR-022** for the kids build/site, and **CR-005** for campaign usability audits. Those implementations and the kids hostname are not shipped here.
+
 ## [0.2.3] - 2026-09-27
 
 - **BUG-003** — Restore Enter/Numpad Enter for the primary Start, Resume, Retry, and completion actions. Focus the game card’s primary button without scrolling, show its Enter hint, and preserve native keyboard activation of focused controls. Keep queued death retries and prevent held-key repeats.

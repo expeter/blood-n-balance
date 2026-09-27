@@ -72,6 +72,37 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 **FR-019 acceptance direction:** use the browser Gamepad API with D-pad/left stick movement, configurable dead zone, jump, retry, pause, map cycle, and helpers. Poll before simulation; support connection/reconnection, clear held input and pause on disconnect, and avoid double-triggering actions. Provide button hints and menu focus navigation. Feature-detect gracefully; keyboard/touch remain available. Validate with at least an Xbox-style and PlayStation-style controller on supported browsers before claiming device support. Technical reference: https://www.w3.org/TR/gamepad/ . This feature is not implemented yet.
 
+## Milestone 0.4 — Level authoring and readable guidance
+
+| ID | Type | Ticket | Status |
+| --- | --- | --- | --- |
+| FR-020 | FR | Physics-based editor jump probe and campaign copy editing | Done |
+| BUG-004 | BUG | World text collides with terrain; latching switches look reversible | Done |
+| CR-004 | CR | Replace the overwhelming help wall with short basics and optional topics | Done |
+| CR-005 | CR | Audit campaign presentation and puzzle clarity in batches | Proposed |
+
+**FR-020 acceptance:** hover a takeoff surface with a jump tool; click/Enter to pin a character and left/right jump traces while placing obstacles. Select difficulty and standing/running takeoff; traces use the real movement/collision engine, stop on landing/hazard, and do not mutate the draft, gameplay, inventory, or saves. Clearly state fresh-level timing, held direction, no helpers, and no proof of full-route solvability. Invalid/unsupported positions explain why no jump is shown. Import a campaign stage as an editable copy with a draft backup. Keyboard and zoom coordinates must work.
+
+**BUG-004 acceptance:** remove redundant decorative text embedded under terrain (reported on stage 6); use distinct visuals for one-way switches and reversible levers (stage 8's left switch is a latch, not a toggle). Keep circuit letters and state readable without changing puzzle geometry or campaign revision.
+
+**CR-004 acceptance:** help initially shows only essential movement/objective/retry/map guidance. Advanced mechanics use short, expandable topics. Remove outdated hold-M wording.
+
+**Verified in 0.2.4:** 235 tests and production build pass. Jump-preview regression coverage checks supported/invalid origins, standing/running/Easy differences, collision with walls/ceilings, hazard termination, reproducibility, and draft isolation. Chromium checks campaign-copy backup, hover/pin, editing with a pinned trace, export isolation, zoom, keyboard placement, compact help, and rendering stages 6/8. The kids contract is documented; its build, art, audio, icon, and hostname remain proposed work.
+
+**CR-005 acceptance direction:** inspect batches of 10 stages for readable labels, clear switch roles, redundant or misleading hints, safe recovery, and route quality. Record intended solution and an alternate route, difficulty-specific concerns, and a screenshot per issue. Automated replays establish reachability only; keep subjective review separate. Fix confirmed shared rendering problems once; do not regenerate all 99 stages or claim they have all been playtested. First reported examples: stage 6 decorative text and stage 8 switch presentation (BUG-004).
+
+## Milestone 0.5 — Separate presentation editions (proposed)
+
+| ID | Type | Ticket | Status |
+| --- | --- | --- | --- |
+| FR-021 | FR | Bloodier icon for the original edition | Proposed |
+| SPEC-009 | SPEC | Nonviolent kids edition sharing the same level designs | Done |
+| FR-022 | FR | Build and deploy the kids edition at kids-bnb.minizap.online | Proposed |
+
+**FR-021 acceptance direction:** recognizable compact B&B/ninja silhouette with stylized crimson ink/blood droplets, readable at 16–48px. Provide favicon and app-icon variants; keep the kids build's artwork separate. No icon change is shipped by this ticket registration.
+
+**FR-022 acceptance direction:** use the edition contract in [kids edition](specs/kids-edition.md). Shared level IDs/geometry/physics with separate child-friendly art, effects, text, sounds, metadata, storage, and deployment. No blood, skeletons, dismemberment, realistic weapons, frightening death wording, or adult branding in the kids build. Validate the entire hazard and reward catalog and both deployments before enabling the hostname.
+
 ## Milestone 1 — AI-assisted level authoring and QA (proposed)
 
 | ID | Type | Ticket | Status |

@@ -217,3 +217,23 @@ body[data-view="play"] .game-column:fullscreen .game-shell{max-width:100%}
 }
 
 .play-extras>summary small{font-size:12px;float:right;margin-left:8px}
+
+/* Optional editor tools and help stay readable without a wall of instructions. */
+.help-basics{display:grid;gap:10px;margin:16px 0;font-size:14px;line-height:1.6}
+.help-topics details{border-top:1px solid var(--line);padding:10px 0;font-size:14px;line-height:1.6}
+.help-topics summary{cursor:pointer;font-weight:600}
+.help-topics p{color:var(--muted);margin:8px 0}
+#jump-readout{color:var(--lime);font-size:12px;line-height:1.7}
+#jump-settings .editor-options{display:flex;flex-direction:column;align-items:stretch;gap:8px}
+#jump-settings select{max-width:100%;min-width:0}
+.editor-heading{flex-wrap:wrap}
+#editor-campaign-stage{max-width:210px;min-width:0;font-size:12px;background:var(--panel);color:inherit;border:1px solid var(--line);padding:6px}
+@media(min-width:901px){
+ .editor-panel{grid-template-rows:auto auto minmax(160px,1fr) auto;height:max(640px,calc(100dvh - 250px))}
+ .editor-toolbar{grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:minmax(36px,auto);gap:5px}
+ .editor-toolbar button{min-height:36px;font-size:12px}
+ .editor-toolbar button span{display:none}
+}
+.editor-inspector #jump-settings{max-height:none;overflow:visible}
+#jump-settings .editor-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+#jump-settings .editor-options button{grid-column:1/-1}

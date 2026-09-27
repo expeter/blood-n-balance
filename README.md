@@ -15,7 +15,7 @@ The game is published from passing `main` builds to `bnb.minizap.online`. See [d
 
 `npm run build` creates a static site in `dist/`. Serve it over HTTP from any static host. `npm test` runs progression, economy, level format, and physics tests, including hazard-active, item-free input replays through all 99 authored rooms. The developer tool `node scripts/solve-opening.mjs` can regenerate those fixtures by searching the actual physics along intended routes; optional zero-based stage indices limit its scope. `node scripts/solve-pulse.mjs` generates stages 11–20 and `node scripts/solve-crossfire.mjs` generates stages 21–30. `node scripts/solve-undertow.mjs` generates stages 31–40, including recorded waits and rides. `node scripts/solve-relay.mjs` generates stages 41–50 and records lever reversals. `node scripts/solve-timed.mjs` generates stages 51–60; `node scripts/solve-timed-recovery.mjs` records successful recovery runs after deliberately letting every timer expire in stages 56, 59, and 60. `node scripts/solve-unstable.mjs` generates stages 61–70, including deliberate floor-collapse waits. `node scripts/solve-tripwire.mjs` generates stages 71–80; `node scripts/solve-tripwire-alternate.mjs` verifies the opposite branch order in stage 79. `node scripts/solve-pursuit.mjs` generates stages 81–90; `node scripts/solve-pursuit-alternate.mjs` verifies both branch orders in stage 89. `node scripts/solve-finale.mjs` generates stages 91–99; `node scripts/solve-finale-alternate.mjs` verifies the opposite shutdown order in stage 97.
 
-## Current version 0.2.3
+## Current version 0.2.4
 
 The current feature set and editor behavior are described in the [current game specification](docs/specs/current-game.md). Proposed AI and community modes are documented separately in [community and AI-assisted modes](docs/specs/community-and-ai-modes.md) and the [AI level design and QA specification](docs/specs/ai-level-qa.md). The [ticket register](docs/tickets.md) groups implementation work into provisional milestones; we will agree on milestone sequencing before starting those features. User-visible changes are recorded in the [changelog](CHANGELOG.md).
 
@@ -150,3 +150,9 @@ Add this object as the hazard’s `alarm` field. The switch must exist; `on` cho
 ## Milestone two: VPS API (not implemented)
 
 Recommended boundaries are `POST /api/scores`, `GET /api/leaderboards`, `POST /api/levels`, and `GET /api/levels` with pagination. Add identity/authentication, rate limiting, server-side schema validation, moderation, and versioned levels before publishing. Client-side times and local save data are editable and must be treated as untrusted; competitive leaderboards need server verification or replay validation. The local JSON format can serve as the initial level payload. No backend credentials or mock online submissions are included in milestone one.
+
+### Jump preview and campaign copies
+
+In the workshop, choose a campaign stage and **Edit a copy** to inspect it (your previous draft is downloaded as a backup). The original campaign remains unchanged. Choose **Jump probe**, hover a floor/deck or the cell above it, and click or press Enter to pin the runner. Switch back to building tools to edit around the pinned trajectories; choose **Clear pin** to return to hover previews. Difficulty and standing/running takeoff are adjustable. Arcs use real collision/movement simulation with fresh-level timing, held left/right input, and no helpers. They are not a full route proof and do not model a wall-jump chain or an available run-up.
+
+The requested nonviolent edition for ages 10–12 is specified in [kids edition](docs/specs/kids-edition.md); its implementation and `kids-bnb.minizap.online` deployment are still backlog scope.

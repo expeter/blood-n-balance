@@ -1,6 +1,6 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `0.2.3`.
+Status: implemented browser-game baseline, version `0.2.4`.
 
 ## Product
 
@@ -61,3 +61,13 @@ M is a press-to-cycle action, not a held key. Small → full survey → hidden �
 Milestone 0.3 tracks FR-017 (at least 40 distinct achievements and progress), FR-018 (player-defined keyboard bindings), and FR-019 (controller movement/actions/menu navigation). The current release still uses fixed keyboard/touch controls and existing achievements. See the [ticket register](../tickets.md) for acceptance criteria. Controller support is technically feasible through the [Gamepad API](https://www.w3.org/TR/gamepad/); physical-device testing is required before claiming support.
 
 Enter (including Numpad Enter) activates the visible game card’s primary action: start, resume, retry, next stage, final achievements, or return from a custom run to the workshop. Cards focus that button without scrolling. A press during the death animation queues one retry; repeated keydown events do not trigger repeated actions. Deliberately focused buttons/links retain native Enter behavior; text fields, dialogs, and the editor are isolated from gameplay shortcuts.
+
+## Editor jump probe (0.2.4)
+
+FR-020 adds a non-destructive jump probe. Hover a supporting solid/gate/deck or the cell above it; click or use keyboard arrows/Enter to pin the character. The pin persists while using building tools and trajectories refresh after edits. Difficulty (Easy, Medium, Hard) and standing/full-speed takeoff select the same physics used by Game.update at 120 simulation steps per second. Independent headless room copies keep the live run, draft, saved state, inventory, and audio untouched. Preview metadata is not exported. Unsupported or obstructed origins show a reason instead of a misleading arc.
+
+Two paths hold left or right until the first landing, hazard contact, exit, or three-second limit. Readouts show actual horizontal travel and peak rise in tiles; endpoints distinguish landing, hazard, and other termination. Simulations start with fresh circuit/hazard timing, no helpers, and no ghost. Running assumes already having maximum horizontal speed; it does not prove there is sufficient run-up. This is not an envelope of every possible steering choice, wall-jump chain, or a solver for the full puzzle. Moving decks/hazards may differ when reached later during a real run.
+
+The campaign-copy selector downloads the current draft as backup, then opens an independent editable copy of any stage. JSON export/test use that draft; the source campaign and its revision remain unchanged.
+
+BUG-004 removes decorative world lettering behind terrain and distinguishes latching PRESS/SET buttons from reversible ON/OFF levers. Help (CR-004) presents four short basics and optional expandable mechanic topics. A batch campaign usability audit is tracked as CR-005; existing replays alone do not establish design quality.

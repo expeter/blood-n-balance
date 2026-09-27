@@ -18,8 +18,6 @@ export function renderGame(g){
   c.translate(ox,oy);c.scale(scale,scale);c.fillStyle='#e4e7d8';c.fillRect(0,0,g.worldW,g.worldH);
   c.strokeStyle='#d6dccb';c.lineWidth=.7;c.beginPath();
   for(let x=0;x<=g.worldW;x+=TILE){c.moveTo(x,0);c.lineTo(x,g.worldH);}for(let y=0;y<=g.worldH;y+=TILE){c.moveTo(0,y);c.lineTo(g.worldW,y);}c.stroke();
-  c.fillStyle='#c9d0bc';c.font='bold 115px monospace';c.fillText(g.level.index===undefined?'LAB':String(g.level.index+1).padStart(2,'0'),45,143);
-  c.fillStyle='#8b9680';c.font='12px monospace';c.fillText((g.level.name||'THE MACHINE').toUpperCase(),50,166);c.fillText('READ THE ROOM. FIND THE CIRCUIT.',50,186);
   for(const s of g.solids){
     c.fillStyle='#3d483e';c.fillRect(s.x,s.y,s.w,s.h);c.fillStyle='#69755c';c.fillRect(s.x,s.y,s.w,2);
     c.strokeStyle='#475142';c.strokeRect(s.x+.5,s.y+.5,29,29);c.fillStyle='#53604d';c.fillRect(s.x+6,s.y+9,2,2);
@@ -51,8 +49,8 @@ export function renderGame(g){
     const active=g.activated.has(s.id),x=s.x*TILE+15,y=s.y*TILE+15,color=circuitColor(s.id);
     c.fillStyle=active?'#ccdab3':'#e9d1a2';c.beginPath();c.arc(x,y,20,0,Math.PI*2);c.fill();c.strokeStyle=active?'#6e904b':color;c.lineWidth=2;c.stroke();
     if(s.mode==='timed'){c.strokeStyle=active&&timerRemaining(g,s.id)<2?'#d85744':'#62a5a0';c.lineWidth=4;c.beginPath();c.arc(x,y,24,-Math.PI/2,-Math.PI/2+Math.PI*2*(active?timerRemaining(g,s.id)/s.duration:1));c.stroke();}
-    c.fillStyle='#384530';c.fillRect(x-8,y+4,16,6);c.strokeStyle=active?'#739845':color;c.lineWidth=4;c.beginPath();c.moveTo(x,y+5);c.lineTo(x+(active?8:-8),y-9);c.stroke();
-    c.fillStyle=active?'#52723a':color;c.textAlign='center';c.font='bold 13px monospace';c.fillText(s.id,x,y-25);c.font='12px monospace';c.fillText(s.mode==='timed'?(active?timerRemaining(g,s.id).toFixed(1)+'s':s.duration+'s TIMER'):s.mode==='toggle'?(active?'ON ↔':'OFF ↔'):active?'ON':'SWITCH',x,y+31);c.textAlign='left';
+    c.fillStyle='#384530';c.fillRect(x-8,y+4,16,6);c.strokeStyle=active?'#739845':color;c.lineWidth=4;if(s.mode==='toggle'){c.beginPath();c.moveTo(x,y+5);c.lineTo(x+(active?8:-8),y-9);c.stroke();}else{c.fillStyle=active?'#739845':color;c.fillRect(x-6,y+(active?0:-6),12,active?5:11);}
+    c.fillStyle=active?'#52723a':color;c.textAlign='center';c.font='bold 13px monospace';c.fillText(s.id,x,y-25);c.font='12px monospace';const label=s.mode==='timed'?(active?timerRemaining(g,s.id).toFixed(1)+'s':s.duration+'s TIMER'):s.mode==='toggle'?(active?'ON ↔':'OFF ↔'):active?'SET':'PRESS';const labelWidth=c.measureText(label).width+8;c.fillStyle='#e4e7d8ee';c.fillRect(x-labelWidth/2,y+20,labelWidth,16);c.fillStyle=active?'#52723a':color;c.fillText(label,x,y+32);c.textAlign='left';
   }
   for(const gold of g.gold)if(!gold.taken){c.save();c.translate(gold.x,gold.y);if(gold.firstBonus){const pulse=.9+Math.sin(g.clock*5)*.1;c.fillStyle='rgba(66,205,219,.2)';c.beginPath();c.arc(0,0,10*pulse,0,Math.PI*2);c.fill();c.strokeStyle='#63dbe2';c.lineWidth=2;c.beginPath();c.arc(0,0,8*pulse,0,Math.PI*2);c.stroke();c.strokeStyle='#baf7f3';c.lineWidth=1.5;c.beginPath();c.moveTo(-9,0);c.lineTo(-6,0);c.moveTo(9,0);c.lineTo(6,0);c.moveTo(0,-9);c.lineTo(0,-6);c.moveTo(0,9);c.lineTo(0,6);c.stroke();}c.rotate(Math.PI/4);c.fillStyle=gold.firstBonus?'#ffe3a0':'#c69632';c.fillRect(-4,-4,8,8);c.fillStyle=gold.firstBonus?'#fff8d7':'#f3d77a';c.fillRect(-3,-3,3,3);c.restore();}
   const ex=g.level.exit.x*TILE,ey=g.level.exit.y*TILE,unlocked=g.exitUnlocked;
