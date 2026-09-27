@@ -7,7 +7,7 @@ User-visible changes are grouped under the game version from `package.json`. Tic
 Licensing and publication update 2026-09-27:
 
 - **CR-002** — License the public repository under MIT, copyright 2026 Peter Schulz (expeter), and include the notice in production artifacts.
-- **FR-016** — Confirm a successful GitHub Actions test/build/deployment; public custom-domain DNS verification remains pending.
+- **FR-016** — Complete GitHub Actions publication at `https://bnb.minizap.online`; verify the custom-domain certificate, HTTP-to-HTTPS redirect, game assets, version manifest, and MIT attribution. The separate VPS API hostname has HTTPS and an explicit not-deployed response.
 
 Deployment setup added 2026-09-26:
 

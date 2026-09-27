@@ -27,12 +27,12 @@ The baseline supports offline single-player play. Level JSON schema validation d
 | SPEC-008 | SPEC | Blood & Balance game vision and story | Done |
 | FR-014 | FR | Rename the game and apply Blood & Balance branding | Done |
 | FR-015 | FR | Add a gatekeeper boss encounter every ten stages | Proposed |
-| FR-016 | FR | Deploy passing main builds to GitHub Pages; reserve the VPS API hostname | In progress |
+| FR-016 | FR | Deploy passing main builds to GitHub Pages; reserve the VPS API hostname | Done |
 | CR-002 | CR | License the public repository under MIT with Peter Schulz attribution | Done |
 
 **CR-002 acceptance:** include the standard MIT license with `Copyright (c) 2026 Peter Schulz (expeter)`; declare MIT in package metadata and link the license and author from the README. Keep the npm package private to prevent accidental registry publication. Verify GitHub detects the repository license as MIT after pushing.
 
-Verified 2026-09-27: GitHub reports SPDX `MIT`; the production build's `LICENSE.txt` matches the source notice, and the automatic main deployment succeeded. FR-016's workflow, VPS, and custom-domain DNS checks pass. The game HTML/assets/version/license load over HTTP at the public hostname; its HTTPS certificate and enforcement remain outstanding.
+Verified 2026-09-27: GitHub reports SPDX `MIT`; the production build's `LICENSE.txt` matches the source notice, and the automatic main deployment succeeded. FR-016's workflow, VPS, and custom-domain DNS checks pass. The game HTML/assets/version/license load over HTTPS with a valid certificate, HTTP redirects to HTTPS, and Pages reports HTTPS enforcement enabled. The API reservation retains its explicit HTTPS 503 response until the backend is implemented.
 
 **FR-016 acceptance:** `origin` uses `git@github.com:expeter/blood-n-balance.git` with existing history preserved on `main`. Pull requests run tests/build; only passing `main` builds publish to `bnb.minizap.online`, with the source hash in the version manifest. Keep `.env` and credentials out of commits and artifacts. Configure `api.bnb.minizap.online` independently in Caddy, validate before graceful reload, and verify existing services remain healthy. The API implementation remains future work; any reserved endpoint must report that clearly. See [deployment instructions](deployment.md).
 
