@@ -10,7 +10,7 @@ Owner authorized implementation of all open milestones, milestone-specific relea
 | 0.6.0 | Chapter boss encounters: FR-015 | Implemented in 0.6.0; player balance review open |
 | 1.0.0 | AI level authoring, model selection, budgets: FR-007, FR-008 | Released; API and both edition manifests verified |
 | 2.0.0 | Community identity, sharing, discovery: SPEC-004, FR-009, FR-010 | Implemented in 2.0.0; invite-only launch |
-| 3.0.0 | Asynchronous competitions: FR-011, SPEC-005 | Pending |
+| 3.0.0 | Asynchronous competitions: FR-011, SPEC-005 | Implemented in 3.0.0, including verified campaign/kids highscores |
 | 4.0.0 | Live lobby races: FR-012, SPEC-006 | Pending |
 | 5.0.0 | Seeded endless mode: FR-013, SPEC-007 | Pending |
 

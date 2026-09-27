@@ -2,6 +2,13 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [3.0.0] - 2026-09-27 — Milestone 3: verified races and highscores
+
+- **FR-011 / SPEC-005** — Freeze timed sets and rules, resume attempts, verify ordered input replays in bounded server workers, and rank complete sets by authoritative elapsed time. Pauses, retries and disconnects keep the event clock running.
+- Run physics at 120 fixed steps/second and record bounded input tapes. Add explicit campaign score sharing, separate difficulty/helper/edition ladders, and replay viewing. Chapter scores verify both puzzle and guardian; kids gets preset nicknames and highscores only.
+- Enforce fixed event difficulty and assisted loadouts. Keep self-reported community counts separate from verified scores, and describe the limits of replay checks: valid trajectories are not proof of unaided human play.
+- Enable and verify daily consistent SQLite backups, keeping 14 dated copies on the VPS.
+
 ## [2.0.0] - 2026-09-27 — Milestone 2: invited community
 
 - **SPEC-004 / FR-009 / FR-010** — Publish immutable levels and ordered sets, open share links, download attributed JSON, and play sets sequentially. Add search, bookmarks, one-vote-per-account controls, reports, author unpublishing and owner moderation.

@@ -15,6 +15,11 @@ export function openStore(path=':memory:'){
  CREATE TABLE IF NOT EXISTS plays(id TEXT PRIMARY KEY,user_id TEXT REFERENCES users(id),level_id TEXT NOT NULL REFERENCES levels(id),created INTEGER NOT NULL,finished INTEGER,outcome TEXT);
  CREATE INDEX IF NOT EXISTS levels_created ON levels(status,created);
  CREATE INDEX IF NOT EXISTS plays_level ON plays(level_id);
+ CREATE TABLE IF NOT EXISTS competitions(id TEXT PRIMARY KEY,author_id TEXT REFERENCES users(id),set_id TEXT NOT NULL,name TEXT NOT NULL,snapshot TEXT NOT NULL,rules TEXT NOT NULL,opens INTEGER NOT NULL,closes INTEGER NOT NULL,duration INTEGER NOT NULL,created INTEGER NOT NULL);
+ CREATE TABLE IF NOT EXISTS attempts(id TEXT PRIMARY KEY,user_id TEXT NOT NULL REFERENCES users(id),competition_id TEXT NOT NULL REFERENCES competitions(id),started INTEGER NOT NULL,deadline INTEGER NOT NULL,progress INTEGER NOT NULL DEFAULT 0,checking INTEGER NOT NULL DEFAULT 0,status TEXT NOT NULL DEFAULT 'active',finished INTEGER,total_ms INTEGER);
+ CREATE TABLE IF NOT EXISTS attempt_runs(attempt_id TEXT NOT NULL REFERENCES attempts(id),position INTEGER NOT NULL,level_hash TEXT NOT NULL,replay TEXT NOT NULL,ticks INTEGER NOT NULL,submitted INTEGER NOT NULL,PRIMARY KEY(attempt_id,position));
+ CREATE TABLE IF NOT EXISTS score_guests(id TEXT PRIMARY KEY,token_hash TEXT UNIQUE NOT NULL,label TEXT NOT NULL,expires INTEGER NOT NULL);
+ CREATE TABLE IF NOT EXISTS scores(id TEXT PRIMARY KEY,player_id TEXT NOT NULL,label TEXT NOT NULL,edition TEXT NOT NULL,stage INTEGER NOT NULL,revision INTEGER NOT NULL,ruleset TEXT NOT NULL,difficulty TEXT NOT NULL,assistance TEXT NOT NULL,ticks INTEGER NOT NULL,replays TEXT NOT NULL,created INTEGER NOT NULL,UNIQUE(player_id,edition,stage,revision,ruleset,difficulty,assistance));
  CREATE TABLE IF NOT EXISTS settings(key TEXT PRIMARY KEY,value TEXT NOT NULL);
  `);return db;
 }

@@ -9,14 +9,17 @@ export function createApp(db,config={}){
  const server=createServer(async(req,res)=>{
  const send=(status,data)=>{if(res.writableEnded)return;res.writeHead(status,{'Content-Type':'application/json','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'});res.end(JSON.stringify(data));};
  try{
+ if(Number(req.headers['content-length']||0)>1600000)fail(413,'Request is too large.');
  const origin=req.headers.origin;if(origin&&!allowed.has(origin))fail(403,'Origin is not allowed.');if(origin){res.setHeader('Access-Control-Allow-Origin',origin);res.setHeader('Access-Control-Allow-Credentials','true');res.setHeader('Vary','Origin');}
  if(req.method==='OPTIONS'){res.setHeader('Access-Control-Allow-Methods','GET, POST, DELETE, OPTIONS');res.setHeader('Access-Control-Allow-Headers','Content-Type, X-BNB-Client');res.writeHead(204);res.end();return;}
  const path=new URL(req.url,'http://local').pathname,ip=config.trustProxy?String(req.headers['x-bnb-client-ip']||req.socket.remoteAddress):req.socket.remoteAddress;
  rate(ip,180);
  if(req.method==='GET'&&path==='/health'){send(200,{service:'blood-and-balance',status:'ok',version:config.version||'development',gitHash:config.gitHash||'nogit'});return;}
- const kids=origin==='https://kids-bnb.minizap.online';if(kids)fail(403,'Kids edition supports highscores only.');
+ const kids=origin==='https://kids-bnb.minizap.online';
  if(req.method!=='GET'&&(!origin||req.headers['x-bnb-client']!=='1'))fail(403,'A trusted origin and client header are required.');
  const user=identity(db,req);
+ if(config.scoreRoute&&await config.scoreRoute({db,config,req,res,path,user,send,rate,ip}))return;
+ if(kids)fail(403,'Kids edition supports highscores only.');
  if(path==='/v1/me'&&req.method==='GET'){send(200,{user});return;}
  if(['/v1/register','/v1/login'].includes(path)&&req.method==='POST'){rate(`auth:${ip}`,10,900000);const input=await body(req,5000),account=path.endsWith('register')?await register(db,input):await login(db,input);res.setHeader('Set-Cookie',cookie(session(db,account)));send(200,{user:account});return;}
  if(path==='/v1/logout'&&req.method==='POST'){const value=(req.headers.cookie||'').split(';').map(v=>v.trim()).find(v=>v.startsWith('bnb_session='))?.slice(12);if(value)db.prepare('DELETE FROM sessions WHERE hash=?').run(hash(value));res.setHeader('Set-Cookie',cookie(''));send(200,{ok:true});return;}

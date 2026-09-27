@@ -1,9 +1,12 @@
+import {scoreRoute} from './scores.mjs';
+import {competitionRoute} from './competitions.mjs';
 import {communityRoute} from './community.mjs';
 import {openStore} from './store.mjs';import {createApp} from './app.mjs';import {DEFAULT_MODEL} from './ai.mjs';import {readFileSync,existsSync} from 'node:fs';
 const integer=(value,fallback,min=0)=>{const n=Number(value??fallback);if(!Number.isInteger(n)||n<min||n>100000)throw Error('Invalid numeric configuration');return n;};
 const dailyDollars=Number(process.env.BNB_DAILY_DOLLARS??1);if(!Number.isFinite(dailyDollars)||dailyDollars<0||dailyDollars>100)throw Error('Invalid daily dollar allowance');
 const db=openStore(process.env.BNB_DB||'var/bnb.sqlite');db.prepare("UPDATE generation SET status='failed',reserved=0,error='Service restarted before completion; no automatic retry.' WHERE status='running'").run();
-const config={extraRoute:communityRoute,maxOutputTokens:Math.min(16000,integer(process.env.BNB_MAX_OUTPUT_TOKENS,6144,2048)),key:process.env.OPENROUTER_KEY,dailyDollars,dailyRequests:integer(process.env.BNB_DAILY_REQUESTS,100),userDailyRequests:integer(process.env.BNB_USER_DAILY_REQUESTS,10),models:(process.env.BNB_MODELS||DEFAULT_MODEL).split(','),secure:process.env.BNB_LOCAL_HTTP!=='1',trustProxy:process.env.BNB_TRUST_PROXY==='1',version:JSON.parse(readFileSync(new URL('../package.json',import.meta.url))).version};
+db.prepare('UPDATE attempts SET checking=0 WHERE checking=1').run();
+const config={scoreRoute,extraRoute:async ctx=>await competitionRoute(ctx)||await communityRoute(ctx),maxOutputTokens:Math.min(16000,integer(process.env.BNB_MAX_OUTPUT_TOKENS,6144,2048)),key:process.env.OPENROUTER_KEY,dailyDollars,dailyRequests:integer(process.env.BNB_DAILY_REQUESTS,100),userDailyRequests:integer(process.env.BNB_USER_DAILY_REQUESTS,10),models:(process.env.BNB_MODELS||DEFAULT_MODEL).split(','),secure:process.env.BNB_LOCAL_HTTP!=='1',trustProxy:process.env.BNB_TRUST_PROXY==='1',version:JSON.parse(readFileSync(new URL('../package.json',import.meta.url))).version};
 if(existsSync(new URL('./release.json',import.meta.url)))config.gitHash=JSON.parse(readFileSync(new URL('./release.json',import.meta.url))).gitHash;
 if(process.env.BNB_ORIGINS)config.origins=process.env.BNB_ORIGINS.split(',');
 const server=createApp(db,config);server.listen(integer(process.env.BNB_PORT,3002,1),'127.0.0.1',()=>console.log(`Blood & Balance API on 127.0.0.1:${process.env.BNB_PORT||3002}`));

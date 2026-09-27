@@ -129,8 +129,8 @@ Verified: separate canvas rendering and saved preferences have regression covera
 
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
-| FR-011 | FR | Run a time-window competition on a fixed level set | Proposed |
-| SPEC-005 | SPEC | Competition fairness, replay evidence, and ranking rules | Proposed |
+| FR-011 | FR | Run a time-window competition on a fixed level set | Implemented in 3.0.0 |
+| SPEC-005 | SPEC | Competition fairness, replay evidence, and ranking rules | Implemented in 3.0.0 |
 
 **Acceptance direction:** entrants use identical level revisions, difficulty, and helper rules; ranks are split into compatible difficulty/assistance ladders; retries, pauses, and run completion are explicit; server-side results do not trust client time alone. Competition event windows use server time.
 

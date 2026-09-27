@@ -1,3 +1,4 @@
+import {createTape,recordTick,TICK_RATE} from './replay.js';
 import {initBoss,updateBoss} from './bosses.js';
 import {initSentries,updateSentries} from './sentries.js';
 import {initTraps,updateTraps} from './traps.js';
@@ -14,7 +15,7 @@ const overlap=(a,b)=>a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
 const makeRandom=seed=>{let n=seed>>>0;return()=>{n=(n+0x6d2b79f5)|0;let t=Math.imul(n^(n>>>15),1|n);t^=t+Math.imul(t^(t>>>7),61|t);return ((t^(t>>>14))>>>0)/4294967296;};};
 export class Game {
   constructor(canvas,callbacks){
-    this.canvas=canvas;this.ctx=canvas.getContext('2d');this.cb=callbacks;this.keys=new Set();this.last=0;this.status='ready';this.reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.recordReplay=true;this.accumulator=0;this.canvas=canvas;this.ctx=canvas.getContext('2d');this.cb=callbacks;this.keys=new Set();this.last=0;this.status='ready';this.reducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     // Render the logical 960×540 scene into a backing store sized for the
     // displayed canvas and the screen's pixel density. Without this, a normal
     // DPR-2 display stretches only 960×540 source pixels across twice as many
@@ -36,7 +37,7 @@ export class Game {
     requestAnimationFrame(t=>this.frame(t));
   }
   load(level,seed=1,bankedGold=[]){
-    this.level=level;const size=levelSize(level);this.worldW=size.width*TILE;this.worldH=size.height*TILE;
+    this.replay=createTape();this.replayJump=false;this.replayClear=false;this.replayHelpers=[];this.accumulator=0;this.level=level;const size=levelSize(level);this.worldW=size.width*TILE;this.worldH=size.height*TILE;
     this.player={x:level.spawn.x*TILE+7,y:level.spawn.y*TILE+3,w:16,h:26,vx:0,vy:0,ground:false,wall:0,face:1,sliding:false};
     this.solids=level.tiles.filter(t=>t.type==='solid').map(t=>({x:t.x*TILE,y:t.y*TILE,w:TILE,h:TILE}));
     this.solidGrid=new Map(this.solids.map(s=>[`${s.x/TILE},${s.y/TILE}`,s]));
@@ -74,7 +75,7 @@ export class Game {
     this.action(action,true,'keyboard:'+e.code);
   }
   setBindings(bindings){this.bindings=bindings??DEFAULT_BINDINGS;this.clearInput();}
-  clearInput(){this.keys.clear();this.inputSources?.clear();this.jumpBuffer=0;}
+  clearInput(){this.keys.clear();this.inputSources?.clear();this.jumpBuffer=0;this.replayJump=false;this.replayClear=true;}
   action(action,down,source='controller'){
     if(CANONICAL_KEYS[action]){this.input(CANONICAL_KEYS[action],down,source);return;}
     if(!down)return;
@@ -93,10 +94,10 @@ export class Game {
   }
   openMap(){if(this.mapOpen||!['playing','paused','ready'].includes(this.status))return;this.mapPrior=this.status;this.status='paused';this.mapOpen=true;this.clearInput();this.cb.map?.(true);}
   closeMap(){if(!this.mapOpen)return;this.mapOpen=false;this.status=this.mapPrior;this.clearInput();this.cb.map?.(false);}
-  activate(id){if(this.status!=='playing')return false;const item=ITEMS.find(i=>i.id===id);if(!item||this.effects[id]>0)return false;this.effects[id]=item.duration;this.usedItems=true;if(!this.runStats.helpers.includes(id))this.runStats.helpers.push(id);this.cb.sound('power');this.burst(this.player.x+8,this.player.y+12,item.color,16);return true;}
+  activate(id){if(this.status!=='playing')return false;const item=ITEMS.find(i=>i.id===id);if(!item||this.effects[id]>0)return false;this.effects[id]=item.duration;this.replayHelpers.push(id);this.usedItems=true;if(!this.runStats.helpers.includes(id))this.runStats.helpers.push(id);this.cb.sound('power');this.burst(this.player.x+8,this.player.y+12,item.color,16);return true;}
   input(code,down,source='direct'){
     this.inputSources??=new Map();const sources=this.inputSources.get(code)??new Set();
-    if(down){const fresh=!sources.has(source);sources.add(source);this.keys.add(code);if(fresh&&['Space','ArrowUp','KeyW'].includes(code))this.jumpBuffer=.14;}
+    if(down){const fresh=!sources.has(source);sources.add(source);this.keys.add(code);if(fresh&&['Space','ArrowUp','KeyW'].includes(code)){this.jumpBuffer=.14;this.replayJump=true;}}
     else{sources.delete(source);if(!sources.size)this.keys.delete(code);}
     if(sources.size)this.inputSources.set(code,sources);else this.inputSources.delete(code);
   }
@@ -116,6 +117,7 @@ export class Game {
       return;
     }
     if(this.status!=='playing')return;
+    if(this.recordReplay){recordTick(this.replay,(this.keys.has('ArrowRight')||this.keys.has('KeyD')?1:0)-(this.keys.has('ArrowLeft')||this.keys.has('KeyA')?1:0),!!this.replayJump,this.replayHelpers,!!this.replayClear);this.replayClear=false;this.replayJump=false;this.replayHelpers=[];}
     const p=this.player;this.previousPlayer={...p};this.elapsed+=dt;const frozen=this.effects.freeze>0;
     if(!frozen){this.remaining-=dt;this.clock+=dt*(this.difficulty==='easy'?.85:this.difficulty==='hard'?1.15:1);}if(this.remaining<=0){this.die('timeout');return;}
     expireSwitches(this);updateCrumbles(this);movePlatforms(this);
@@ -168,13 +170,13 @@ export class Game {
     }
     updateDevices(this);updateTraps(this);updateSentries(this);updateBoss(this,frozen?0:dt);if(this.status!=='playing')return;if(this.ghost&&this.updateGhost(dt))return;
     const exit={x:this.level.exit.x*TILE+2,y:this.level.exit.y*TILE,w:26,h:30};
-    if(this.exitUnlocked&&overlap(p,exit)){this.status='won';this.cb.sound('win');this.burst(exit.x+13,exit.y+15,'#789d41',36);this.cb.win({stats:structuredClone(this.runStats),remaining:this.remaining,timeLimit:this.level.time,time:this.elapsed,gold:this.collected,goldIds:this.gold.flatMap((coin,index)=>coin.taken?[index]:[]),usedItems:this.usedItems});}
+    if(this.exitUnlocked&&overlap(p,exit)){this.status='won';this.cb.sound('win');this.burst(exit.x+13,exit.y+15,'#789d41',36);this.cb.win({replay:this.recordReplay?structuredClone(this.replay):null,stats:structuredClone(this.runStats),remaining:this.remaining,timeLimit:this.level.time,time:this.elapsed,gold:this.collected,goldIds:this.gold.flatMap((coin,index)=>coin.taken?[index]:[]),usedItems:this.usedItems});}
     this.trail.push({x:p.x+8,y:p.y+15});if(this.trail.length>10)this.trail.shift();
     const blend=1-Math.exp(-dt*9);this.camera.x+=(Math.max(0,Math.min(this.worldW-W,p.x-W/2+p.vx*.2))-this.camera.x)*blend;
     this.camera.y+=(Math.max(0,Math.min(this.worldH-H,p.y-H*.52))-this.camera.y)*blend;
   }
   moveHazards(){for(const h of this.hazards)if(h.type==='drone')h.x=h.baseX+Math.sin(this.clock*(this.level.droneSpeed||.8)+h.baseX)*47;}
   updateGhost(dt){const gh=this.ghost,point=gh.route[gh.target],dx=point.x-gh.x,dy=point.y-gh.y,distance=Math.hypot(dx,dy)||1,step=gh.speed*dt;if(distance<=step+4)gh.target=(gh.target+1)%gh.route.length;else{gh.x+=dx/distance*step;gh.y+=dy/distance*step;}if(Math.hypot(this.player.x+8-gh.x,this.player.y+13-gh.y)<23){this.die('ghost',gh);return true;}return false;}
-  frame(t){this.cb.poll?.();const dt=Math.min((t-this.last)/1000||0,.04);this.last=t;if(this.level){for(let i=0;i<3;i++)this.update(dt/3);this.render();if(t-(this.lastHud||0)>100){this.cb.hud(this);this.lastHud=t;}}requestAnimationFrame(t=>this.frame(t));}
+  frame(t){this.cb.poll?.();const dt=Math.min((t-this.last)/1000||0,.1);this.last=t;if(this.level){this.accumulator+=dt;let steps=0;while(this.accumulator>=1/TICK_RATE&&steps++<12){this.accumulator-=1/TICK_RATE;this.update(1/TICK_RATE);}this.render();if(t-(this.lastHud||0)>100){this.cb.hud(this);this.lastHud=t;}}requestAnimationFrame(t=>this.frame(t));}
   render(){renderGame(this);if(this.level)this.cb.presentation?.(this);}
 }
