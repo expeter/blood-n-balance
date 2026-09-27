@@ -1,3 +1,4 @@
+import {drawBoss} from './bosses.js';
 import {IS_KIDS} from './edition.js';
 import {renderKidsGame} from './kids-renderer.js';
 import {drawAlarmLinks} from './alarms.js';
@@ -25,7 +26,7 @@ export function renderGame(g){
     c.fillStyle='#3d483e';c.fillRect(s.x,s.y,s.w,s.h);c.fillStyle='#69755c';c.fillRect(s.x,s.y,s.w,2);
     c.strokeStyle='#475142';c.strokeRect(s.x+.5,s.y+.5,29,29);c.fillStyle='#53604d';c.fillRect(s.x+6,s.y+9,2,2);
   }
-  drawTraps(c,g);drawCrumbles(c,g);drawPlatforms(c,g);
+  drawBoss(c,g);drawTraps(c,g);drawCrumbles(c,g);drawPlatforms(c,g);
   for(const gate of g.gates){
     const open=g.gateOpen(gate),color=circuitColor(gate.switchId);
     c.globalAlpha=open?.2:1;c.fillStyle=open?color:'#323b32';c.fillRect(gate.x,gate.y,gate.w,gate.h);

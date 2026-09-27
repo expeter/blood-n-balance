@@ -1,6 +1,6 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `0.5.0`.
+Status: implemented browser-game baseline, version `0.6.0`.
 
 ## Product
 
@@ -79,3 +79,7 @@ Options includes Controls with alternate keyboard bindings, conflict rejection, 
 Standard-mapped Gamepad API controllers support stick/D-pad movement, A jump, Y retry, Start pause, Back map, and LB/RB/X/B/left-stick click for helpers. D-pad navigates menus, A confirms, B backs out; left/right changes focused select choices. Disconnect pauses and clears held input. Unknown mappings are ignored. Browser simulation verifies these behaviors; real Xbox/PlayStation compatibility is not yet physically tested.
 
 52 achievements retain the original stable IDs and add visible progress. Successful runs record wall kicks, circuit activations, complete gold collection, close/fast finishes, shield/glider/combo use, and recovery after a failed attempt. Failed runs do not farm successful-run mastery counters. Saved progress migrates without discarding earned achievements.
+
+## 0.6.0 chapter guardians
+
+Stages 10/20/30/40/50/60/70/80/90/99 now continue into named guardian chambers after their puzzle exits. Three or four hits clear a guardian: stomp its exposed head, activate alternating floor controls during OPEN, or choose either method, depending on the chapter. Warning waves are jumpable. Both segments must finish before gold and achievements are banked; retry or reloading discards temporary progress. Scores sum both segment times, assistance flags and mastery statistics; chapter layout revisions advance to keep old scores separate. Ready/pause cards do not run timers. Existing puzzle geometry remains unchanged. Thirty boss input replays cover Easy/Medium/Hard without helpers. Nightmare adds the existing seeded ghost and still needs a dedicated route review. Ten short story fragments reveal that the artifact represents learned practice rather than a weapon. Kids encounters use festival friends and harmless pulse/water presentation.

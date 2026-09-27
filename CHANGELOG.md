@@ -2,6 +2,12 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [0.6.0] - 2026-09-27 — Milestone 0.6: chapter guardians
+
+- **FR-015** — Follow each chapter-ending puzzle with a named guardian chamber. Read its warning waves and vulnerable head, or use alternating arena buttons. Clear both parts to bank gold, earn achievements, and reveal a story fragment. Retry restarts the full stage; times and assistance combine across both parts.
+- Advance chapter-ending layout revisions and clear incomparable ladder entries while retaining previous completion history. Verify 30 boss routes across Easy/Medium/Hard without helpers. Physical/player balance and Nightmare boss route review remain open.
+- **FR-022 deployment** — Stage the isolated kids artifact on the VPS and validate/gracefully reload its Caddy host without changing other services. Public kids DNS/HTTPS remains pending.
+
 ## [0.5.0] - 2026-09-27 — Milestone 0.5: two editions
 
 - **FR-021** — Give the original game a crimson ink/ninja favicon.

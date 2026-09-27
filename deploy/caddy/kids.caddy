@@ -1,0 +1,8 @@
+kids-bnb.minizap.online {
+	encode zstd gzip
+	root * /srv/blood-and-balance/kids/current
+	@metadata path / /index.html /version.json
+	header @metadata Cache-Control no-store
+	header X-Content-Type-Options nosniff
+	file_server
+}

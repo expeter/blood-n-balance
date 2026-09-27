@@ -44,7 +44,7 @@ export function loadState(storage) {
     for(const [k,byDifficulty] of Object.entries(raw.leaderboards||{}))if(/^\d+$/.test(k)&&+k<99&&byDifficulty&&typeof byDifficulty==='object'){
       const record={};for(const difficulty of ['easy','medium','hard','nightmare'])if(byDifficulty[difficulty]&&typeof byDifficulty[difficulty]==='object'){
         const pair={};for(const mode of ['itemFree','assisted'])if(Number.isFinite(byDifficulty[difficulty][mode])&&byDifficulty[difficulty][mode]>=0)pair[mode]=byDifficulty[difficulty][mode];if(Object.keys(pair).length)record[difficulty]=pair;
-      }if(Object.keys(record).length)s.leaderboards[k]=record;
+      }if(Object.keys(record).length&&s.completed[k]?.revision===campaignRevision(+k))s.leaderboards[k]=record;
     }
     // Older saves used false as the default, so migrate them to audible once.
     // After this flag is persisted, an intentional mute choice is respected.
@@ -68,6 +68,7 @@ export function complete(s,index,time,gold,usedItems,difficulty='medium',allowLo
   const old=previous?.revision===revision?previous:undefined;
   const isBest=time<(old?.best??Infinity);
   s.completed[index]={best:Math.min(old?.best??Infinity,time),clean:!!old?.clean||!usedItems,gold:Math.max(old?.gold??0,gold),revision,difficulty:isBest&&['easy','medium','hard','nightmare'].includes(difficulty)?difficulty:old?.difficulty??'medium'};
+  if(!old)delete s.leaderboards[index];
   const ladder=s.leaderboards[index]??={},bucket=ladder[difficulty]??={};s.leaderboards[index]=ladder;ladder[difficulty]=bucket;const mode=usedItems?'assisted':'itemFree';bucket[mode]=Math.min(bucket[mode]??Infinity,time);
   s.coins+=gold;s.totalGold+=gold;
   const earned=ACHIEVEMENTS.filter(a=>!s.achievements.includes(a.id)&&a.test(s));

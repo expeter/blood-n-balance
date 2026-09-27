@@ -1,3 +1,4 @@
+import {initBoss,updateBoss} from './bosses.js';
 import {initSentries,updateSentries} from './sentries.js';
 import {initTraps,updateTraps} from './traps.js';
 import {initCrumbles,updateCrumbles} from './crumbles.js';
@@ -48,9 +49,9 @@ export class Game {
     this.clearInput();this.coyote=0;this.jumpBuffer=0;this.wallGrace=0;this.wallSide=0;this.wallJumpLock=0;this.invulnerable=0;this.mapOpen=false;
     this.levelSeed=Number.isInteger(seed)?seed:1;this.retryWhenDead=false;this.ghost=null;if(this.difficulty==='nightmare'){const random=makeRandom(this.levelSeed^0x4e4d);const margin=50;this.ghost={seed:this.levelSeed,x:this.worldW/2,y:this.worldH/2,speed:155,route:Array.from({length:7},()=>({x:margin+random()*Math.max(1,this.worldW-margin*2),y:margin+random()*Math.max(1,this.worldH-margin*2)})),target:0};}
     this.status='ready';this.camera={x:Math.max(0,Math.min(this.worldW-W,this.player.x-W/2)),y:Math.max(0,Math.min(this.worldH-H,this.player.y-H*.55))};
-    initSentries(this);initTraps(this);initCrumbles(this);initPlatforms(this);this.moveHazards();initDevices(this);this.cb.hud(this);this.render();
+    initBoss(this);initSentries(this);initTraps(this);initCrumbles(this);initPlatforms(this);this.moveHazards();initDevices(this);this.cb.hud(this);this.render();
   }
-  get exitUnlocked(){return (this.level.exitRequires??[]).every(id=>this.activated.has(id))&&conditionsMet(this.level.exitStates,this.activated);}
+  get exitUnlocked(){return (!this.boss||this.boss.hp===0)&&(this.level.exitRequires??[]).every(id=>this.activated.has(id))&&conditionsMet(this.level.exitStates,this.activated);}
   gateOpen(gate){return gateOpen(this,gate);}
   nearSolids(box,includePlatforms=true){
     const result=[];
@@ -165,7 +166,7 @@ export class Game {
         else {this.die(h.type==='drone'?'saw':'spikes',h);return;}
       }
     }
-    updateDevices(this);updateTraps(this);updateSentries(this);if(this.status!=='playing')return;if(this.ghost&&this.updateGhost(dt))return;
+    updateDevices(this);updateTraps(this);updateSentries(this);updateBoss(this,frozen?0:dt);if(this.status!=='playing')return;if(this.ghost&&this.updateGhost(dt))return;
     const exit={x:this.level.exit.x*TILE+2,y:this.level.exit.y*TILE,w:26,h:30};
     if(this.exitUnlocked&&overlap(p,exit)){this.status='won';this.cb.sound('win');this.burst(exit.x+13,exit.y+15,'#789d41',36);this.cb.win({stats:structuredClone(this.runStats),remaining:this.remaining,timeLimit:this.level.time,time:this.elapsed,gold:this.collected,goldIds:this.gold.flatMap((coin,index)=>coin.taken?[index]:[]),usedItems:this.usedItems});}
     this.trail.push({x:p.x+8,y:p.y+15});if(this.trail.length>10)this.trail.shift();

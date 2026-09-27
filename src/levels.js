@@ -29,8 +29,8 @@ function rawCampaignLevel(index) {
   if (index < 90) return pursuitLevel(index);
   return finaleLevel(index);
 }
-export const campaignLevel=index=>presentLevel(rawCampaignLevel(index));
-export const campaignRevision = index => index < 10 ? 3 : 2;
+export const campaignLevel=index=>presentLevel({...rawCampaignLevel(index),revision:campaignRevision(index)});
+export const campaignRevision = index => (index < 10 ? 3 : 2)+((index===98||(index+1)%10===0)?1:0);
 
 export const SECTORS = [
   {name:'The machine',mechanic:'Switch circuits & traversal puzzles',detail:'Ten large chambers with locked exits, connected gates, return routes, wall-jump shafts, saws, and dangerous shortcuts. Read the map before choosing your route.'},

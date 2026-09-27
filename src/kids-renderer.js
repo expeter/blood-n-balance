@@ -1,3 +1,4 @@
+import {drawBoss} from './bosses.js';
 import {W,H,TILE} from './levels.js';
 import {timerRemaining} from './circuits.js';
 function circle(c,x,y,r,color){c.fillStyle=color;c.beginPath();c.arc(x,y,r,0,Math.PI*2);c.fill();}
@@ -20,6 +21,7 @@ export function drawKidsWorld(c,g){
  for(const gold of g.gold)if(!gold.taken){flower(c,gold.x,gold.y,7,gold.firstBonus?'#7edbdf':'#ffe477');}
  const ex=g.level.exit.x*30,ey=g.level.exit.y*30;c.fillStyle=g.exitUnlocked?'#93d1b8':'#c5b3d8';c.fillRect(ex,ey,30,30);flower(c,ex+15,ey+15,12,g.exitUnlocked?'#ffdf83':'#e4d5ee');label(c,g.exitUnlocked?'PORTAL':'LOCKED',ex+15,ey-8);
  if(g.ghost)cloud(c,g.ghost.x-18,g.ghost.y,36,'#dfdcff');
+ drawBoss(c,g);
  const p=g.player,x=p.x+8,y=p.y;const resting=['dying','dead'].includes(g.status);
  if(resting){cloud(c,x-22,y+18,44);label(c,'Z z',x+10,y);}
  else {c.fillStyle='#906bc1';c.fillRect(p.x+3,y+10,10,12);circle(c,x,y+6,7,'#fff3df');c.fillStyle='#e6b1db';c.beginPath();c.moveTo(x-2,y);c.lineTo(x+2,y-9);c.lineTo(x+5,y+1);c.fill();circle(c,x+p.face*3,y+5,1.5,'#365164');c.strokeStyle='#725aa4';c.lineWidth=3;c.beginPath();c.moveTo(x,y+20);c.lineTo(x-6,y+26);c.moveTo(x,y+20);c.lineTo(x+6,y+26);c.moveTo(x-6,y+13);c.lineTo(x+6,y+14);c.stroke();}

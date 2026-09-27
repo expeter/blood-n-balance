@@ -26,7 +26,7 @@ The baseline supports offline single-player play. Level JSON schema validation d
 | --- | --- | --- | --- |
 | SPEC-008 | SPEC | Blood & Balance game vision and story | Done |
 | FR-014 | FR | Rename the game and apply Blood & Balance branding | Done |
-| FR-015 | FR | Add a gatekeeper boss encounter every ten stages | Proposed |
+| FR-015 | FR | Add a gatekeeper boss encounter every ten stages | Implemented in 0.6.0; player balance review open |
 | FR-016 | FR | Deploy passing main builds to GitHub Pages; reserve the VPS API hostname | Done |
 | CR-002 | CR | License the public repository under MIT with Peter Schulz attribution | Done |
 
@@ -36,7 +36,7 @@ Verified 2026-09-27: GitHub reports SPDX `MIT`; the production build's `LICENSE.
 
 **FR-016 acceptance:** `origin` uses `git@github.com:expeter/blood-n-balance.git` with existing history preserved on `main`. Pull requests run tests/build; only passing `main` builds publish to `bnb.minizap.online`, with the source hash in the version manifest. Keep `.env` and credentials out of commits and artifacts. Configure `api.bnb.minizap.online` independently in Caddy, validate before graceful reload, and verify existing services remain healthy. The API implementation remains future work; any reserved endpoint must report that clearly. See [deployment instructions](deployment.md).
 
-**FR-015 acceptance direction:** place a distinct boss encounter at stages 10, 20, 30, 40, 50, 60, 70, 80, 90, and a final encounter at 99. Support more than one interaction style, including stomping a boss's head and activating arena controls that expose a shot/window. Telegraph attacks and vulnerable states; make patterns deterministic and learnable; provide safe retry; do not require purchased items; preserve ordinary platforming controls and accessibility settings. Each boss should test the chapter's learned movement/hazard skills. Bosses, story scenes, and Sutra-fragment reveals are backlog scope, not delivered by the branding update.
+**FR-015 acceptance direction:** place a distinct boss encounter at stages 10, 20, 30, 40, 50, 60, 70, 80, 90, and a final encounter at 99. Support more than one interaction style, including stomping a boss's head and activating arena controls that expose a shot/window. Telegraph attacks and vulnerable states; make patterns deterministic and learnable; provide safe retry; do not require purchased items; preserve ordinary platforming controls and accessibility settings. Each boss should test the chapter's learned movement/hazard skills. 0.6.0 adds ten named guardian chambers following the unchanged chapter puzzles, with stomp, alternating-button, and either-method variants, deterministic warning/wave/open cycles, story fragments, and full-stage retry. The first set uses two shared encounter mechanics with increasing health/pace; a more individually authored set and subjective balance review remain future refinements.
 
 ## Version 0.2.1 — Playfield visibility
 

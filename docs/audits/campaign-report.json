@@ -3049,7 +3049,7 @@
   {
     "stage": 10,
     "name": "Meat machine",
-    "revision": 3,
+    "revision": 4,
     "purpose": "An exit earned twice",
     "designIdea": "You start inside the machine. C opens its roof. Visit both outer switches, then return to the central exit. The lower corridors are recovery routes, not safe routes.",
     "room": [
@@ -6711,7 +6711,7 @@
   {
     "stage": 20,
     "name": "Blackout protocol",
-    "revision": 2,
+    "revision": 3,
     "purpose": "The final beam never goes dark for good",
     "designIdea": "Three towers. Three shutdowns. A and B open the low passages; C disables the eastern stairwell. The last exit beam cannot be disabled: save one clean crossing for the end.",
     "room": [
@@ -10232,7 +10232,7 @@
   {
     "stage": 30,
     "name": "No man's land",
-    "revision": 2,
+    "revision": 3,
     "purpose": "Three batteries, one escape",
     "designIdea": "A opens the first battery wall. B releases the eastern tower. C silences its gun, but the last laser and roof cannon stay live. Use cover, remember the altered gates, and climb out.",
     "room": [
@@ -15282,7 +15282,7 @@
   {
     "stage": 40,
     "name": "The undertow engine",
-    "revision": 2,
+    "revision": 3,
     "purpose": "Plan the entire loop before boarding",
     "designIdea": "A is above the launch dock; B is beside the tall lift; C is below the upper ferry. Shut the batteries down, climb back to the final ride, then enter the exit shelf from its open western edge.",
     "room": [
@@ -20397,7 +20397,7 @@
   {
     "stage": 50,
     "name": "State of emergency",
-    "revision": 2,
+    "revision": 3,
     "purpose": "A route is also a state to remember",
     "designIdea": "Turn C ON in the east, then A ON to enter the west and set B ON. B and C together open the upper vault for D. Return to A and turn it OFF, revisit C to turn it OFF, then escape from the hub. B stays ON.",
     "room": [
@@ -23844,7 +23844,7 @@
   {
     "stage": 60,
     "name": "Borrowed time",
-    "revision": 2,
+    "revision": 3,
     "purpose": "One clock for the ferry, two for the final escape",
     "designIdea": "A buys the ferry crossing. Start B at the lift dock, then C on the upper balcony. B and C must still be ON at the final exit. D opens permanent low recovery passages and silences the eastern gun; use them if a deadline slips.",
     "room": [
@@ -27703,7 +27703,7 @@
   {
     "stage": 70,
     "name": "No going back",
-    "revision": 2,
+    "revision": 3,
     "purpose": "Leave each part of the machine by a new route",
     "designIdea": "The western climb collapses behind you. A opens the low passage to the lift. B buys the upper crossing, whose bridge also crumbles. C releases the low return to the central exit. Solid docks are the places to wait; the tan decks are commitments.",
     "room": [
@@ -32703,7 +32703,7 @@
   {
     "stage": 80,
     "name": "Everything is connected",
-    "revision": 2,
+    "revision": 3,
     "purpose": "A trap is part of the circuit",
     "designIdea": "Climb the west for A, opening the lift passage. B gives twenty-four seconds for the upper crossing. C shuts down the final traps and opens the low return. Triggered darts, a cracking bridge, and remote spike beds share the room: inspect the numbered wires before boarding.",
     "room": [
@@ -37952,7 +37952,7 @@
   {
     "stage": 90,
     "name": "No place to stare",
-    "revision": 2,
+    "revision": 3,
     "purpose": "Keep changing the angle",
     "designIdea": "A releases the western lift. B briefly blinds the upper eye and opens the crossing. C disables the eastern watcher and releases the return. D waits beneath the broken bridge. Change elevation after a lock starts; the eyes aim once, then their shots fly straight.",
     "room": [
@@ -43005,7 +43005,7 @@
   {
     "stage": 99,
     "name": "The last escape",
-    "revision": 2,
+    "revision": 3,
     "purpose": "Read the whole machine",
     "designIdea": "A opens the lift route and wakes the upper alarm. Timer B opens the high crossing and briefly blinds its eye. C releases the low return. D opens the eastern chamber and wakes its traps; E shuts them down. Return to D, switch it OFF, then collect F below and escape through the center. Every tool you learned has a place here; no purchased item is required.",
     "room": [

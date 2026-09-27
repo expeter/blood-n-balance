@@ -2,7 +2,7 @@
 
 Run `node scripts/audit-campaign.mjs` to regenerate. Blue paths use the real engine, active hazards, no helpers, and Medium difficulty at 120Hz. Orange blocks are gates; labelled circles are required circuits. Static drawings omit moving hazard phases; these are route diagrams, not gameplay screenshots. Easy/Hard results reuse Medium inputs and cannot certify or reject those difficulties. Full metrics, limitations, and warnings are in [campaign-report.json](campaign-report.json).
 
-99/99 primary Medium replays finish. 3 stages have verified alternate-route fixtures. Subjective difficulty and readability still need player feedback; no geometry was regenerated.
+99/99 primary Medium puzzle-room replays finish. Boss chambers added in 0.6.0 have separate replay tests in tests/fixtures/bosses; this report covers the puzzle segment only. 3 stages have verified alternate-route fixtures. Subjective difficulty and readability still need player feedback; no geometry was regenerated.
 
 | Stage | Name | Recorded time | Wall kicks | Circuit activation order | Alternate | Evidence |
 | --- | --- | --- | --- | --- | --- | --- |
