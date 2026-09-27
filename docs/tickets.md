@@ -32,7 +32,7 @@ The baseline supports offline single-player play. Level JSON schema validation d
 
 **CR-002 acceptance:** include the standard MIT license with `Copyright (c) 2026 Peter Schulz (expeter)`; declare MIT in package metadata and link the license and author from the README. Keep the npm package private to prevent accidental registry publication. Verify GitHub detects the repository license as MIT after pushing.
 
-Verified 2026-09-27: GitHub reports SPDX `MIT`; the production build's `LICENSE.txt` matches the source notice, and the automatic main deployment succeeded. FR-016's workflow and VPS checks pass; custom-domain DNS and HTTPS verification remain outstanding.
+Verified 2026-09-27: GitHub reports SPDX `MIT`; the production build's `LICENSE.txt` matches the source notice, and the automatic main deployment succeeded. FR-016's workflow, VPS, and custom-domain DNS checks pass. The game HTML/assets/version/license load over HTTP at the public hostname; its HTTPS certificate and enforcement remain outstanding.
 
 **FR-016 acceptance:** `origin` uses `git@github.com:expeter/blood-n-balance.git` with existing history preserved on `main`. Pull requests run tests/build; only passing `main` builds publish to `bnb.minizap.online`, with the source hash in the version manifest. Keep `.env` and credentials out of commits and artifacts. Configure `api.bnb.minizap.online` independently in Caddy, validate before graceful reload, and verify existing services remain healthy. The API implementation remains future work; any reserved endpoint must report that clearly. See [deployment instructions](deployment.md).
 
