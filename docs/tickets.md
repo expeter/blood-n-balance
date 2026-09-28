@@ -159,12 +159,12 @@ Source: owner feedback, 2026-09-28. Implement without marking stages completed o
 | ID | Type | Ticket | Status |
 | --- | --- | --- | --- |
 | CR-006 | CR | Temporarily unlock all 99 stages in both published editions | Done in 5.0.1 |
-| FR-023 | FR | Dressing room with outfit previews and permanent gold/flower accessories | In progress, 5.1 |
-| FR-024 | FR | One feature-test arena covering every obstacle, circuit and helper | In progress, 5.1 |
-| FR-025 | FR | Rectangle selection and validated multi-object copy/paste in editor | In progress, 5.1 |
-| FR-026 | FR | Undo/redo editor history, grouping paint strokes and retaining drafts | In progress, 5.1 |
-| BUG-006 | BUG | Improve editor and kids text contrast and consistent flower currency wording | In progress, 5.1 |
-| BUG-007 | BUG | Repair endless setup form and readable start/result layouts | In progress, 5.1 |
+| FR-023 | FR | Dressing room with outfit previews and permanent gold/flower accessories | Done in 5.1.0 |
+| FR-024 | FR | One feature-test arena covering every obstacle, circuit and helper | Done in 5.1.0 |
+| FR-025 | FR | Rectangle selection and validated multi-object copy/paste in editor | Done in 5.1.0 |
+| FR-026 | FR | Undo/redo editor history, grouping paint strokes and retaining drafts | Done in 5.1.0 |
+| BUG-006 | BUG | Improve editor and kids text contrast and consistent flower currency wording | Done in 5.1.0 |
+| BUG-007 | BUG | Repair endless setup form and readable start/result layouts | Done in 5.1.0 |
 | CR-007 | CR | Add vertical endless routes, increasing combinations and intentional raised escape exits about every 500m | In progress, 5.2 |
 
 Acceptance: test published unlocks without fabricated progress; persist owned cosmetics without physics advantages; validate pasted references and reject collisions atomically; undo one paint stroke at a time and redo until a new edit; exercise shared arena geometry in both editions; verify readable forms on laptop/mobile; run actual physics routes across new endless motifs and verify raised exits cannot be entered by simply running along the floor.

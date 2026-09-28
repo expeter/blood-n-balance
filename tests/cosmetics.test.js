@@ -21,3 +21,5 @@ test('palette and ninja selections survive save loading and invalid ids fall bac
  const safe=loadState({getItem:()=>JSON.stringify(save)});
  assert.equal(safe.settings.palette,'midnight');assert.equal(safe.settings.skin,'classic');
 });
+
+test('accessories charge once, persist, equip by slot, and keep careers independent',async()=>{const {buyAccessory,equipAccessory}=await import('../src/cosmetics.js');const s=freshState();assert.equal(buyAccessory(s,'leaf'),true);assert.equal(s.coins,28);assert.equal(buyAccessory(s,'leaf'),false);assert.equal(buyAccessory(s,'wings'),false);assert.equal(s.coins,28);assert.equal(equipAccessory(s,'head',null),true);assert.equal(equipAccessory(s,'head','leaf'),true);assert.equal(equipAccessory(s,'back','leaf'),false);assert.equal(equipAccessory(s,'head','halo'),false);const next=loadState({getItem:()=>JSON.stringify(s)});assert.deepEqual(next.ownedAccessories,['leaf']);assert.equal(next.settings.accessories.head,'leaf');assert.deepEqual(freshState().ownedAccessories,[]);});

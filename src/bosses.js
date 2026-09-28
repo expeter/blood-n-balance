@@ -16,12 +16,12 @@ export function updateBoss(g,dt){
  const phase=g.clock%b.period,cycle=Math.floor(g.clock/b.period);
  const opens=b.mode==='stomp'?1.4:2;b.state=phase<1.2?'warning':phase<opens?'attack':phase<opens+b.openFor?'open':'guard';
  if(cycle!==b.cycle&&phase>=1.2){b.cycle=cycle;for(const dir of [-1,1])b.waves.push({x:b.x+24,y:498,dir});g.cb.sound('shot');}
- for(const wave of b.waves){wave.x+=wave.dir*(170+b.chapter*9)*dt;if(Math.abs(g.player.x+8-wave.x)<18&&g.player.y+g.player.h>490)g.hurt('boss-wave',{x:wave.x,y:490});}
+ for(const wave of b.waves){wave.x+=wave.dir*(170+b.chapter*9)*dt;if(Math.abs(g.player.x+8-wave.x)<18&&g.player.y<510&&g.player.y+g.player.h>490)g.hurt('boss-wave',{x:wave.x,y:490});}
  b.waves=b.waves.filter(w=>w.x>30&&w.x<930);
  const p=g.player,old=g.previousPlayer??p;
  const overlap=p.x<b.x+b.w&&p.x+p.w>b.x&&p.y<b.y+b.h&&p.y+p.h>b.y;
  const stomp=overlap&&p.vy>0&&old.y+old.h<=b.y+7;
- const buttons=[{x:180,y:480},{x:780,y:480}],touch=buttons.map(s=>Math.abs(p.x+8-s.x)<24&&p.y+p.h>476);
+ const buttons=[{x:180,y:480},{x:780,y:480}],touch=buttons.map(s=>Math.abs(p.x+8-s.x)<24&&p.y<510&&p.y+p.h>476);
  const press=touch[b.button]&&!b.contacts.has(b.button);
  b.contacts=new Set(touch.flatMap((on,i)=>on?[i]:[]));
  if(b.state==='open'&&g.clock-b.lastHit>.5&&((b.mode!=='controls'&&stomp)||(b.mode!=='stomp'&&press))){

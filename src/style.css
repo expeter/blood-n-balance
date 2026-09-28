@@ -260,3 +260,34 @@ body[data-view="play"] .game-column:fullscreen .game-shell{max-width:100%}
 .replay-canvas{width:100%;aspect-ratio:16/9;display:block;border:1px solid var(--line)}#online-scores{display:grid;gap:10px}
 
 html[data-edition=kids] .overlay-secondary{color:#5a4678}
+
+/* Playtest workspace: explicit, high-contrast surfaces in both editions. */
+#editor-view .editor-panel,#editor-view .editor-heading,#editor-view .editor-toolbar,#editor-view .editor-inspector,#editor-view .editor-options,#editor-view .editor-footer,#editor-view .editor-history-bar{background:#202538;color:#eef1ff;border-color:#59627f}
+#editor-view :is(label,summary,p,small,#selection-status,#jump-readout){color:#e1e6fc;font-size:14px;line-height:1.5}
+#editor-view :is(input,select){background:#111728;color:#f7f9ff;border:1px solid #8290b0;padding:7px;border-radius:4px;font-size:14px}
+#editor-view .editor-inspector details{background:#29314a;border-color:#647190}
+#editor-view .editor-toolbar button{background:#303b58;color:#f7f9ff;border-color:#7e8fb5;height:auto;padding:8px;white-space:normal}
+#editor-view .editor-toolbar button.active{background:#c9d5ff;color:#17284e;border-color:#e8edff}
+.editor-history-bar{grid-area:history;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px;border-bottom:1px solid var(--line)}
+.editor-history-bar span{flex:1;min-width:180px}.editor-history-bar button:disabled{opacity:.5}
+@media(min-width:901px){.editor-panel{grid-template-rows:auto auto auto minmax(180px,1fr) auto;grid-template-areas:"heading heading" "history history" "tools canvas" "inspector canvas" "footer footer";height:auto;min-height:680px}.editor-toolbar{grid-template-columns:repeat(3,minmax(0,1fr))}.editor-inspector{max-height:none;overflow:visible}.editor-inspector details{max-height:none}.editor-canvas-wrap{min-height:440px}}
+@media(max-width:900px){.editor-panel{grid-template-areas:"heading" "history" "tools" "inspector" "canvas" "footer";grid-template-rows:auto}}
+.setup-form{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:18px;margin:24px 0}.setup-form label{display:flex;flex-direction:column;gap:8px;font-size:15px;font-weight:600}.setup-form input:not([type=checkbox]),.setup-form select{width:100%;min-width:0;padding:12px;border:1px solid var(--line);border-radius:6px;background:var(--panel);color:inherit;font:inherit}.setup-form .check-row{grid-column:1/-1;display:flex;flex-direction:row;align-items:center;font-weight:400;line-height:1.5}.setup-form input[type=checkbox]{width:20px;height:20px;flex:0 0 20px;accent-color:#7256a0}.setup-form>p,.setup-form>button{grid-column:1/-1}.setup-form>button{justify-self:start}dialog[data-kind=endless] p{line-height:1.7}dialog[data-kind=endless] ul{padding-left:22px;line-height:1.8}
+.dressing-heading{display:grid;grid-template-columns:1fr 160px;gap:24px;align-items:center}.dressing-heading canvas{width:160px;height:160px;border-radius:18px}.dressing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0 24px}.outfit-card{display:flex;flex-direction:column;align-items:stretch;text-align:left;gap:10px;border:1px solid var(--line);border-radius:10px;background:var(--panel);color:inherit;padding:16px;min-width:0}.outfit-card i{height:10px;border-radius:6px}.outfit-card small,.outfit-card span{font-size:14px;color:inherit}.outfit-card.selected{outline:2px solid var(--lime)}.outfit-card:disabled{opacity:.65}.dressing-section{display:flex;align-items:center;justify-content:space-between;margin-top:22px}.dressing-heading p{line-height:1.6}.outfit-card button{white-space:normal}#arena-controls{padding:16px;border:1px solid var(--line);border-radius:8px;margin:12px 0}#arena-controls label{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:12px}#arena-controls select{background:var(--panel);color:inherit;padding:8px}
+:root[data-edition=kids]{color-scheme:light;--muted:#415571;--line:#93a6bd;--gold:#745014;color:#24394f}
+:root[data-edition=kids] :is(p,label,summary,small,.muted,.eyebrow,.sector-label,.sector-mechanic,.sector-detail,.fine-print,.overlay-hint,.saved,.version,.option-select,.keyboard-guide,.tip-card p,.loadout-note,.achievement p,.journey p,.run-stats>div>span,.run-stats small){color:#344e69;line-height:1.6}
+:root[data-edition=kids] :is(p,label,summary,small,.muted,.sector-mechanic,.fine-print){font-size:14px}
+:root[data-edition=kids] :is(h1,h2,h3,h4,strong,.stage-tag,.gold,.breadcrumb b,.level-cell,.level-cell>span,.level-cell>small,.option-choices button){color:#253b57}
+:root[data-edition=kids] :is(.options-grid section,.help-panel,.controls-settings,.outfit-card,.editor-history-bar){background:#f0f5fc;color:#253b57;border-color:#9eafc7}
+:root[data-edition=kids] :is(.primary,.shop-button){background:#62438d;color:#fff}
+:root[data-edition=kids] #editor-view :is(.editor-panel,.editor-heading,.editor-toolbar,.editor-inspector,.editor-options,.editor-footer,.editor-history-bar){background:#e6eef8;color:#263e5b;border-color:#8b9fb9}
+:root[data-edition=kids] #editor-view :is(label,summary,p,small,#selection-status,#jump-readout){color:#2d4665}
+:root[data-edition=kids] #editor-view :is(input,select){background:#fff;color:#233d5c;border-color:#7e93b1}
+:root[data-edition=kids] #editor-view .editor-inspector details{background:#f5f8fe;border-color:#9dadc5}
+:root[data-edition=kids] #editor-view .editor-toolbar button{background:#f6f9ff;color:#2b4160;border-color:#879bb8}
+:root[data-edition=kids] #editor-view .editor-toolbar button.active{background:#62438d;color:#fff;border-color:#62438d}
+@media(max-width:600px){.setup-form{grid-template-columns:1fr}.dressing-heading{grid-template-columns:1fr}.dressing-heading canvas{justify-self:center}.dressing-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.outfit-card{padding:10px}}
+
+#editor-view :is(.editor-inspector span,.editor-footer small){color:#d9e3ff}
+:root[data-edition=kids] #editor-view :is(.editor-inspector span,.editor-footer small){color:#334b68}
+:root[data-edition=kids] .gold-diamond{font-size:24px;line-height:1}

@@ -1,6 +1,6 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `5.0.1`.
+Status: implemented browser-game baseline, version `5.1.0`.
 
 ## Product
 
@@ -19,7 +19,7 @@ Players navigate rooms using momentum, jumps, wall slides, and wall jumps; gathe
 ## Campaign and difficulty
 
 - There are 99 authored campaign levels in ten themed sectors, with every completed level replayable.
-- All levels are selectable in the local development build for testing.
+- All 99 levels are temporarily selectable in both published editions for owner playtesting (5.0.1); completions remain earned.
 - Rooms combine movement, alternate routes, switches, gates, return paths, and sector-specific hazards. Layout revision separates records when a room changes.
 - Difficulties are Easy, Medium, Hard, and Nightmare. Nightmare uses a repeatable seeded hunter. Easy/Medium restore crumbling decks; Hard/Nightmare keep them collapsed.
 - Item-free campaign completion and other play milestones award achievements.
@@ -89,3 +89,13 @@ Stages 10/20/30/40/50/60/70/80/90/99 now continue into named guardian chambers a
 - [Endless](endless.md): seeded local chunk streaming, pursuing fire/cloud, same-seed retry and separate local bests. No online endless ranking.
 
 The kids edition uses the same campaign geometry and physics with independent nonviolent art, effects, sounds, wording and storage. Human child playtesting, physical controller testing and subjective campaign/boss calibration remain outstanding; automated checks do not replace these.
+
+## Dressing room and editor tools (5.1.0)
+
+Dressing room previews earned outfits plus eight permanent accessories in head/back/pin slots. Purchases spend current-career gold (flowers in Cloud & Clover), never affect physics, and ownership/equipment survive reload. Locked chapter outfits still require real completions.
+
+Editor Select drags a rectangular region. Copy includes intersecting whole objects; Paste places their offsets at the last canvas cursor. Start/exit remain unique and use their own tools. Copied switches receive unused A–H letters and internal references follow; external links remain connected to existing letters. Bounds, collisions and references validate before the draft changes. Ctrl/Cmd+C/V and toolbar buttons work; text fields keep native clipboard behavior.
+
+Undo/redo uses Ctrl/Cmd+Z, Shift+Z or Y and toolbar buttons. A full pointer stroke or focused metadata edit is one step. New edits clear redo; imports/new drafts/campaign copies/AI replacements remain undoable. Browser history is bounded to 60 entries and approximately 900KB serialized text. A larger draft still saves independently; storage errors are reported. History is local, not included in level exports.
+
+The editor's Feature test arena opens a separate shared level with named station shortcuts in its expanded equipment/notes panel. It contains all current obstacle families and circuit variants, a guardian, gold/flowers and an exit; helpers are free. Choose Nightmare and reopen it for the roaming visitor. No campaign rewards are committed by arena runs.

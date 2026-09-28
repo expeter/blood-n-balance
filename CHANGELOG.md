@@ -2,6 +2,13 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [5.1.0] - 2026-09-28 — Dressing room and playtest workshop
+
+- **FR-023** — Add an outfit preview and eight permanent, cosmetic-only accessories. Buy with career gold/flowers, equip by slot, and retain ownership after reload. Earned campaign outfits remain available in the dressing room.
+- **FR-024** — Add one feature-test arena with station shortcuts, all obstacle/circuit families, both projectile types, alarms, guardian and free helpers. Nightmare adds the seeded visitor. Keep testing separate from campaign rewards.
+- **FR-025 / FR-026** — Select rectangles, copy/paste groups with circuit remapping and atomic validation, and undo/redo grouped paint strokes, metadata changes, resizing, imports and draft replacement. Retain up to 60 history states within a bounded browser-storage budget.
+- **BUG-006 / BUG-007** — Improve editor/kids contrast and form sizes, call kids currency flowers, and repair the endless setup form at laptop and phone widths.
+
 ## [5.0.1] - 2026-09-28 — Playtest access
 
 - **CR-006** — Temporarily make all 99 campaign stages selectable in both published editions. Existing completion history, achievements and balances remain unchanged.

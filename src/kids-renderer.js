@@ -1,3 +1,4 @@
+import {SKINS,drawAccessories} from './cosmetics.js';
 import {drawEndlessFront} from './endless.js';
 import {drawBoss} from './bosses.js';
 import {W,H,TILE} from './levels.js';
@@ -23,10 +24,16 @@ export function drawKidsWorld(c,g){
  if(!g.endless){const ex=g.level.exit.x*30,ey=g.level.exit.y*30;c.fillStyle=g.exitUnlocked?'#93d1b8':'#c5b3d8';c.fillRect(ex,ey,30,30);flower(c,ex+15,ey+15,12,g.exitUnlocked?'#ffdf83':'#e4d5ee');label(c,g.exitUnlocked?'PORTAL':'LOCKED',ex+15,ey-8);}
  if(g.ghost)cloud(c,g.ghost.x-18,g.ghost.y,36,'#dfdcff');
  drawBoss(c,g);drawEndlessFront(c,g,true);
- const p=g.player,x=p.x+8,y=p.y;const resting=['dying','dead'].includes(g.status);
- if(resting){cloud(c,x-22,y+18,44);label(c,'Z z',x+10,y);}
- else {c.fillStyle='#906bc1';c.fillRect(p.x+3,y+10,10,12);circle(c,x,y+6,7,'#fff3df');c.fillStyle='#e6b1db';c.beginPath();c.moveTo(x-2,y);c.lineTo(x+2,y-9);c.lineTo(x+5,y+1);c.fill();circle(c,x+p.face*3,y+5,1.5,'#365164');c.strokeStyle='#725aa4';c.lineWidth=3;c.beginPath();c.moveTo(x,y+20);c.lineTo(x-6,y+26);c.moveTo(x,y+20);c.lineTo(x+6,y+26);c.moveTo(x-6,y+13);c.lineTo(x+6,y+14);c.stroke();}
+ drawKidsAvatar(c,g);
+ const p=g.player,x=p.x+8,y=p.y;
  for(const particle of g.particles){c.globalAlpha=Math.min(1,particle.life*2);circle(c,particle.x,particle.y,2,'#7bbfe0');}c.globalAlpha=1;
  if(g.effects.shield>0){c.strokeStyle='#86bce0';c.lineWidth=2;c.beginPath();c.arc(x,y+13,23,0,Math.PI*2);c.stroke();}
 }
 export function renderKidsGame(g){if(!g.level)return;const c=g.ctx,overview=!g.endless&&(g.mapOpen||g.status==='ready'),scale=overview?Math.min(W/g.worldW,H/g.worldH):1;c.clearRect(0,0,W,H);c.fillStyle='#d5e7f1';c.fillRect(0,0,W,H);c.save();c.translate(overview?(W-g.worldW*scale)/2:-g.camera.x,overview?(H-g.worldH*scale)/2:-g.camera.y);c.scale(scale,scale);drawKidsWorld(c,g);c.restore();}
+
+export function drawKidsAvatar(c,g){
+ const p=g.player,x=p.x+8,y=p.y;const resting=['dying','dead'].includes(g.status);
+ if(resting){cloud(c,x-22,y+18,44);label(c,'Z z',x+10,y);}
+ else {c.fillStyle=(SKINS.find(s=>s.id===g.skin)?.id!=='classic'&&SKINS.find(s=>s.id===g.skin)?.scarf)||'#906bc1';c.fillRect(p.x+3,y+10,10,12);circle(c,x,y+6,7,'#fff3df');c.fillStyle='#e6b1db';c.beginPath();c.moveTo(x-2,y);c.lineTo(x+2,y-9);c.lineTo(x+5,y+1);c.fill();circle(c,x+p.face*3,y+5,1.5,'#365164');c.strokeStyle='#725aa4';c.lineWidth=3;c.beginPath();c.moveTo(x,y+20);c.lineTo(x-6,y+26);c.moveTo(x,y+20);c.lineTo(x+6,y+26);c.moveTo(x-6,y+13);c.lineTo(x+6,y+14);c.stroke();}
+ if(!resting)drawAccessories(c,g);
+}

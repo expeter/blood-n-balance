@@ -10,7 +10,7 @@ import {conditionLabel,timerRemaining} from './circuits.js';
 import {drawPlatforms} from './platforms.js';
 import {drawDevices} from './devices.js';
 import {W,H,TILE} from './levels.js';
-import {SKINS} from './cosmetics.js';
+import {SKINS,drawAccessories} from './cosmetics.js';
 const circuitColor=id=>['#ba7c24','#548eaa','#9066aa','#668d40','#b96150','#477d78','#a28939','#845c45'][id.charCodeAt(0)-65]||'#ba7c24';
 export function renderGame(g){
   if(IS_KIDS)return renderKidsGame(g);
@@ -83,7 +83,7 @@ export function renderGame(g){
   if(g.effects.freeze>0){c.fillStyle='#75b8e014';c.fillRect(0,0,W,H);}
   if(g.flash>0&&!g.reducedMotion){c.fillStyle=`rgba(148,35,31,${g.flash*1.6})`;c.fillRect(0,0,W,H);}
 }
-function drawNinja(c,g){
+export function drawNinja(c,g){
   const p=g.player,skin=SKINS.find(s=>s.id===g.skin)||SKINS[0];c.save();c.translate(p.x+8,p.y+13);
   if(g.invulnerable>0)c.globalAlpha=Math.sin(g.last*.025)>0?.4:1;
   if(g.effects.shield>0){c.strokeStyle='#a68bd1';c.lineWidth=2;c.beginPath();c.arc(0,0,24,0,Math.PI*2);c.stroke();}
@@ -110,6 +110,6 @@ function drawNinja(c,g){
     c.moveTo(0,0);c.lineTo(-5,3+swing);c.lineTo(-8,1+swing);
     c.moveTo(0,0);c.lineTo(5,3-swing);c.lineTo(8,1-swing);
   }
-  c.stroke();c.restore();
+  c.stroke();c.restore();drawAccessories(c,g);
 }
 function drawHunter(c,g){const h=g.ghost;c.save();c.translate(h.x,h.y);c.globalAlpha=.88;c.shadowColor='#d49cff';c.shadowBlur=18;c.fillStyle='#ddbdff';c.beginPath();c.arc(0,0,13+Math.sin(g.clock*9)*2,0,Math.PI*2);c.fill();c.shadowBlur=0;c.fillStyle='#272039';c.fillRect(-6,-3,4,3);c.fillRect(3,-3,4,3);c.strokeStyle='#d49cff';c.lineWidth=3;c.beginPath();c.moveTo(-9,7);c.quadraticCurveTo(-18,18+Math.sin(g.clock*6)*4,-25,17);c.moveTo(8,7);c.quadraticCurveTo(17,15-Math.sin(g.clock*5)*4,23,19);c.stroke();c.restore();}

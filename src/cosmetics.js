@@ -16,3 +16,25 @@ export const SKINS=[
 ];
 export function clearedCount(state){return Object.keys(state?.completed??{}).length;}
 export function unlockedCosmetics(state){const count=clearedCount(state);return {palettes:PALETTES.filter(x=>count>=x.unlockAt),skins:SKINS.filter(x=>count>=x.unlockAt),count};}
+
+export const ACCESSORIES=[
+ {id:'leaf',slot:'head',name:'Leaf crown',price:12,color:'#27805e'},
+ {id:'halo',slot:'head',name:'Sun halo',price:24,color:'#c59116'},
+ {id:'ears',slot:'head',name:'Moon ears',price:18,color:'#b08bec'},
+ {id:'cape',slot:'back',name:'Festival cape',price:20,color:'#d25282'},
+ {id:'wings',slot:'back',name:'Petal wings',price:30,color:'#69bfd8'},
+ {id:'ribbon',slot:'back',name:'Silk ribbons',price:14,color:'#ed9868'},
+ {id:'flower',slot:'badge',name:'Clover pin',price:8,color:'#ffe082'},
+ {id:'moon',slot:'badge',name:'Moon pin',price:10,color:'#d9d9ff'}
+];
+export function buyAccessory(state,id){const item=ACCESSORIES.find(a=>a.id===id);state.ownedAccessories??=[];if(!item||state.ownedAccessories.includes(id)||state.coins<item.price)return false;state.coins-=item.price;state.ownedAccessories.push(id);state.settings.accessories??={};state.settings.accessories[item.slot]=id;return true;}
+export function equipAccessory(state,slot,id){if(!['head','back','badge'].includes(slot))return false;if(id!==null&&(!state.ownedAccessories?.includes(id)||!ACCESSORIES.some(a=>a.id===id&&a.slot===slot)))return false;state.settings.accessories??={};state.settings.accessories[slot]=id;return true;}
+export function drawAccessories(c,g){const a=g.accessories||{},p=g.player;c.save();c.translate(p.x+8,p.y+6);
+ if(a.back==='cape'){c.fillStyle='#d25282';c.beginPath();c.moveTo(-5,6);c.lineTo(-18,22);c.lineTo(7,22);c.lineTo(4,7);c.fill();}
+ if(a.back==='wings'){c.fillStyle='#69bfd8';for(const d of [-1,1]){c.beginPath();c.ellipse(d*12,9,9,5,d*.6,0,Math.PI*2);c.fill();}}
+ if(a.back==='ribbon'){c.strokeStyle='#ed9868';c.lineWidth=3;c.beginPath();c.moveTo(-4,6);c.quadraticCurveTo(-20,5,-18,20);c.moveTo(3,6);c.quadraticCurveTo(-12,14,-10,22);c.stroke();}
+ if(a.head==='leaf'){c.strokeStyle='#205b42';c.lineWidth=2;c.beginPath();c.arc(0,-2,9,Math.PI,Math.PI*2);c.stroke();c.fillStyle='#3dba7c';for(const x of [-7,0,7]){c.beginPath();c.ellipse(x,-8,3,6,x*.1,0,Math.PI*2);c.fill();}}
+ if(a.head==='halo'){c.strokeStyle='#c59116';c.lineWidth=2.5;c.beginPath();c.ellipse(0,-12,11,3,0,0,Math.PI*2);c.stroke();}
+ if(a.head==='ears'){c.fillStyle='#b08bec';for(const d of [-1,1]){c.beginPath();c.moveTo(d*2,-5);c.lineTo(d*9,-17);c.lineTo(d*9,-2);c.fill();}}
+ if(a.badge){c.fillStyle=a.badge==='flower'?'#ffe082':'#d9d9ff';c.beginPath();c.arc(0,9,3,0,Math.PI*2);c.fill();if(a.badge==='flower'){c.strokeStyle='#927023';c.lineWidth=1;c.stroke();}}
+ c.restore();}

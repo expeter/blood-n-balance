@@ -1,6 +1,6 @@
 import {EXTRA_ACHIEVEMENTS} from './achievements.js';
 import {campaignRevision} from './levels.js';
-import {PALETTES,SKINS} from './cosmetics.js';
+import {PALETTES,SKINS,ACCESSORIES} from './cosmetics.js';
 export const ITEMS = [
  {id:'freeze',name:'Time freeze',icon:'◷',price:15,duration:6,description:'Stop drones and the clock for 6s.',key:'1',color:'#92d4ff'},
  {id:'jump',name:'High jump',icon:'↟',price:12,duration:10,description:'Extra jump height for 10s.',key:'2',color:'#c5ef75'},
@@ -24,7 +24,7 @@ export const ACHIEVEMENTS=[
  {id:'golden-run',name:'Golden run',description:'Bank 500 gold across successful runs.',test:s=>s.totalGold>=500}
 ];
 ACHIEVEMENTS.push(...EXTRA_ACHIEVEMENTS);
-export const freshState=()=>({version:2,mastery:{},fullGoldStages:[],coins:40,inventory:Object.fromEntries(ITEMS.map(i=>[i.id,0])),completed:{},totalGold:0,deaths:0,deathsByCause:{},itemUses:Object.fromEntries(ITEMS.map(i=>[i.id,0])),shopPurchases:Object.fromEntries(ITEMS.map(i=>[i.id,0])),levelPlays:{},gatheredGold:{},leaderboards:{},settings:{sound:true,music:true,audioConfigured:true,difficulty:'medium',palette:'midnight',skin:'classic',playerName:'Runner'},achievements:[]});
+export const freshState=()=>({version:2,ownedAccessories:[],mastery:{},fullGoldStages:[],coins:40,inventory:Object.fromEntries(ITEMS.map(i=>[i.id,0])),completed:{},totalGold:0,deaths:0,deathsByCause:{},itemUses:Object.fromEntries(ITEMS.map(i=>[i.id,0])),shopPurchases:Object.fromEntries(ITEMS.map(i=>[i.id,0])),levelPlays:{},gatheredGold:{},leaderboards:{},settings:{sound:true,music:true,audioConfigured:true,difficulty:'medium',palette:'midnight',skin:'classic',accessories:{},playerName:'Runner'},achievements:[]});
 export function loadState(storage) {
   try {
     const raw=JSON.parse(storage.getItem('n-momentum-v1'));
@@ -49,7 +49,9 @@ export function loadState(storage) {
     // Older saves used false as the default, so migrate them to audible once.
     // After this flag is persisted, an intentional mute choice is respected.
     const audioConfigured=raw.settings?.audioConfigured===true;
-    s.settings={sound:audioConfigured?raw.settings?.sound===true:true,music:audioConfigured?raw.settings?.music===true:true,audioConfigured:true,difficulty:['easy','medium','hard','nightmare'].includes(raw.settings?.difficulty)?raw.settings.difficulty:'medium',palette:PALETTES.some(p=>p.id===raw.settings?.palette)?raw.settings.palette:'midnight',skin:SKINS.some(p=>p.id===raw.settings?.skin)?raw.settings.skin:'classic',playerName:typeof raw.settings?.playerName==='string'&&raw.settings.playerName.trim()?raw.settings.playerName.trim().slice(0,24):'Runner'};
+    s.settings={sound:audioConfigured?raw.settings?.sound===true:true,music:audioConfigured?raw.settings?.music===true:true,audioConfigured:true,difficulty:['easy','medium','hard','nightmare'].includes(raw.settings?.difficulty)?raw.settings.difficulty:'medium',palette:PALETTES.some(p=>p.id===raw.settings?.palette)?raw.settings.palette:'midnight',skin:SKINS.some(p=>p.id===raw.settings?.skin)?raw.settings.skin:'classic',accessories:{},playerName:typeof raw.settings?.playerName==='string'&&raw.settings.playerName.trim()?raw.settings.playerName.trim().slice(0,24):'Runner'};
+    s.ownedAccessories=Array.isArray(raw.ownedAccessories)?[...new Set(raw.ownedAccessories.filter(id=>ACCESSORIES.some(a=>a.id===id)))]:[];
+    s.settings.accessories={};for(const slot of ['head','back','badge']){const id=raw.settings?.accessories?.[slot];if(s.ownedAccessories.includes(id)&&ACCESSORIES.some(a=>a.id===id&&a.slot===slot))s.settings.accessories[slot]=id;}
     s.achievements=ACHIEVEMENTS.filter(a=>a.test(s)||(Array.isArray(raw.achievements)&&raw.achievements.includes(a.id))).map(a=>a.id);
     return s;
   } catch {return freshState();}
