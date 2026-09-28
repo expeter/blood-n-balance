@@ -39,7 +39,7 @@ const careerBook=loadCareerBook(storage);let activeCareer=selectCareer(careerBoo
 let playtestNotes=loadNotes(storage);
 let controls=loadControls(storage),bindingCapture=null,controller=null;const failedStages=new Set();
 const hint=action=>(controls.bindings[action]||[]).map(keyLabel).join(' / ')||'unassigned';
-let theme=loadTheme(storage);setTheme(storage,document.documentElement,theme);document.documentElement.dataset.palette=state.settings.palette;const testingMode=import.meta.env.DEV;
+let theme=loadTheme(storage);setTheme(storage,document.documentElement,theme);document.documentElement.dataset.palette=state.settings.palette;const testingMode=true; // CR-006: temporary public playtest access; completion records stay genuine.
 let lastFinishedRun=null;
 let chapterRun=null,communityRun=null,competitionRun=null;
 let levelIndex=careerStartStage(activeCareer),custom=false,view='play',editor=emptyLevel(),tool='solid',saveWarning=false;
