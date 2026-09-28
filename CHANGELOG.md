@@ -2,6 +2,10 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [5.2.1] - 2026-09-28 — Flower wording polish
+
+- **BUG-006** — Replace currency words without corrupting longer words such as “golden” or “marigold”. Give the related achievements flower names and use a vector flower in the kids wallet so it does not depend on a font glyph.
+
 ## [5.2.0] - 2026-09-28 — Vertical chases and raised exits
 
 - **CR-007** — Introduce required terraced climbs, wide gaps with raised footholds, and climbs mixed with descent hazards. Vertical challenges start at the third stretch and combinations increase thereafter.

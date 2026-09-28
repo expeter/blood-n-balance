@@ -24,3 +24,5 @@ test('kids failures never create blood, bones, stains or death audio noise',()=>
  const {editionStorage}=await import('./src/edition.js');const map=new Map([['save','adult']]);const storage=editionStorage({getItem:k=>map.get(k),setItem:(k,v)=>map.set(k,v),removeItem:k=>map.delete(k)});storage.setItem('save','kids');assert.equal(map.get('save'),'adult');assert.equal(storage.getItem('save'),'kids');`;
  execFileSync(process.execPath,['--input-type=module','-e',code]);
 });
+
+test('flower currency labels do not produce partial-word replacements',()=>{assert.equal(kidsText('Golden run: collect 10 gold'),'Flower parade: collect 10 Flowers');assert.equal(kidsText('Gold standard'),'Flower collector');assert.equal(kidsText('marigold garden'),'marigold garden');});

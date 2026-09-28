@@ -1,6 +1,6 @@
 # Current game specification
 
-Status: implemented browser-game baseline, version `5.2.0`.
+Status: implemented browser-game baseline, version `5.2.1`.
 
 ## Product
 
