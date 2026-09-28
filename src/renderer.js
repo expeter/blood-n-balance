@@ -1,4 +1,4 @@
-import {drawEndlessFront} from './endless.js';
+import {drawEndlessFront,drawEndlessExits} from './endless.js';
 import {drawBoss} from './bosses.js';
 import {IS_KIDS} from './edition.js';
 import {renderKidsGame} from './kids-renderer.js';
@@ -65,7 +65,7 @@ export function renderGame(g){
   else {c.fillStyle='#684835';c.fillRect(ex+9,ey+12,12,10);c.strokeStyle='#684835';c.lineWidth=2;c.beginPath();c.arc(ex+15,ey+12,4,Math.PI,0);c.stroke();}
   c.fillStyle=unlocked?'#51643d':'#865941';c.font='bold 12px monospace';c.textAlign='center';c.fillText(unlocked?'EXIT':'LOCKED',ex+15,ey-12);c.textAlign='left';
   }
-  drawEndlessFront(c,g);
+  drawEndlessFront(c,g);drawEndlessExits(c,g);
   for(const s of g.stains){c.save();c.translate(s.x,s.y);c.rotate(s.angle);c.fillStyle=s.color;c.beginPath();c.ellipse(0,0,s.size*1.8,s.size*.65,0,0,Math.PI*2);c.fill();c.restore();}
   g.trail.forEach((t,i)=>{c.fillStyle=`rgba(110,132,86,${i*.014})`;c.fillRect(t.x-5,t.y-8,10,18);});
   if(!['dying','dead'].includes(g.status))drawNinja(c,g);

@@ -15,7 +15,7 @@ Use one source of level geometry, collision boxes, movement physics, seeds, circ
 | Mechanic | Kids presentation | Required clarity |
 | --- | --- | --- |
 | Ninja | Agile explorer or unicorn-themed runner | Same silhouette footprint and collision box |
-| Gold / first-time bonus | Stars / flower tokens with a special first-discovery ring | Same payout and optional collection |
+| Gold / first-time bonus | Flowers with a special first-discovery ring | Same payout and optional collection |
 | Spikes | Prickly-looking-free splash pads or bouncy flower beds | Contact clearly resets; do not imply a usable spring |
 | Saws / roaming drones | Rotating sprinklers or floating water balloons | Visible motion and original contact footprint |
 | Lasers | Pulsing magic rainbow ribbons | Preserve warning, active, and safe phases; show reset consequence |

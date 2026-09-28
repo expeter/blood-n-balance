@@ -1,5 +1,5 @@
 import {SKINS,drawAccessories} from './cosmetics.js';
-import {drawEndlessFront} from './endless.js';
+import {drawEndlessFront,drawEndlessExits} from './endless.js';
 import {drawBoss} from './bosses.js';
 import {W,H,TILE} from './levels.js';
 import {timerRemaining} from './circuits.js';
@@ -23,7 +23,7 @@ export function drawKidsWorld(c,g){
  for(const gold of g.gold)if(!gold.taken){flower(c,gold.x,gold.y,7,gold.firstBonus?'#7edbdf':'#ffe477');}
  if(!g.endless){const ex=g.level.exit.x*30,ey=g.level.exit.y*30;c.fillStyle=g.exitUnlocked?'#93d1b8':'#c5b3d8';c.fillRect(ex,ey,30,30);flower(c,ex+15,ey+15,12,g.exitUnlocked?'#ffdf83':'#e4d5ee');label(c,g.exitUnlocked?'PORTAL':'LOCKED',ex+15,ey-8);}
  if(g.ghost)cloud(c,g.ghost.x-18,g.ghost.y,36,'#dfdcff');
- drawBoss(c,g);drawEndlessFront(c,g,true);
+ drawBoss(c,g);drawEndlessFront(c,g,true);drawEndlessExits(c,g,true);
  drawKidsAvatar(c,g);
  const p=g.player,x=p.x+8,y=p.y;
  for(const particle of g.particles){c.globalAlpha=Math.min(1,particle.life*2);circle(c,particle.x,particle.y,2,'#7bbfe0');}c.globalAlpha=1;

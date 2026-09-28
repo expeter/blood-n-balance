@@ -25,3 +25,9 @@ No change to current adult production services until isolated replacements have 
 ## Manual follow-ups after implementation
 
 All software milestones have separate commits/tags/changelog entries. Remaining human checks are physical controller hardware, owner/child presentation review, subjective campaign/endless difficulty and dedicated Nightmare guardian routes. These are explicitly open; automated paths establish feasibility under their tested conditions, not fun or universal accessibility. Off-host backups and ranked endless play are outside these initial milestone releases.
+
+## Owner playtest follow-up, 2026-09-28
+
+- 5.0.1 / CR-006: public 99-stage unlock, preserving earned progress.
+- 5.1.0 / FR-023–026, BUG-006–007: dressing room/accessories, one all-feature arena, editor selection/copy/paste/history, readable kids/editor UI and repaired chase setup.
+- 5.2.0 / CR-007: vertical chase grammar, mixed climbing challenges and optional raised exits about every 500m. Separate commits/tags and changelog entries; original manual balance follow-ups remain open.

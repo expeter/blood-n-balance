@@ -2,6 +2,12 @@
 
 User-visible changes are grouped under the game version from `package.json`. Ticket IDs use `BUG`, `SPEC`, `FR`, and `CR`; see [the ticket register](docs/tickets.md). Planned work is not listed here as released functionality.
 
+## [5.2.0] - 2026-09-28 — Vertical chases and raised exits
+
+- **CR-007** — Introduce required terraced climbs, wide gaps with raised footholds, and climbs mixed with descent hazards. Vertical challenges start at the third stretch and combinations increase thereafter.
+- Add optional raised escape exits every 504m, with a clear ground route underneath. Deliberately climb to finish, save the result and retry the same seed, or continue into harder sections. Chase collectibles remain separate from campaign currency.
+- Advance to generator `chunks-2`, preserving earlier bests separately. Verify 30 motif crossings, 1,000 seam checks, continuous 50-section routes on three difficulties, intentional exit climbs and browser finish/retry in both editions.
+
 ## [5.1.0] - 2026-09-28 — Dressing room and playtest workshop
 
 - **FR-023** — Add an outfit preview and eight permanent, cosmetic-only accessories. Buy with career gold/flowers, equip by slot, and retain ownership after reload. Earned campaign outfits remain available in the dressing room.

@@ -165,7 +165,7 @@ Source: owner feedback, 2026-09-28. Implement without marking stages completed o
 | FR-026 | FR | Undo/redo editor history, grouping paint strokes and retaining drafts | Done in 5.1.0 |
 | BUG-006 | BUG | Improve editor and kids text contrast and consistent flower currency wording | Done in 5.1.0 |
 | BUG-007 | BUG | Repair endless setup form and readable start/result layouts | Done in 5.1.0 |
-| CR-007 | CR | Add vertical endless routes, increasing combinations and intentional raised escape exits about every 500m | In progress, 5.2 |
+| CR-007 | CR | Add vertical endless routes, increasing combinations and intentional raised escape exits about every 500m | Done in 5.2.0 |
 
 Acceptance: test published unlocks without fabricated progress; persist owned cosmetics without physics advantages; validate pasted references and reject collisions atomically; undo one paint stroke at a time and redo until a new edit; exercise shared arena geometry in both editions; verify readable forms on laptop/mobile; run actual physics routes across new endless motifs and verify raised exits cannot be entered by simply running along the floor.
 
